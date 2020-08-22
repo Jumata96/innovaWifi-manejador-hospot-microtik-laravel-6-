@@ -18,13 +18,16 @@ class TicketsAsignadosController extends Controller
         $router     = DB::table('router')->get();
         $perfiles=DB::table ('perfiles')->where('estado',1)->where('idtipo','HST')->get();
         $equipos = DB::table('equipos') ->where('estado',1)->get(); 
+        
+        $vendedores = DB::table('users')->where('users.idtipo','VEN')->get();
          
 
         return view( 'forms.asignarTickets.lstTicketsAsignados',[
-            'tickets'   => $tickets,
-            'zonas'     =>$zonas,
+            'tickets'           => $tickets,
+            'zonas'             =>$zonas,
             'perfiles'          =>$perfiles,
             'router'            => $router,
+            'vendedores'       =>$vendedores,
             'equipos'           => $equipos
         ] );
 
@@ -88,22 +91,34 @@ class TicketsAsignadosController extends Controller
 
 
     }
-    public function show(Request $request)
+    public function show($id)
     {   
+        //dd($id);
+        $tickets= DB::table('tickets_asignados')
+        ->where('codigo',$id)
+        ->get();
+        foreach ($tickets as $tick) {
+            $codigo =$tick->codigo; 
+        } 
 
-        $tickets = DB::table('tickets_asignados')->get();
+        $ticketsDetalle = DB::table('tickets_asignados_perfil_det')
+        ->where('codigo',$codigo)
+        ->get();
+        
+        
+
+        
+        //dd($tickets); 
         $zonas  =DB::table('zonas')->get(); 
-        $router     = DB::table('router')->get();
-        $perfiles=DB::table ('perfiles')->where('estado',1)->where('idtipo','HST')->get();
-        $equipos = DB::table('equipos') ->where('estado',1)->get(); 
+        $perfiles=DB::table ('perfiles')->where('estado',1)->where('idtipo','HST')->get(); 
          
 
         return view( 'forms.asignarTickets.updTicketsAsignados',[
-            'tickets'   => $tickets,
+            'ticketsDet'   => $ticketsDetalle,
+            'tickets'   =>$tickets,
             'zonas'     =>$zonas,
             'perfiles'          =>$perfiles,
-            'router'            => $router,
-            'equipos'           => $equipos
+            
         ] );
 
        
