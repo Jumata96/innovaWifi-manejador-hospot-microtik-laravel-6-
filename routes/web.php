@@ -268,6 +268,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Gestión de Tickest Vendedor
     Route::get('/tickets/vendedor','TicketsController@vwVendedor');	
+    //test
 
     
 	/* ;
