@@ -266,6 +266,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/tickets/Asignados/grabarDetalle','TicketsAsignadosController@storeDetallePerfil');
     Route::get('/tickets/Asignados/mostrar/{id}','TicketsAsignadosController@show');
 
+    //Gestión de Tickest Vendedor
+    Route::get('/tickets/vendedor','TicketsController@vwVendedor');	
 
     
 	/* ;
