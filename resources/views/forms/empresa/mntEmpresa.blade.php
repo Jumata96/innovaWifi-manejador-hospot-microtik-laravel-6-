@@ -32,7 +32,7 @@
                     
                       <div class="card white">
                           <div class="card-content">
-                              <span class="card-title">LogoOOOO</span>
+                              <span class="card-title">Logo</span>
 
                               <div class="row">
                                 <div class="file-field input-field col s12">
