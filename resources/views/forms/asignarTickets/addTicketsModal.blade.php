@@ -50,7 +50,7 @@
 													</div>
 													<div class="input-field col s12 m6 l6">
 														<i class="material-icons prefix">assignment</i>
-														<input id="cantidad" name="cantidad" type="number" style="text-align: center" data-error=".error2"  readonly="readonly" >
+														<input id="cantidad" name="cantidad" type="number" style="text-align: center" data-error=".error2"    >
 														<label for="cantidad"> Cantidad</label>
 														<div class="errorTxt1" id="error2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 													</div> 

@@ -25,6 +25,8 @@
 								 @include('forms.asignarTickets.addTicketsModal')
 								 @include('forms.asignarTickets.modalEliminar') 
 								 @include('forms.scripts.modalInformacion') 
+								 @include('forms.scripts.modalInformacion') 
+								
 								 
 						 </div>
 												 
@@ -123,24 +125,24 @@
 															@else
 															<a href="#h_confirmacion3{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Habilitar">
 															<i class="material-icons" style="color: #2e7d32 ">check</i></a>
-															@endif  --}}
+															@endif  --}} 
+																<a  class="btnSeleccionarTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
+																data-idTicket="{{$datos->codigo}}" 
+																data-idzona="{{$datos->idzona}}" 
+																data-tooltip="Asignar Trabajadores" 
+																><i class="material-icons " style="color: #ffd54f">autorenew</i></a>
+															 
 
 														 
 
-													<a href="#addTicketTrabajadores{{$datos->idzona }}"   class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Agregar Trabajadores">
-															<i class="material-icons" style="color: #ffd54f ">autorenew</i></a> 
+												  
 												  </td> 
 											  </tr>  
-											   
-											  
-
-											  
-
-											  
+											    
 
 											  <?php }} ?>
 
-											  @include('forms.asignarTickets.addAsignarTticketsTrabajadores') 
+											   
 											  
 										  </tbody>
 									  </table>
@@ -158,7 +160,8 @@
 @endsection
 
 @section('script') 
-  @include('forms.asignarTickets.scripts.addTicketsAsignados')
+@include('forms.asignarTickets.addTicketsTrabajadores')
+  @include('forms.asignarTickets.scripts.addTicketsTrabajadores') 
 @endsection
 
  

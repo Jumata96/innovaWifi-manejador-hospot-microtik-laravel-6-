@@ -1,4 +1,4 @@
-<div id="addTicketTrabajadores{{ $datos->idzona }}" class="modal modal-fixed-footer" style="height: 100%; overflow: hidden;">
+<div id="addTicketTrabajadores" class="modal modal-fixed-footer" style="height: 100%; overflow: hidden;">
 	<div class="modal-content" style="padding: 0px; overflow-y: disabled; height: 300%; background-color: #f9f9f9;">
 							  
 							  <div class="card" style="position: fixed; width: 100%; z-index: 2">                 
@@ -23,11 +23,45 @@
 									  
 							  </div>
 
-							  <br><br><br><br>   
+							  <br><br><br><br><br> 
 							  <div class="card white">
 								<div class="card-content">
 
-							 <table></table>
+
+
+									<div class="row"> 
+									 <br>
+										<div class="row">
+											<div class="col s12 m12 l12">
+											
+												<div class="card-content"> 
+													<table id="tableTicketsTrabajadores" class="responsive-table display" cellspacing="0">
+														<thead>
+															<tr>
+																<th>#</th> 
+																<th>Nombre</th>  
+																<th>Acción</th>
+															</tr>
+														</thead> 
+														<tfoot>
+															<tr>
+																<th>#</th> 
+																<th >Nombre</th> 
+																<th>Acción </th>
+															</tr>
+															</tfoot>
+				
+														<tbody>  
+															
+														</tbody>
+													</table>
+													</div>
+											
+											</div> 
+										</div>
+									</div> 
+
+							 
 									 
 
  
