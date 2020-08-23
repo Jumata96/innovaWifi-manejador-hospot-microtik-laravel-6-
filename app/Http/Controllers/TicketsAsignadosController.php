@@ -22,7 +22,7 @@ class TicketsAsignadosController extends Controller
         $vendedores = DB::table('users')->where('users.idtipo','VEN')->get();
          
 
-        return view( 'forms.asignarTickets.lstTicketsAsignados',[
+        return view('forms.asignarTickets.lstTicketsAsignados',[
             'tickets'           => $tickets,
             'zonas'             =>$zonas,
             'perfiles'          =>$perfiles,
