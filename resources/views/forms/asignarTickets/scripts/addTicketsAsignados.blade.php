@@ -1,10 +1,10 @@
 <script type="text/javascript">
-cantidadTotal
+
 	 
 	var detalle = [];  
 	var contadorConceptos=0;  
 	var total=0;
-	var =0;
+	var cantidadTotal=0;
 	//---JMAZUELOS-21-08-2020----------------GRABAR-----------------------------
 
 	function eliminar_elemento(valor){ 
