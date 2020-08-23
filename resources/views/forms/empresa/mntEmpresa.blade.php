@@ -10,11 +10,11 @@
                     <i class="fa fa-table fa-lg material-icons">receipt</i>
                     <h2>REGISTRAR EMPRESA</h2>
                   </div>
-                  <form class="formValidate right-alert" id="formValidate" method="POST" action="{{ url('/empresa/grabar') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                  <form  id="myForm" accept-charset="UTF-8" enctype="multipart/form-data">
                   <div class="row card-header sub-header">
                         <div class="col s12 m12 herramienta">                         
-                          <button class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" type="submit" name="action" data-position="top" data-delay="500" data-tooltip="Guardar">
-                            <i class="material-icons blue-text text-darken-2">check</i></button>
+                          <a id="add" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Guardar">
+                            <i class="material-icons blue-text text-darken-2">check</i></a>
                           <a style="margin-left: 6px"></a>   
                           
                           <a href="{{url('/empresa')}}" class="btn-floating right waves-effect waves-light grey lighten-5 tooltipped" href="#!" data-activates="dropdown2" data-position="top" data-delay="500" data-tooltip="Regresar">
@@ -27,37 +27,77 @@
                                     
                   
                   <div class="row cuerpo">
-                    
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="card white">
+                    <div class="col m4 l3">
+                    
+                      <div class="card white">
+                          <div class="card-content">
+                              <span class="card-title">Logo</span>
+
+                              <div class="row">
+                                <div class="file-field input-field col s12">
+                                  
+                                    <div class="col s8 m8 l6 center" style="margin: auto; width: 100%">
+                                      <img src="{{asset('images/usu-perfil.png')}}" alt="" id="avatarImage" class="circle responsive-img valign profile-image teal lighten-5" style="width: 100px">
+                                    </div> 
+                                    <div class="col s12" style="padding: 0px; padding-top:20px">
+                                      <div class="btn">
+                                        <span>File</span>
+                                        <input type="file" id="imagenURL" name="imagenURL">
+                                      </div>
+                                      <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" name="imagen">
+                                        <div class="errorTxt1" id="h_error1" style="color: red; font-size: 12px; font-style: italic;"></div>
+                                      </div>
+                                    </div>                                    
+                                </div>
+                                <div class="col s12 hide">
+                                    <label for="idmodelo">Margen en píxeles</label>
+                                    <p class="range-field">
+                                      <input type="range" name="padding_top" min="15" max="200" class="active">
+                                    </p>
+                                </div>      
+                                <div class="input-field col s12">                                  
+                                  <input id="marca" name="marca" type="text" data-error=".errorTxt2" maxlength="200">
+                                  <label for="razon_social">Marca</label>
+                                  <div class="errorTxt2"></div>
+                                </div>      
+                                    
+                              </div>
+
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col col s12 m8 l6">
+                      <div class="card white">
                         <div class="card-content">
                             <span class="card-title">Datos Generales</span>
 
                             <div class="row">
                               <div class="input-field col s12 m6 l6">
                                 <i class="material-icons prefix active">label_outline</i>
-                                <input id="idempresa" name="idempresa" type="text" data-error=".errorTxt1" maxlength="3">
+                                <input id="idempresa" name="idempresa" type="text" data-error=".errorTxt1" maxlength="3" onkeyup="mayus(this);">
                                 <label for="idempresa">Cod. Empresa</label>
-                                <div class="errorTxt1"></div>
+                                <div id="error1" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
                               </div>   
                               <div class="input-field col s12 m6 l6">
                                 <i class="material-icons prefix">clear_all</i>
-                                <input id="razon_social" name="razon_social" type="text" data-error=".errorTxt2" maxlength="200">
-                                <label for="razon_social">Razón Social</label>
-                                <div class="errorTxt2"></div>
+                                <input id="razon_social" name="razon_social" type="text" data-error=".errorTxt2" maxlength="200" >
+                                <label for="razon_social">Nombre Empresa</label>
+                                <div id="error2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
                               </div>       
                               <div class="input-field col s12 m6 l6">
                                 <i class="material-icons prefix">sim_card</i>
-                                <input id="RUC" name="RUC" type="text" data-error=".errorTxt3" minlength="9" maxlength="11">
+                                <input id="RUC" name="RUC" type="text" data-error=".errorTxt3" minlength="9" maxlength="20" onkeyup="mayus(this);">
                                 <label for="RUC">RUC</label>
-                                <div class="errorTxt3"></div>
+                                <div class="error3"></div>
                               </div>
 
                               <div class="input-field col s12 m6 l6">
                                 <i class="material-icons prefix">room</i>
-                                <input id="direccion" name="direccion" type="text" data-error=".errorTxt4">
+                                <input id="direccion" name="direccion" type="text" data-error=".errorTxt4" >
                                 <label for="direccion">Dirección</label>
-                                <div class="errorTxt4"></div>
+                                <div id="error4" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
                               </div>   
                               <div class="input-field col s12 m6 l6">
                                 <i class="material-icons prefix">insert_link</i>
@@ -72,49 +112,42 @@
                             </div>
 
                         </div>
+                      </div>
                     </div>
-
-                    <div class="card white">
+                    
+                    <div class="col col s12 m8 l3">
+                      <div class="card grey lighten-5">
                         <div class="card-content">
                             <span class="card-title">Representantes</span>
 
                             <div class="row"> 
-                              <div class="input-field col s12 m4 l4">
-                                <i class="material-icons prefix">perm_identity</i>
-                                <input id="representante1" name="representante1" type="text">
-                                <label for="representante1">Representante 01</label>
-                              </div>     
-                              <div class="input-field col s12 m4 l4">
-                                <i class="material-icons prefix"> picture_in_picture</i>
-                                <input id="documento1" name="documento1" type="text">
-                                <label for="documento1">Doc. Identidad</label>
+                              <div class="col s12">
+                                <label for="iddocumento">Documento</label>
+                                <select class="browser-default" id="iddocumento" name="iddocumento" required>
+                                  <option value="" disabled selected="">Seleccione</option>
+                                  @foreach($tipo_documento as $documento)
+                                  <option value="{{$documento->iddocumento}}">{{$documento->dsc_corta}} - {{$documento->descripcion}}</option>
+                                  @endforeach
+                                </select>
+                                <div id="error7" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
                               </div>  
-                              <div class="input-field col s12 m4 l4">
+                              <div class="input-field col s12">
                                 <i class="material-icons prefix">subtitles</i>
-                                <input id="DNI1" name="DNI1" type="text">
+                                <input id="DNI1" name="DNI1" type="text" onkeyup="mayus(this);">
                                 <label for="DNI1">Nro. de Documento</label>
+                                <div id="error8" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
                               </div>      
-                              <div class="input-field col s12 m4 l4">
+                              <div class="input-field col s12">
                                 <i class="material-icons prefix">perm_identity</i>
-                                <input id="representante2" name="representante2" type="text">
-                                <label for="representante2">Representante 02</label>
-                              </div>     
-                              <div class="input-field col s12 m4 l4">
-                                <i class="material-icons prefix"> picture_in_picture </i>
-                                <input id="documento2" name="documento2" type="text">
-                                <label for="documento2">Doc. Identidad</label>
-                              </div>  
-                              <div class="input-field col s12 m4 l4">
-                                <i class="material-icons prefix">subtitles</i>
-                                <input id="DNI2" name="DNI2" type="text">
-                                <label for="DNI2">Nro. de Documento</label>
-                              </div>                          
+                                <input id="representante1" name="representante1" type="text" >
+                                <label for="representante1">Nombre</label>
+                                <div id="error9" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+                              </div>   
                             </div>
 
-
                         </div>
+                      </div>
                     </div>
-                      
                       
                   </div>
                   </form>
@@ -125,6 +158,8 @@
 @endsection
 
 @section('script')
+  @include('forms.empresa.scripts.validacion')
+  @include('forms.empresa.scripts.addEmpresa')
   <script type="text/javascript" src="{{asset('js/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
   <script type="text/javascript">
     $("#formValidate").validate({

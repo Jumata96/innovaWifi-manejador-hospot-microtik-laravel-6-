@@ -16,8 +16,7 @@
                           <a class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" href="{{ url('/empresa/nuevo') }}" data-position="top" data-delay="500" data-tooltip="Nuevo">
                             <i class="material-icons" style="color: #03a9f4">add</i>
                           </a>
-                          <a style="margin-left: 6px"></a>                          
-                                                          
+                                                       
                         </div>  
                         @include('forms.scripts.modalInformacion')         
                   </div>
@@ -41,12 +40,11 @@
                       
                         <div class="card-content">
                           Existen <?php echo ($bandera)? count($empresa) : 0; ?> registros. <br><br>
-                          <table id="data-table-simple" class="responsive-table display" cellspacing="0">
+                          <table id={{ ($bandera)? "data-table-simple" : "" }} class="responsive-table display" cellspacing="0">
                                <thead>
                                   <tr>
                                      <th>#</th>
-                                     <th class="center">logo</th>
-                                     <th>Marca</th>
+                                     <th>Cod. Empresa</th>
                                      <th>Razón Social</th>
                                      <th>RUC</th>
                                      <th>Dirección</th>
@@ -61,8 +59,7 @@
                                <tfoot>
                                   <tr>
                                      <th>#</th>
-                                     <th>logo</th>
-                                     <th>Marca</th>
+                                     <th>Cod. Empresa</th>
                                      <th>Razón Social</th>
                                      <th>RUC</th>
                                      <th>Dirección</th>
@@ -79,11 +76,8 @@
                                       $i++;
                                    ?>
                                      <td><?php echo $i; ?></td>
-                                     <td class="center">
-                                       <img src="{{asset('/')}}{{$datos->url_imagen}}" alt="" class="circle responsive-img valign profile-image white lighten-5" style="height: 50px; width: 50px">
-                                     </td>
-                                     <td><?php echo $datos->marca ?></td>
-                                     <td><?php echo substr($datos->razon_social,0,30) ?></td>
+                                     <td><?php echo $datos->idempresa ?></td>
+                                     <td><?php echo $datos->razon_social ?></td>
                                      <td><?php echo $datos->RUC ?></td>
                                      <td><?php echo $datos->direccion ?></td>
                                      <td><?php echo $datos->fecha_creacion ?></td>

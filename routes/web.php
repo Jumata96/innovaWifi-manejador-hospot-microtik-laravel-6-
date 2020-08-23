@@ -134,6 +134,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/empresa/mostrar/{id}', 'EmpresaController@show');
     Route::post('/empresa/actualizar', 'EmpresaController@update');
     Route::get('/empresa/eliminar/{id}', 'EmpresaController@destroy');
+    Route::post('/empresa/verificarID','EmpresaController@verificarID');
 
     //Tipo de Acceso
     Route::get('/tipo-de-acceso', 'MaestroController@indexTipoAcceso');
