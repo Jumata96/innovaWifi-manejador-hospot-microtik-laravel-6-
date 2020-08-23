@@ -3,7 +3,7 @@
 	function cargar(valor){ 
 		var dataIdTicket = $('.btnTrabajadorDet').attr("data-idTrabajador");  
 		console.log(dataIdTicket);
-		//window.location = "{{ url('/asignar') }} {{   }}";
+		
 
 	}
 	$('.btnSeleccionarTrabajador').on('click',function () {
