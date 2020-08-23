@@ -129,11 +129,12 @@
 				        <div class="row margin">
 				          <div class="input-field col s12">
 				            <i class="material-icons prefix">person_outline</i>
-				            <input type="text" class="form-control" name="username" id="username" value="<?php echo $username; ?>">
+				            <input type="{{($val->parametro == 'MOSTRAR_SOLO_PIN' AND $val->valor == 'NO')? 'text': 'password'}}" class="form-control" name="username" id="username" value="<?php echo $username; ?>">
 				            <label for="username" class="center-align">Usuario</label>
 				          </div>
-				        </div>
-				        <div class="row margin">
+						</div>
+					
+						<div class="row margin {{($val->parametro == 'MOSTRAR_SOLO_PIN' AND $val->valor == 'NO')? '': 'hide'}}">
 				          <div class="input-field col s12">
 				            <i class="material-icons prefix">lock_outline</i>
 				            <input id="password" type="password" class="form-control" name="password">
