@@ -18,12 +18,15 @@
 									{{--  href="{{ url('/tickets/Asignados/nuevo') }}"  --}} data-position="top" data-delay="500" data-tooltip="Nuevo">
 									  <i class="material-icons" style="color: #03a9f4">add</i>
 									</a>
-									<a style="margin-left: 6px"></a>                          
+									<a style="margin-left: 6px"></a>   
+
 																			  
 								 </div>  
 								 @include('forms.asignarTickets.addTicketsModal')
 								 @include('forms.asignarTickets.modalEliminar') 
 								 @include('forms.scripts.modalInformacion') 
+								 @include('forms.scripts.modalInformacion') 
+								
 								 
 						 </div>
 												 
@@ -76,15 +79,14 @@
 											</tfoot>
  
 										  <tbody>
+												<?php 
+												foreach ($tickets as $datos) {
+												$i++; 
+												
+											?>
 
-											<tr>
-											  <?php 
-													foreach ($tickets as $datos) {
-													$i++;
-													$e=0;
-													 
-												?>
-												  <td><?php echo $i; ?></td> 
+											<tr> 
+												  <td>{{ $i }}</td> 
 
 												  @foreach ($zonas  as $item)
 														@if ($item->id ==$datos->idzona)
@@ -114,21 +116,33 @@
 													<a href="{{ url('/tickets/Asignados/mostrar') }}/{{$datos->codigo}}" target="_blank" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Ver">
 														<i class="material-icons" style="color: #7986cb ">visibility</i></a>
 
+														{{--  <a href="#confirmacion{{$i}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Eliminar">
+															<i class="material-icons" style="color: #dd2c00">remove</i>
+															</a>
+															@if($datos->estado == 1)                                      
+															<a href="#h_confirmacion2{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Desabilitar">
+															<i class="material-icons" style="color: #757575 ">clear</i></a>
+															@else
+															<a href="#h_confirmacion3{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Habilitar">
+															<i class="material-icons" style="color: #2e7d32 ">check</i></a>
+															@endif  --}} 
+																<a  class="btnSeleccionarTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
+																data-idTicket="{{$datos->codigo}}" 
+																data-idzona="{{$datos->idzona}}" 
+																data-tooltip="Asignar Trabajadores" 
+																><i class="material-icons " style="color: #ffd54f">autorenew</i></a>
+															 
+
 														 
 
-													<a href="#addTicketTrabajadores"  class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Agregar Trabajadores">
-															<i class="material-icons" style="color: #7986cb ">visibility</i></a> 
-												  </td>
 												  
+												  </td> 
 											  </tr>  
-											  @include('forms.asignarTickets.addAsignarTticketsTrabajadores')  
-											  
-
-											  
-
-											  
+											    
 
 											  <?php }} ?>
+
+											   
 											  
 										  </tbody>
 									  </table>
@@ -146,7 +160,8 @@
 @endsection
 
 @section('script') 
-  @include('forms.asignarTickets.scripts.addTicketsAsignados')
+@include('forms.asignarTickets.addTicketsTrabajadores')
+  @include('forms.asignarTickets.scripts.addTicketsTrabajadores') 
 @endsection
 
  

@@ -1,10 +1,8 @@
 <script type="text/javascript">
 
-	var totales;
-	var detalle = []; 
-	var idConceptoManual=500; 
-	var contadorConceptos=0; 
-	var totales= []; 
+	 
+	var detalle = [];  
+	var contadorConceptos=0;  
 	var total=0;
 	var cantidadTotal=0;
 	//---JMAZUELOS-21-08-2020----------------GRABAR-----------------------------
