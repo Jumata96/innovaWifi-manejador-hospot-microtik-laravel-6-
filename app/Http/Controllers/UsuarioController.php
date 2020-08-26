@@ -31,7 +31,9 @@ class UsuarioController extends Controller
 
         //--
 
-        $usuarios = DB::table('users')->get();
+        $usuarios = DB::table('users')
+        ->whereIn('idtipo',['ADM','VEN'] )
+        ->get();
 
         return view('forms.usuarios.lstUsuarios', [
                     'usuarios'   => $usuarios,

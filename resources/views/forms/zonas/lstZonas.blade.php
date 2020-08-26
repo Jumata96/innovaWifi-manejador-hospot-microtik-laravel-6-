@@ -85,8 +85,8 @@
 
 												  <?php
 													$var = $datos->id;  
-													foreach ($equipos as $item){
-														$var1  = $item->idZona;
+													foreach ($users as $item){
+														$var1  = $item->idzona;
 														if($var1==$var){
 															$e++; 
 														} 

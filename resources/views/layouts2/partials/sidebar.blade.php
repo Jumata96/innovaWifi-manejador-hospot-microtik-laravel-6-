@@ -73,12 +73,7 @@
                           <span> Usuarios del Sistema</span>
                         </a>
                       </li>
-                      <li>
-                        <a href="{{ url('/tickets/Asignar') }}">
-                          <i class="material-icons">keyboard_arrow_right</i>
-                          <span>Asignar tickets</span>
-                        </a>
-                      </li>
+                     
                       <li>
                         <a href="{{ url('/perfiles') }}">
                           <i class="material-icons">keyboard_arrow_right</i>
@@ -159,6 +154,12 @@
                       <li><a href="{{ url('/tickets/reporte-venta-trabajador') }}">
                       <i class="material-icons">keyboard_arrow_right</i>
                       <span>Reporte de Venta</span></a>
+                      </li>
+                      <li>
+                        <a href="{{ url('/tickets/Asignar') }}">
+                          <i class="material-icons">keyboard_arrow_right</i>
+                          <span>Asignar tickets</span>
+                        </a>
                       </li>
                     </ul>
                   </div>
