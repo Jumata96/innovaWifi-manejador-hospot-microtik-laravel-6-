@@ -134,7 +134,7 @@ class TicketsController extends Controller
        //dd($request); 
         $vendidos=0;
         $Asignados=0;
-        $item =null; 
+        $item =0; 
         $precio=null;
         $idperfil=null;
         $ticketsAsignados = DB::table ('tickets_asignados_det') 
@@ -145,7 +145,7 @@ class TicketsController extends Controller
             $Asignados +=$asig->cantidad;
             $precio=$asig->precio;
             $idperfil=$asig->idperfil;
-            $item =$asig->item;
+            $item2 =$asig->item;
         }  
          
         // dd($ticketsAsignados);
@@ -164,12 +164,12 @@ class TicketsController extends Controller
 
         $disponible=$Asignados-$vendidos; 
 
-      $datos['ticketsAsignados'] = $ticketsAsignados;  
+      $datos['ticketsAsignados'] = $Asignados;  
       $datos['ticketsDisponibles'] = $disponible;  
       $datos['ticketsCantidad'] = $request->cantidad;
       $datos['precio'] = $precio;  
       $datos['idperfil'] = $idperfil;  
-      $datos['item'] = $item; 
+      $datos['item'] = $item2; 
 
 
       return response()->json($datos);
@@ -185,11 +185,9 @@ class TicketsController extends Controller
             'precio'                  =>$request->precio,
             'idperfil'                =>$request->idPerfil, 
             'ticket'                  =>$request->codigo, 
-            'estado'                  =>1, 
+            'estado'                  =>'1', 
             'fecha_creacion'          =>date('Y-m-d h:m:s')  
-        ]);
-      
-        return response()->json($datos);
+        ]); 
 
 
     }

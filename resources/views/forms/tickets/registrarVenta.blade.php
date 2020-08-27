@@ -24,6 +24,13 @@
                 </select> 
                 <div class="errorTxt1" id="errorModal1" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
             {{-- </div> --}}
+            <div class="input-field col s12 m6 l12">
+              {{-- <i class="material-icons prefix">cantidad</i> --}}
+              <input id="total" name="total" type="number"  readonly="readonly" >
+              <label for="total">Disponibles</label>
+              <div class="errorTxt1" id="errorModal5" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+
+          </div>
 
             <div class="input-field col s12 m6 l12">
                 {{-- <i class="material-icons prefix">cantidad</i> --}}

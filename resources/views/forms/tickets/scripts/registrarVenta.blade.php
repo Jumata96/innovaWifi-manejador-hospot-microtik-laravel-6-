@@ -1,10 +1,42 @@
 <script type="text/javascript">
 
-    $('#tipoTicket').on('click',function () { 
-        console.log('tipo selec');
+    $('#tipoTicket').on('click',function () {  
     
         var el = document.getElementById('cantidad'); //se define la variable "el" igual a nuestro div
             el.readOnly =false; 
+           let variable= idTicketPerfil=$('#tipoTicket').val();
+           if(variable!=null){
+
+            idTicketPerfil=$('#tipoTicket').val();
+            cantidad =0;//se utiliza para ejecutar el ajax no realiza ninguna operacion 
+    
+             
+               $.ajax({
+                url: "{{ url('/tickets/contarVentaPerfilAsignado') }}",
+                type:"POST",
+                beforeSend: function (xhr) {
+                    var token = $('meta[name="csrf-token"]').attr('content');
+    
+                    if (token) {
+                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
+                type:'POST',
+                url:"{{ url('/tickets/contarVentaPerfilAsignado') }}",
+                data:{
+                    idTicketPerfil:idTicketPerfil,
+                    cantidad:cantidad
+                },
+    
+                success:function(data){              
+                    $('#total').val(data.ticketsDisponibles);  
+                },
+    
+                error:function(){ 
+                    alert("error!!!!");
+            }
+            }); 
+           }
     
     });
     
