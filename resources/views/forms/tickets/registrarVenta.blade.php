@@ -26,7 +26,7 @@
             {{-- </div> --}}
             <div class="input-field col s12 m6 l12">
               {{-- <i class="material-icons prefix">cantidad</i> --}}
-              <input id="total" name="total" type="number"  readonly="readonly" >
+              <input id="total" name="total" style="text-align: center;" type="number"  readonly="readonly" >
               <label for="total">Disponibles</label>
               <div class="errorTxt1" id="errorModal5" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 
@@ -34,14 +34,14 @@
 
             <div class="input-field col s12 m6 l12">
                 {{-- <i class="material-icons prefix">cantidad</i> --}}
-                <input id="cantidad" name="cantidad" type="number"  readonly="readonly" >
+                <input id="cantidad" style="text-align: center;" name="cantidad" type="number"  readonly="readonly" >
                 <label for="cantidad">cantidad</label>
                 <div class="errorTxt1" id="errorModal2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 
             </div>
             
                 <div class=" input-field col s12">                    
-                    <input id="precio" name="precio" type="number" value="" data-error=".errorTxt2"   >  
+                    <input id="precio"  style="text-align: center;" name="precio" type="number" value="" data-error=".errorTxt2"   >  
                     <label for="precio">Precio</label> 
                     <div class="errorTxt1" id="errorModal4" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>                                                                                            
                 </div>
@@ -51,7 +51,7 @@
                 
 
                 <div class=" input-field col s12">                    
-                    <input id="codigo" name="codigo" type="text" value="" data-error=".errorTxt2" maxlength="100" style="font-size: 30px;color:#4db6ac" placeholder="" >  
+                    <input id="codigo" name="codigo" style="text-align: center;" type="text" value="" data-error=".errorTxt2" maxlength="100" style="font-size: 30px;color:#4db6ac" placeholder="" >  
                     <label for="codigo">Codigo</label> 
                     <div class="errorTxt1" id="errorModal3" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>                                                                                            
                 </div>
@@ -164,13 +164,7 @@
          
     </div>
     </div>
-    </div>
-    
-
-    
-
-    
-
+    </div> 
 </div>
 
 @endsection
