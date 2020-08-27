@@ -96,7 +96,7 @@
                                      <th>Cantidad</th>
                                      <th>Fecha Registro</th>
                                      <th>Estado</th>
-                                     <th>Acción</th>
+                                     {{-- <th>Acción</th> --}}
                                   </tr>
                                </thead>
                                <?php
@@ -137,10 +137,10 @@
                                         </div>
                                       @endif
                                      </td>
-                                     <td class="center" style="width: 9rem">
+                                     {{-- <td class="center" style="width: 9rem">
                                        <a href="#confirmacion{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Ver">
                                         <i class="material-icons" style="color: #7986cb ">visibility</i>
-                                      </a>                                    
+                                      </a>                                     --}}
                                     {{--    <a href="#confirmacion{{$i}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Eliminar">
                                         <i class="material-icons" style="color: #dd2c00">remove</i>
                                       </a>
@@ -151,10 +151,10 @@
                                        <a href="#h_confirmacion3{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Habilitar">
                                         <i class="material-icons" style="color: #2e7d32 ">check</i></a>
                                        @endif --}}
-                                     </td>
+                                     {{-- </td> --}}
                                   </tr>
 
-                                  @include('forms.tickets.scripts.alertaConfirmacion')  
+                                   
                                   <?php }} ?>
                                </tbody>
                             </table>
@@ -176,6 +176,7 @@
 @endsection
 
 @section('script')
+@include('forms.tickets.scripts.alertaConfirmacion') 
   @include('forms.tickets.scripts.registrarVenta')
 @endsection
 
