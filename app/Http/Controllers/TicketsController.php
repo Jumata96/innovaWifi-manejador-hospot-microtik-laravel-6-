@@ -22,6 +22,8 @@ class TicketsController extends Controller
         ]);
     }
 
+    
+
     public function validar(Request $request)
     {
         //dd($request);
@@ -106,5 +108,94 @@ class TicketsController extends Controller
 
         return response()->json("CORRECTO"); 
     }
+    public function registrarVenta()
+    {
+        $tickets = DB::table('ticket_venta')->where('estado',1)->where('idusuario',Auth::user()->id)->get();
+
+        
+        $tickets_asignados=DB::table ('tickets_asignados_det')
+        ->select('tickets_asignados_det.*' )
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')   
+        ->where('tickets_asignados_det.idtrabajador',Auth::user()->id)->get(); 
+
+        // dd($tickets_asignados);
+      
+     
+        $perfiles=DB::table ('perfiles')->get();   
+
+
+        return view('forms.tickets.registrarVenta',[
+            'tickets'           => $tickets,
+            'tickets_asignados' =>$tickets_asignados,
+            'perfiles'          =>$perfiles
+        ]);
+    }
+    public function contadorVentasPerfilAsignado(Request $request){
+       //dd($request); 
+        $vendidos=0;
+        $Asignados=0;
+        $item =null; 
+        $precio=null;
+        $idperfil=null;
+        $ticketsAsignados = DB::table ('tickets_asignados_det') 
+        ->select('cantidad','precio','idperfil','item')
+        ->where('idperfil_det',$request->idTicketPerfil) 
+        ->get();
+        foreach ($ticketsAsignados as  $asig) {
+            $Asignados +=$asig->cantidad;
+            $precio=$asig->precio;
+            $idperfil=$asig->idperfil;
+            $item =$asig->item;
+        }  
+         
+        // dd($ticketsAsignados);
+
+        // idTicketPerfil
+        $ticketsVendidos = DB::table ('ticket_venta') 
+        ->select('ticket_venta.cantidad','tickets_asignados_det.item','tickets_asignados_det.precio')
+        ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign') 
+        ->where('idperfil_det',$request->idTicketPerfil) 
+        ->get();
+
+        //dd($ticketsVendidos );
+        foreach ($ticketsVendidos as  $item) {
+            $vendidos +=$item->cantidad; 
+        }    
+
+        $disponible=$Asignados-$vendidos; 
+
+      $datos['ticketsAsignados'] = $ticketsAsignados;  
+      $datos['ticketsDisponibles'] = $disponible;  
+      $datos['ticketsCantidad'] = $request->cantidad;
+      $datos['precio'] = $precio;  
+      $datos['idperfil'] = $idperfil;  
+      $datos['item'] = $item; 
+
+
+      return response()->json($datos);
+    }
+    public function storeTicketsVenta(Request $request){
+        //dd($request)  ;
+
+        DB::table('ticket_venta')
+        ->insert([  
+            'id_tickets_asign'        =>$request->idTicketAsignadoDet,
+             'idusuario'              =>Auth::user()->id ,
+            'cantidad'                =>$request->cantidad, 
+            'precio'                  =>$request->precio,
+            'idperfil'                =>$request->idPerfil, 
+            'ticket'                  =>$request->codigo, 
+            'estado'                  =>1, 
+            'fecha_creacion'          =>date('Y-m-d h:m:s')  
+        ]);
+      
+        return response()->json($datos);
+
+
+    }
+    public function mostrarVenta($id){
+
+    }
+
     
 }

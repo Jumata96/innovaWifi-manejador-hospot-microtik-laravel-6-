@@ -52,12 +52,12 @@
                                   <select class="browser-default" id="zonas" name="zonas" required>
                                     <option value="" disabled selected="">Seleccione</option>
                                     @foreach($zonas as $val)
-                                    @if($val->id == $datos->idZona)
+                                    @if($val->id == $datos->idzona)
                                       <option value="{{$val->id}}" selected> {{$val->nombre}}</option>
                                     @endif
                                     @endforeach
                                     @foreach($zonas as $val)
-                                    @if($val->id != $datos->idZona)
+                                    @if($val->id != $datos->idzona)
                                       <option value="{{$val->id}}"> {{$val->nombre}}</option>
                                     @endif
                                     @endforeach

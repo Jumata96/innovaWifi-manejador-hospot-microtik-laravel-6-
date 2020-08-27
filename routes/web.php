@@ -255,37 +255,44 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/getInterfaces','HomeController@getInterfaces');
 
     //Tickets
-    Route::get('/tickets/registrar','TicketsController@registrar');
+    Route::get('/tickets/registrar','TicketsController@registrar'); 
     Route::post('/tickets/validar','TicketsController@validar');
-    Route::post('/tickets/store','TicketsController@store');
+    Route::post('/tickets/store','TicketsController@store'); 
 
-    //TicketsAsignados
-    Route::get('/tickets/Asignar','TicketsAsignadosController@asignarTickets');	
-    Route::get('/tickets/Asignados/nuevo','TicketsAsignadosController@create');
-    Route::post('/tickets/Asignados/grabar','TicketsAsignadosController@store');
-    Route::post('/tickets/Asignados/grabarDetalle','TicketsAsignadosController@storeDetallePerfil');
-    Route::get('/tickets/Asignados/mostrar/{id}','TicketsAsignadosController@show'); 
-    Route::get('/tickets/Asignados/AsignarTrabajador/{idUsuario}/{idTicket}','TicketsAsignadosController@asignarTrabajador');
-    Route::post('/tickets/Asignados/grabarTrabajador','TicketsAsignadosController@asignarTrabajadorDetalle');
-    Route::post('/tickets/Asignados/contarTicketsvendedor','TicketsAsignadosController@ticketsPorPersona');
-    Route::post('/tickets/Asignados/contarTipoTicketsvendedor','TicketsAsignadosController@TipoTicketsPorPersona');
-    Route::post('/tickets/Asignados/contarTicketsvendedor2','TicketsAsignadosController@ticketsPorPersona2');
+     //TicketsAsignados
+     Route::get('/tickets/Asignar','TicketsAsignadosController@asignarTickets');	
+     Route::get('/tickets/Asignados/nuevo','TicketsAsignadosController@create');
+     Route::post('/tickets/Asignados/grabar','TicketsAsignadosController@store');
+     Route::post('/tickets/Asignados/grabarDetalle','TicketsAsignadosController@storeDetallePerfil');
+     Route::get('/tickets/Asignados/mostrar/{id}','TicketsAsignadosController@show'); 
+     Route::get('/tickets/Asignados/AsignarTrabajador/{idUsuario}/{idTicket}','TicketsAsignadosController@asignarTrabajador');
+     Route::post('/tickets/Asignados/grabarTrabajador','TicketsAsignadosController@asignarTrabajadorDetalle');
+     Route::post('/tickets/Asignados/contarTicketsvendedor','TicketsAsignadosController@ticketsPorPersona');
+     Route::post('/tickets/Asignados/contarTipoTicketsvendedor','TicketsAsignadosController@TipoTicketsPorPersona');
+     Route::post('/tickets/Asignados/contarTicketsvendedor2','TicketsAsignadosController@ticketsPorPersona2');
+ 
+     Route::get('/tickets/Asignados/eliminar/{id}','TicketsAsignadosController@destroy');
+     Route::get('/tickets/Asignados/habilitar/{id}','TicketsAsignadosController@habilitar');
+     Route::get('/tickets/Asignados/desabilitar/{id}','TicketsAsignadosController@desabilitar');  
+     Route::post('/tickets/TiporPerfil/contador','TicketsAsignadosController@contadorPerfilesAsignados');
 
-    Route::get('/tickets/Asignados/eliminar/{id}','TicketsAsignadosController@destroy');
-	Route::get('/tickets/Asignados/habilitar/{id}','TicketsAsignadosController@habilitar');
-    Route::get('/tickets/Asignados/desabilitar/{id}','TicketsAsignadosController@desabilitar'); 
+     //Ventas
+     Route::get('/tickets/registrarVenta','TicketsController@registrarVenta');
+    Route::post('/tickets/contarVentaPerfilAsignado','TicketsController@contadorVentasPerfilAsignado');
+    Route::post('/tickets/registrarVenta/grabar','TicketsController@storeTicketsVenta');
+    Route::get('/tickets/ Venta/mostrar/{id}','TicketsController@mostrarVenta');
 
 
 
-    Route::post('/tickets/TiporPerfil/contador','TicketsAsignadosController@contadorPerfilesAsignados');
+     
 
 
-
+    
 
     
 	/* ;
 	 
-	
+	Route::post('/tickets/Asignados/actualizar','TicketsAsignadosController@update');
 
 	Route::get('/tickets/Asignados/eliminar/{id}','TicketsAsignadosController@destroy');
 	Route::get('/tickets/Asignados/habilitar/{id}','TicketsAsignadosController@habilitar');
