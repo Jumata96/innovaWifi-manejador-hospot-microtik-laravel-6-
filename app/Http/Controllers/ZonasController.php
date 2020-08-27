@@ -12,13 +12,13 @@ class ZonasController extends Controller
 
         $zonas  =DB::table('zonas')->get(); 
 
-        $equipos = DB::table('users')->where('users.idtipo','VEN') 
+        $users = DB::table('users')->where('users.idtipo','VEN') 
         ->get();
        // dd($equipos); 
         
         return view ('forms.zonas.lstZonas',[
             'zonas'=>$zonas,
-            'equipos'=>$equipos
+            'users'=>$users
         ]);
     }
     public function destroy($id)

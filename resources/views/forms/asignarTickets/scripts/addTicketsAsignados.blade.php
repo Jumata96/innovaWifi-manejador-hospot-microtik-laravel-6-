@@ -5,14 +5,13 @@
 	var contadorConceptos=0;  
 	var total=0;
 	var cantidadTotal=0;
-	//---JMAZUELOS-21-08-2020----------------GRABAR-----------------------------
-
+	//---JMAZUELOS-21-08-2020----------------GRABAR----------------------------- 
 	function eliminar_elemento(valor){ 
 		$('#EliminarConcepto').modal('open');
 		$('#cancelarVerificacion').on('click',function (j) {
 			valorEliminado=$("input[name=des"+valor+"]").val(); 
 			cantidadTotal -=parseInt(valorEliminado); 
-			$('#cantidad').val(parseInt(cantidadTotal)); 
+			// $('#cantidad').val(parseInt(cantidadTotal)); 
 			ActualizarDescuento();
 			fila='fila'+valor;//--id del tr a eliminar   
 			//-buscar y eliminar el elemnto  de la tabla
@@ -83,7 +82,7 @@
 		var vbajada = $(this).attr("data-vbajada"); 
 		var target = $(this).attr("data-target"); 
 		cantidadTotal +=parseInt(cantidad); 
-		$('#cantidad').val(parseInt(cantidadTotal)); 
+		// $('#cantidad').val(parseInt(cantidadTotal)); 
 		
 		//console.log(cantidad); 
 		if(cantidad==null){
@@ -117,150 +116,161 @@
 		//console.log(detalle); 
 	}); 
  
- $('#addTickets').click(function(e){
-		e.preventDefault();
-		
+	$('#addTickets').click(function(e){
+			e.preventDefault(); 
 
-		
+			if(detalle.length != 0 ){
+				totalC=0;
+				for (var i = 0; i < detalle.length; i++) { 
+					totalC +=cantidad=parseInt($("input[name=des"+detalle[i][7]+"]").val()); 
+				}  
+				
+				cantidadIngresada=$('#cantidad').val(); 
 
-		if(detalle.length != 0 ){
-			totalC=0;
-			for (var i = 0; i < detalle.length; i++) { 
-				totalC +=cantidad=parseInt($("input[name=des"+detalle[i][7]+"]").val()); 
-			}  
-			 
-			$('#cantidad').val(parseInt(totalC)); 
+				if(totalC==cantidadIngresada){ 
+					var data = $('#myForm').serializeArray(); 
+					console.log(data);
+					$.ajax({
+						url: "{{ url('/tickets/Asignados/grabar') }}",
+						type:"POST",
+						beforeSend: function (xhr) {
+							var token = $('meta[name="csrf-token"]').attr('content');
 
-			var data = $('#myForm').serializeArray(); 
-			console.log(data);
-			$.ajax({
-				url: "{{ url('/tickets/Asignados/grabar') }}",
-				type:"POST",
-				beforeSend: function (xhr) {
-					var token = $('meta[name="csrf-token"]').attr('content');
-
-					if (token) {
-							return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-					}
-				},
-				type:'POST',
-				url:"{{ url('/tickets/Asignados/grabar') }}",
-				data:data,
-
-				success:function(data){
-					
-					if ( data[0] == "error") {
-						( typeof data.puntoDeVenta != "undefined" )? $('#error1').text(data.puntoDeVenta) && $('#puntoDeVenta').focus() : null;
-						( typeof data.cantidad != "undefined" )? $('#error2').text(data.cantidad) : null;
-						( typeof data.glosa != "undefined" )? $('#error3').text(data.glosa) : null;
-
-						// ( typeof data.nombre != "undefined" )? $('#error2').text(data.nombre) : null; 
-									
-					} else {   
-
-						var codigo =data.codigo ;
-
-						//alert(data.success);
-						/*  setTimeout(function() {
-							Materialize.toast('<span style="color:#e65100"><b></b> Registrado.</i></span>', 500);
-					}, 000);  */
-						//
-
-							for (var i = 0; i < detalle.length; i++) {
-								conceptoId=detalle[i][3];//obtenemos el id del plan guardado en el array
-								Concepto=detalle[i][4];//obtenemos el concepto guardado en el array
-								descripcion=detalle[i][5];//obtenemos la descripcion guardado en el array
-								precio=detalle[i][6];  //obtenemos el precio guardado en el array
-								cantidad=$("input[name=des"+detalle[i][7]+"]").val();  //obtenner el cantidad ingresado en la vista
-								 
-				 
-
-								if(detalle[i][2]=='PLAN'){
-									$.ajax({
-										url: "{{ url('/tickets/Asignados/grabarDetalle') }}",
-										type:"POST",
-										beforeSend: function (xhr) {
-											var token = $('meta[name="csrf-token"]').attr('content');
-						
-											if (token) {
-													return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-											}
-										},
-										type:'POST',
-										url:"{{ url('/tickets/Asignados/grabarDetalle') }}",
-										data:{
-											conceptoId		:conceptoId,
-											Concepto		:Concepto,
-											descripcion	:descripcion,
-											precio		:precio,
-											cantidad	:cantidad, 
-											codigo	: codigo  
-
-										},
-						
-										success:function(data){
-											
-											if ( data[0] == "error") {
-												( typeof data.puntoDeVenta != "undefined" )? $('#error1').text(data.puntoDeVenta) && $('#puntoDeVenta').focus() : null;
-												( typeof data.cantidad != "undefined" )? $('#error2').text(data.cantidad) : null;
-												( typeof data.glosa != "undefined" )? $('#error3').text(data.glosa) : null;
-						
-												// ( typeof data.nombre != "undefined" )? $('#error2').text(data.nombre) : null; 
-															
-											} else {   
-						
-												//alert(data.success);
-												/*setTimeout(function() {
-													Materialize.toast('<span style="color:#e65100"><b></b> Registrado.</i></span>', 500);
-											}, 000);*/
-												//window.location="{{ url('/tickets/Asignar') }}";
-						
-											}
-											
-										},
-						
-										error:function(){ 
-											alert("error!!!!");
-											}
-									});
-									 
-								}
+							if (token) {
+									return xhr.setRequestHeader('X-CSRF-TOKEN', token);
 							}
+						},
+						type:'POST',
+						url:"{{ url('/tickets/Asignados/grabar') }}",
+						data:data,
+
+						success:function(data){
+							
+							if ( data[0] == "error") {
+								( typeof data.puntoDeVenta != "undefined" )? $('#error1').text(data.puntoDeVenta) && $('#puntoDeVenta').focus() : null;
+								( typeof data.cantidad != "undefined" )? $('#error2').text(data.cantidad) : null;
+								( typeof data.glosa != "undefined" )? $('#error3').text(data.glosa) : null;
+
+								// ( typeof data.nombre != "undefined" )? $('#error2').text(data.nombre) : null; 
+											
+							} else {   
+
+								var codigo =data.codigo ;
+
+								//alert(data.success);
+								/*  setTimeout(function() {
+									Materialize.toast('<span style="color:#e65100"><b></b> Registrado.</i></span>', 500);
+							}, 000);  */
+								//
+
+									for (var i = 0; i < detalle.length; i++) {
+										conceptoId=detalle[i][3];//obtenemos el id del plan guardado en el array
+										Concepto=detalle[i][4];//obtenemos el concepto guardado en el array
+										descripcion=detalle[i][5];//obtenemos la descripcion guardado en el array
+										precio=detalle[i][6];  //obtenemos el precio guardado en el array
+										cantidad=$("input[name=des"+detalle[i][7]+"]").val();  //obtenner el cantidad ingresado en la vista 
+
+										if(detalle[i][2]=='PLAN'){
+											$.ajax({
+												url: "{{ url('/tickets/Asignados/grabarDetalle') }}",
+												type:"POST",
+												beforeSend: function (xhr) {
+													var token = $('meta[name="csrf-token"]').attr('content');
+								
+													if (token) {
+															return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+													}
+												},
+												type:'POST',
+												url:"{{ url('/tickets/Asignados/grabarDetalle') }}",
+												data:{
+													conceptoId		:conceptoId,
+													Concepto		:Concepto,
+													descripcion	:descripcion,
+													precio		:precio,
+													cantidad	:cantidad, 
+													codigo	: codigo  
+
+												},
+								
+												success:function(data){
+													
+													if ( data[0] == "error") {
+														( typeof data.puntoDeVenta != "undefined" )? $('#error1').text(data.puntoDeVenta) && $('#puntoDeVenta').focus() : null;
+														( typeof data.cantidad != "undefined" )? $('#error2').text(data.cantidad) : null;
+														( typeof data.glosa != "undefined" )? $('#error3').text(data.glosa) : null;
+								
+														// ( typeof data.nombre != "undefined" )? $('#error2').text(data.nombre) : null; 
+																	
+													} else {   
+								
+														//alert(data.success);
+														/*setTimeout(function() {
+															Materialize.toast('<span style="color:#e65100"><b></b> Registrado.</i></span>', 500);
+													}, 000);*/
+														//window.location="{{ url('/tickets/Asignar') }}";
+								
+													}
+													
+												},
+								
+												error:function(){ 
+													alert("error!!!!");
+													}
+											});
+											
+										}
+									}
 
 
-							setTimeout(function() {
-													Materialize.toast('<span style="color:#e65100"><b></b> Registrado.</i></span>', 500);
-											}, 000);
-							window.location="{{ url('/tickets/Asignar') }}";
+									setTimeout(function() {
+															Materialize.toast('<span style="color:#e65100"><b></b> Registrado.</i></span>', 500);
+													}, 000);
+									window.location="{{ url('/tickets/Asignar') }}";
 
-						
+								
 
-					}
+							}
+							
+						},
+
+						error:function(){ 
+							alert("error!!!!");
+							}
+					});
+				}
+				else if( cantidadIngresada == ""){
+					$('#error10').text('este campo es obligatorio  ')
 					
-				},
 
-				error:function(){ 
-					alert("error!!!!");
-					}
-			});
+				}else if( totalC >cantidadIngresada){
+					// la cantidad ingresada en detalle es es mayor 
+					diferencia=totalC-cantidadIngresada;
+					$('#error10').text('la cantidad ingresada en detalle es   mayor , la diferencia es de  :  '+diferencia+' (tickets)')
+				}
+				else{
+					diferencia=cantidadIngresada-totalC;
 
-			   
-		}else{
-			limpiarTabla();
-			$("#tableProformaDetalle").append( 
-				'<tr  >'+ 
-					'<td colspan="6" style="text-align: center; text: red;" > <H5 style="color: red;">'+
-						 'El campo detalle es obligatorio</H5> </td>' +
-				'</tr> ' 
-			); 
-			console.log( "no data"); 
+					$('#error10').text('la cantidad ingresada en detalle es  menor , la diferencia es de  :  '+diferencia+' (tickets)')
+				}
 
-		} 
-		
-		
+				
+			}else{
+				limpiarTabla();
+				$("#tableProformaDetalle").append( 
+					'<tr  >'+ 
+						'<td colspan="6" style="text-align: center; text: red;" > <H5 style="color: red;">'+
+							'El campo detalle es obligatorio</H5> </td>' +
+					'</tr> ' 
+				); 
+				console.log( "no data"); 
 
-  
-  
- });    
+			} 
+			
+			
+
+	
+	
+	});    
 
 </script>

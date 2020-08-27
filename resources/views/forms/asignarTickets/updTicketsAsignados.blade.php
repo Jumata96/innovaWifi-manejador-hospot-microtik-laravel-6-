@@ -88,14 +88,17 @@
 									  
 										 <div class="card-content">
 											Existen <?php echo ($bandera)? count($ticketsDet) : 0; ?> registros. <br><br>
-											<table id="data-table-simple" class="responsive-table display" cellspacing="0">
+											<table id="data-table-simple" class="responsive-table display centered" cellspacing="0">
 												  <thead>
 													  <tr>
 														  <th>#</th> 
 														  <th>Perfil</th>
 														  <th>Precio</th>
-														  <th>Cantidad</th>  
-														  <th>Acción</th>
+														  <th>Cantidad</th>
+														  <th>Asignados</th>
+														  <th>Ventas</th>
+														  <th>Saldo</th>  
+														 {{--  <th>Acción</th> --}}
 													  </tr>
 												  </thead>
 												  <?php
@@ -106,8 +109,11 @@
 														  <th>#</th> 
 														  <th>Perfil</th>
 														  <th>Precio</th>
-														  <th>Cantidad</th> 
-														  <th>Acción</th>
+														  <th>Cantidad</th>
+														  <th>Asignados</th>
+														  <th>Ventas</th>
+														  <th>Saldo</th> 
+														  {{-- <th>Acción</th> --}}
 													  </tr>
 													</tfoot>
 		 
@@ -131,14 +137,48 @@
 														  </td> 
 														  <td>{{ $datos->precio }}</td>
 														  <td>{{ $datos->cantidad }}</td>
+														  <td>
+															
+															@php
+																  $totalAsignados=0;
+															  @endphp
+															  @foreach ($asignados as $asig)
+																@if ($datos->idperfil_det ==$asig->idperfil_det)
+																	@php
+																		$totalAsignados +=$asig->cantidad;
+																	@endphp 
+																@endif   
+															  @endforeach
+															  {{$totalAsignados}}
+
+
+														  </td>
+														  <td>
+															  @php
+																  $total=0;
+															  @endphp
+															  @foreach ($tickets_Venta as $venta)
+																@if ($datos->idperfil_det ==$venta->idperfil_det)
+																	@php
+																		$total +=$venta->cantidad;
+																	@endphp 
+																@endif   
+															  @endforeach
+															  {{$total}}
+														  </td>
+														  <td>
+
+															{{$datos->cantidad-$total}}
+
+														  </td>
 		
 														   
 														   
-														  <td class="center" style="width: 9rem">
+														  {{-- <td class="center" style="width: 9rem">
 															 <a href="{{ url('#') }}/{{$datos->idperfil_det}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Editar">
 															  <i class="material-icons" style="color: #7986cb ">visibility</i>
 															</a>   
-														  </td>
+														  </td> --}}
 													  </tr>  
 													  <?php }} ?>
 												  </tbody>

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+
+  
  
   @include('layouts2.partials.htmlHead')
 
@@ -10,7 +13,12 @@
     <div id="main">      
       <!-- START WRAPPER -->
       <div class="wrapper">
-        @include('layouts2.partials.sidebar')       
+        @include('layouts2.partials.sidebar') 
+          @if(Auth::user()->idtipo === 'ADM')
+            @include('layouts2.partials.sidebar') 
+          @elseif(Auth::user()->idtipo === 'VEN' )  
+            @include('layoutsVendedores.partials.sidebar') 
+          @endif      
         <section id="content">
             @yield('sub-cabecera')
             @yield('main-content')

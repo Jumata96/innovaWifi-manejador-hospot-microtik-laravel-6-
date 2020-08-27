@@ -9,8 +9,7 @@
 						 <div class="card-header">                    
 							<i class="fa fa-table fa-lg material-icons">receipt</i>
 							<h2>LISTA DE TICKETS ASIGNADOS</h2>
-						 </div>
-						
+						 </div> 
 						 <div class="card-header" style="height: 50px; padding-top: 5px; background-color: #f6f6f6">
 								 <div class="col s12 m12">
 									<a class="btn-floating waves-effect waves-light modal-trigger  grey lighten-5 tooltipped"
@@ -18,17 +17,21 @@
 									{{--  href="{{ url('/tickets/Asignados/nuevo') }}"  --}} data-position="top" data-delay="500" data-tooltip="Nuevo">
 									  <i class="material-icons" style="color: #03a9f4">add</i>
 									</a>
-									<a style="margin-left: 6px"></a>   
-
+									<a style="margin-left: 6px"></a>  
+									 
 																			  
 								 </div>  
 								 @include('forms.asignarTickets.addTicketsModal')
 								 @include('forms.asignarTickets.modalEliminar') 
 								 @include('forms.scripts.modalInformacion') 
 								 @include('forms.scripts.modalInformacion') 
+								 @include('forms.asignarTickets.addTicketsTrabajadores')
 								
 								 
 						 </div>
+						 <input type="hidden" id="contadorTicketsTrabajador">
+						 <input type="hidden" id="contadorTipoTicketsTrabajador"> 
+
 												 
 						 <div class="row cuerpo">
 							<?php 
@@ -96,9 +99,20 @@
 												  @endforeach
 													  
 												  <td><?php echo substr($datos->tickets_cant,0,30) ?></td> 
-													<td><?php               ?>   </td> 
-												  <td> <?php               ?>		</td>
-												  <td><?php echo $datos->fecha_creacion ?></td>  
+												  <td>
+													<?php  $total=0 ?>
+													@foreach ($tickets_Venta as $venta)
+													  @if ($datos->codigo==$venta->codigo)
+														<?php  $total +=$venta->cantidad ?> 
+													  @endif   
+													@endforeach
+													{{$total}} 
+												   </td> 
+												  <td>
+														<?php  $saldo;  $saldo =$datos->tickets_cant-$total ?> 
+														{{$saldo}} 
+												  </td>
+												  <td> {{$datos->fecha_creacion}} </td>  
 												  <td>
 														@if($datos->estado == 0)
 														<div id="u_estado" class="chip center-align" style="width: 70%">
@@ -116,7 +130,7 @@
 													<a href="{{ url('/tickets/Asignados/mostrar') }}/{{$datos->codigo}}" target="_blank" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Ver">
 														<i class="material-icons" style="color: #7986cb ">visibility</i></a>
 
-														{{--  <a href="#confirmacion{{$i}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Eliminar">
+														 <a href="#confirmacion{{$i}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Eliminar">
 															<i class="material-icons" style="color: #dd2c00">remove</i>
 															</a>
 															@if($datos->estado == 1)                                      
@@ -125,20 +139,18 @@
 															@else
 															<a href="#h_confirmacion3{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Habilitar">
 															<i class="material-icons" style="color: #2e7d32 ">check</i></a>
-															@endif  --}} 
-																<a  class="btnSeleccionarTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
-																data-idTicket="{{$datos->codigo}}" 
-																data-idzona="{{$datos->idzona}}" 
-																data-tooltip="Asignar Trabajadores" 
-																><i class="material-icons " style="color: #ffd54f">autorenew</i></a>
-															 
-
-														 
-
-												  
+															@endif  
+															<a  class="btnSeleccionarTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
+															data-idTicket="{{$datos->codigo}}" 
+															data-idzona="{{$datos->idzona}}" 
+															data-tooltip="Asignar Trabajadores" 
+															><i class="material-icons " style="color: #ffd54f">autorenew</i></a> 
 												  </td> 
 											  </tr>  
-											    
+											  @include('forms.asignarTickets.scripts.alertaConfirmacion') 
+											  @include('forms.asignarTickets.scripts.alertaConfirmacion2') 
+											  @include('forms.asignarTickets.scripts.alertaConfirmacion3') 
+
 
 											  <?php }} ?>
 
@@ -160,7 +172,7 @@
 @endsection
 
 @section('script') 
-@include('forms.asignarTickets.addTicketsTrabajadores')
+  @include('forms.asignarTickets.scripts.addTicketsAsignados')
   @include('forms.asignarTickets.scripts.addTicketsTrabajadores') 
 @endsection
 

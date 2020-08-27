@@ -103,6 +103,18 @@ class HomeController extends Controller
         }
 
         $router     = DB::table('router')->get();
+        $asignados=0;
+
+        /* $tickets=DB::table ('tickets_asignados_det')
+        ->select('tickets_asignados_det.*','tickets_asignados_perfil_det.codigo')
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det') 
+        ->where('idtrabajador',Auth::user()->id) 
+        ->get();
+        //dd($tickets) ;
+        foreach ($tickets as  $ticket) {
+            $asignados +=$ticket->cantidad; 
+        } 
+        dd($tickets); */
         
         return view('home',[
             "tot_usuarios"  => $tot_usuarios,

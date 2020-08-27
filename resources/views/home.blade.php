@@ -22,8 +22,13 @@
 
 @section('main-content')
   <div style="padding-top: 10px"></div>
-	@include('forms.dashboard.generales')
 
+  @if(Auth::user()->idtipo === 'ADM')
+            @include('forms.dashboard.generales') 
+  @elseif(Auth::user()->idtipo === 'VEN' )  
+            @include('forms.dashboard.generalesVendedor')  
+  @endif  
+	
   @include('forms.dashboard.monitor')
 
 @endsection

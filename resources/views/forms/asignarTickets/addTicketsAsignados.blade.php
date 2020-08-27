@@ -14,12 +14,13 @@
                   <div class="row card-header sub-header">
                         <div class="col s12 m12 herramienta">                         
                           <a id="add" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Guardar">
+                            
                             <i class="material-icons blue-text text-darken-2">check</i></a>
-                          <a style="margin-left: 6px"></a>   
+                          <a style="margin-left: 6px">   </a>   
                           
                           <a href="{{url('/tickets/Asignar')}}" class="btn-floating right waves-effect waves-light grey lighten-5 tooltipped" href="#!" data-activates="dropdown2" data-position="top" data-delay="500" data-tooltip="Regresar">
                             <i class="material-icons" style="color: #424242">keyboard_tab</i></a>            
-                        </div>  
+                        </div> 
 
                              
                         

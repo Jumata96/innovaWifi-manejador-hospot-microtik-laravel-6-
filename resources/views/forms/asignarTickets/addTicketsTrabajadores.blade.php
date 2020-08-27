@@ -1,4 +1,4 @@
-<div id="addTicketTrabajadores" class="modal modal-fixed-footer" style="height: 100%; overflow: hidden;">
+<div id="addTicketTrabajadores" class="addTicketTrabajadores modal modal-fixed-footer" style="height: 100%; overflow: hidden;">
 	<div class="modal-content" style="padding: 0px; overflow-y: disabled; height: 300%; background-color: #f9f9f9;">
 							  
 							  <div class="card" style="position: fixed; width: 100%; z-index: 2">                 
@@ -15,7 +15,7 @@
 									
  
 
-										 <a   id="" class="btn-floating right waves-effect waves-light grey lighten-5 tooltipped modal-close" data-activates="dropdown2" data-position="top" data-delay="500" data-tooltip="Regresar">
+										 <a   id="cerrarModalVendedores" class="btn-floating right waves-effect waves-light grey lighten-5 tooltipped modal-close" data-activates="dropdown2" data-position="top" data-delay="500" data-tooltip="Regresar">
 											<i class="material-icons" style="color: #424242">keyboard_tab</i></a>  
 									  </div>   
 
@@ -35,24 +35,43 @@
 											<div class="col s12 m12 l12">
 											
 												<div class="card-content"> 
-													<table id="tableTicketsTrabajadores" class="responsive-table display" cellspacing="0">
+													<table id="tableTicketsTrabajadores" class="responsive-table display centered" cellspacing="0">
 														<thead>
 															<tr>
-																<th>#</th> 
-																<th>Nombre</th>  
+																
+																<th>Nombre</th>
+																<th>Cantidad de Tickets</th>    
+																<th>Tipos de Tickets</th>    
 																<th>Acción</th>
 															</tr>
 														</thead> 
 														<tfoot>
 															<tr>
-																<th>#</th> 
-																<th >Nombre</th> 
+																
+																<th >Nombre</th>
+																<th >Cantidad de Tickets</th>
+																<th>Tipos de Tickets</th>    
 																<th>Acción </th>
 															</tr>
 															</tfoot>
 				
-														<tbody>  
-															
+														<tbody> 
+															<tr >
+																<td colspan="4" >
+																	<div class="preloader-wrapper big active">
+																		<div class="spinner-layer spinner-blue-only">
+																		  <div class="circle-clipper left">
+																			<div class="circle"></div>
+																		  </div><div class="gap-patch">
+																			<div class="circle"></div>
+																		  </div><div class="circle-clipper right">
+																			<div class="circle"></div>
+																		  </div>
+																		</div>
+																	  </div>
+																</td>
+															</tr> 
+
 														</tbody>
 													</table>
 													</div>
