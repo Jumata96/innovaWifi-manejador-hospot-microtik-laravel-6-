@@ -161,6 +161,12 @@
                           <span>Asignar tickets</span>
                         </a>
                       </li>
+                      <li>
+                        <a href="{{ url('/tickets/Asignados/historialVentas') }}">
+                          <i class="material-icons">keyboard_arrow_right</i>
+                          <span>Historial tickets</span>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </li>
@@ -239,8 +245,10 @@
             </li> 
           -->
           </ul>
-          <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only gradient-45deg-light-blue-cyan gradient-shadow">
-            <i class="material-icons">menu</i>
+          <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only"{{--  href="#" data-target="slide-out" --}}><i class="material-icons">menu</i></a>
+          
+         {{--  <a href="#" data-activates="slide-out" class=" sidenav-trigger btn-sidenav-toggle sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only gradient-45deg-light-blue-cyan gradient-shadow">
+            <i class="material-icons">menu</i> --}}
           </a>
         </aside>
         <!-- END LEFT SIDEBAR NAV-->

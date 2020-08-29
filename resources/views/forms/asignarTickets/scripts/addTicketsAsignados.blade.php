@@ -115,6 +115,18 @@
 		
 		//console.log(detalle); 
 	}); 
+
+	$('.abrirModalPerfiles').on('click',function () { 
+		var perfilesCantidad = $(this).attr("data-Perfiles");
+		var i; 
+		for ( i = 1; i <=perfilesCantidad; i++) {  
+			$('#precioPerfil'+i).val("0"); 
+		
+		}; 
+		
+
+	});
+
  
 	$('#addTickets').click(function(e){
 			e.preventDefault(); 
@@ -129,7 +141,7 @@
 
 				if(totalC==cantidadIngresada){ 
 					var data = $('#myForm').serializeArray(); 
-					console.log(data);
+					/* console.log(data); */
 					$.ajax({
 						url: "{{ url('/tickets/Asignados/grabar') }}",
 						type:"POST",
@@ -147,9 +159,13 @@
 						success:function(data){
 							
 							if ( data[0] == "error") {
+								$('error1').text("");
+								$('error2').text("");
+								$('error15').text("");
+
 								( typeof data.puntoDeVenta != "undefined" )? $('#error1').text(data.puntoDeVenta) && $('#puntoDeVenta').focus() : null;
 								( typeof data.cantidad != "undefined" )? $('#error2').text(data.cantidad) : null;
-								( typeof data.glosa != "undefined" )? $('#error3').text(data.glosa) : null;
+								( typeof data.descripcion != "undefined" )? $('#error15').text(data.descripcion) : null;
 
 								// ( typeof data.nombre != "undefined" )? $('#error2').text(data.nombre) : null; 
 											
@@ -263,7 +279,7 @@
 							'El campo detalle es obligatorio</H5> </td>' +
 					'</tr> ' 
 				); 
-				console.log( "no data"); 
+				/* console.log( "no data");  */
 
 			} 
 			

@@ -13,9 +13,9 @@
 						
 						 <div class="row card-header sub-header">
 							<div class="col s12 m12 herramienta">                         
-							  <a id="add" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Guardar">
+							  {{-- <a id="add" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Guardar">
 								 <i class="material-icons blue-text text-darken-2">check</i></a>
-							  <a style="margin-left: 6px"></a>   
+							  <a style="margin-left: 6px"></a>  --}}  
 							  
 							  <a href="{{url('/tickets/Asignar')}}" class="btn-floating right waves-effect waves-light grey lighten-5 tooltipped" href="#!" data-activates="dropdown2" data-position="top" data-delay="500" data-tooltip="Regresar">
 								 <i class="material-icons" style="color: #424242">keyboard_tab</i></a>            
@@ -44,11 +44,11 @@
 											 <option value="{{$val->id}}" selected> {{$val->nombre}}</option>
 										  @endif
 										  @endforeach
-										  @foreach($zonas as $val)
+										  {{-- @foreach($zonas as $val)
 										  @if($val->id != $ticket->idzona)
 											 <option value="{{$val->id}}"> {{$val->nombre}}</option>
 										  @endif
-										  @endforeach
+										  @endforeach --}}
 										</select>
 										<div class="errorTxt1" id="error1" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 									 </div>
@@ -60,7 +60,13 @@
 										<label for="cantidad"> Cantidad</label>
 										<div class="errorTxt1" id="error2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 									</div> 
-									<div class="input-field col s12 m12 l12">
+									<div class="input-field col s12 m6 l6">
+										<i class="material-icons prefix">assignment</i>
+										<input id="descripcion" name="descripcion" type="Text" value="{{ $ticket->descripcion }}" style="text-align: center" data-error=".error2"  readonly="readonly" >
+										<label for="descripcion"> Descripción</label>
+										<div class="errorTxt1" id="error15" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+									</div> 
+									<div class="input-field col s12 m12 l6">
 										<i class="material-icons prefix">comment</i>
 										<label for="glosa">Glosa</label>
 										<textarea  class="materialize-textarea" name="glosa" > 
