@@ -43,9 +43,8 @@
           $('.modal').modal();
         });
 
-         $('#radio').click(function(e){
-          val = $('#left-sidebar-nav').data('valor');
-
+         $('#radio').click(function(f){ 
+          val = $('#left-sidebar-nav').data('valor'); 
           if(val == '0'){
             console.log('entroooo');
             $('#sideusuario').hide();

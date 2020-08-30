@@ -1,7 +1,3 @@
-
-
-
-
  <div id="modalAddPlan" class="modal modal-fixed-footer"> 
 	<div class="modal-content" style="padding: 0px; overflow-y: disabled; height: 300%; background-color: #f9f9f9">
 							  
@@ -58,7 +54,7 @@
 														?>
 													<tr id="ptr{{$valor->idperfil}}"> 
 
-														  <td> <input name="cant{{$valor->idperfil}}" type="number" value="0"></td>
+														  <td> <input id="precioPerfil{{$i}}" name="cant{{$valor->idperfil}}" type="number" value="0"></td>
 														  <td>
 															@foreach($router as $rou) 
 															  @if($rou->idrouter == $valor->idrouter)

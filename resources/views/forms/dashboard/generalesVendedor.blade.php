@@ -70,12 +70,12 @@
                 <div class="col s12 m6 l3">
                   <div class="card padding-4 animate fadeLeft">
                      <div class="col s5 m5">
-                        <h5 class="mb-0">+{{$tot_usuarios}}</h5>
-                        <p class="no-margin">Usuarios</p>
+                        <h5 class="mb-0">{{$tickets_asignados}}</h5>
+                        <p class="no-margin">tickets</p>
                         <p class="mb-0 pt-8"></p>
                      </div>
                      <div class="col s7 m7 right-align">
-                        <i class="material-icons background-round mt-5 mb-5 gradient-45deg-green-teal gradient-shadow white-text">perm_identity</i>
+                        <i class="material-icons background-round mt-5 mb-5 gradient-45deg-green-teal gradient-shadow white-text">event_note</i>
                         <p class="mb-0">Total Asignados</p>
                      </div>
                   </div>
@@ -83,12 +83,12 @@
                 <div class="col s12 m6 l3">
                   <div class="card padding-4 animate fadeLeft">
                      <div class="col s5 m5">
-                        <h5 class="mb-0" id="conexiones">{{$tot_conexion}}</h5>
-                        <p class="no-margin">Total</p>
+                        <h5 class="mb-0" id="conexiones">{{$vendidos}}</h5>
+                        <p class="no-margin">Tickets</p>
                         <p class="mb-0 pt-8"></p>
                      </div>
                      <div class="col s7 m7 right-align">
-                        <i class="material-icons background-round mt-5 mb-5 gradient-45deg-indigo-light-blue gradient-shadow white-text">cast_connected</i>
+                        <i class="material-icons background-round mt-5 mb-5 gradient-45deg-indigo-light-blue gradient-shadow white-text">event_note</i>
                         <p class="mb-0">Vendidos</p>
                      </div>
                   </div>

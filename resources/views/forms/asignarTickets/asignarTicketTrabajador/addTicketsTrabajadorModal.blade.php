@@ -1,4 +1,4 @@
-<div id="AsignarTickets" class="modal modal-fixed-footer" style="height: 50%; overflow: hidden;">
+<div id="AsignarTickets" class="modal modal-fixed-footer" style="height: 80%; overflow: hidden;">
 	<div class="modal-content" style="padding: 0px; overflow-y: disabled; height: 300%; background-color: #f9f9f9;">
 							  
 							  <div class="card" style="position: fixed; width: 100%; z-index: 2">                 
@@ -13,19 +13,16 @@
 									  <div class="col s12 m12 herramienta">                         
 										 <a id="Asignar" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Asignar">
 											<i class="material-icons " style="color: #2E7D32">check</i></a>
-										 <a style="margin-left: 6px"></a> 
-
-										 
-
+										 <a style="margin-left: 6px"></a>  
 										 <a   id="" class="btn-floating right waves-effect waves-light grey lighten-5 tooltipped modal-close" data-activates="dropdown2" data-position="top" data-delay="500" data-tooltip="Regresar">
 											<i class="material-icons" style="color: #424242">keyboard_tab</i></a>  
 									  </div>   
                               </div> 
                               <div class="row cuerpo" style="margin-left: 0.5rem; margin-right: 0.5rem; padding-top:55px; z-index: 1; margin-top: 70px">
-                                  <div class="card white">
+                                  <div class="card white col s12 m12 l6 offset-l3" >
                                       <div class="card-content"> 
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <div class="col s12 m6 l6"   >
+                                        <div class="col s12 m12 l12"   >
                                             <label for="tipoTicket">Tipo de tickets</label>                 
                                             <select class="browser-default" id="tipoTicket" name="tipoTicket" required>
                                               <option value="" disabled selected="">Seleccione</option> 
@@ -39,14 +36,20 @@
                                             </select> 
                                             <div class="errorTxt1" id="errorModal1" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
                                         </div>
+                                        
+                                        <div  id="total1" class="input-field col s12 m12 l12  ">  
+                                            <input id="total" style="text-align: center;"  name="total" type="number"  readonly="readonly" >
+                                            <label class="active" for="total">Disponibles</label>
+                                            <div class="errorTxt1" id="errorModal5" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+                              
+                                        </div> 
 
-                                        <div class="input-field col s12 m6 l6">
-                                            <i class="material-icons prefix">cantidad</i>
-                                            <input id="cantidad" name="cantidad" type="number"  readonly="readonly" >
+                                        <div class="input-field col s12 m12 l12"> 
+                                            <input id="cantidad" style="text-align: center;"  name="cantidad" type="number"  readonly="readonly" >
                                             <label for="cantidad">cantidad</label>
                                             <div class="errorTxt1" id="errorModal2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 
-                                        </div>
+                                        </div><br><br><br><br><br>
 
                                         {{-- <div class="input-field col s12 m6 l7">
                                             <i class="material-icons prefix">description</i>

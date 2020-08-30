@@ -1,5 +1,6 @@
 <!-- START LEFT SIDEBAR NAV-->
-        <aside id="left-sidebar-nav" data-valor="0" class="nav-expanded nav-lock nav-collapsible">
+        <aside id="left-sidebar-nav" data-valor="0" class="sidenav nav-collapsible nav-expanded nav-lock {{-- nav-collapsed --}}  "> 
+          
           <div class="brand-sidebar">
             <h1 class="logo-wrapper" style="padding-top: 8px; padding-left: 15px">
               <a href="http://innovawisp.com" class="brand-logo darken-1" target="_blank">
@@ -10,7 +11,8 @@
               </a>
             </h1>
           </div>
-          <ul id="slide-out" class="side-nav fixed leftside-navigation">
+          {{-- <ul id="slide-out"   class="side-nav fixed leftside-navigation"> --}}
+          <ul class="side-nav fixed leftside-navigation" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
             <li class="no-padding">
               <ul class="collapsible" data-collapsible="accordion">
             <!--  <li class="purple darken-4" id="sideusuario" style="height: 100px; padding-top: 10px; margin-bottom: 10px; background: url({{asset('images/fondo-perfil.png')}}); background-size: 270px">
@@ -42,6 +44,13 @@
                     <span class="nav-text">DashBoard</span>
                   </a>                  
                 </li> 
+                <li class="bold">
+                  <a class=" waves-effect waves-cyan" href="{{url('usuario/mostrarTrabajadores')}}/{{(is_null(Auth::user()))? 0 : Auth::user()->id}}">
+                    <i class="material-icons">face</i>
+                    <span class="nav-text">Perfil</span>
+                  </a>  
+
+                </li>
                 
                 <li class="bold">
                   <a class="collapsible-header waves-effect waves-cyan">
@@ -49,20 +58,28 @@
                     <span class="nav-text">Tickets</span>
                   </a>
                   <div class="collapsible-body">
-                    <ul>
-                      
+                    <ul> 
                       <li>
                         <a href="{{ url('/tickets/registrarVenta') }}">
                           <i class="material-icons">keyboard_arrow_right</i>
                           <span>Registrar Ventas</span>
                         </a>
                       </li>
+                      <li>
+                        <a href="{{ url('/tickets/historialVentas') }}">
+                          <i class="material-icons">keyboard_arrow_right</i>
+                          <span>Historial de Ventas</span>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </li> 
           </ul>
-          <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only gradient-45deg-light-blue-cyan gradient-shadow">
-            <i class="material-icons">menu</i>
+
+          <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only"{{--  href="#" data-target="slide-out" --}}><i class="material-icons">menu</i></a>
+
+          {{-- <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only gradient-45deg-light-blue-cyan gradient-shadow">
+            <i class="material-icons">menu</i> --}}
           </a>
         </aside>
         <!-- END LEFT SIDEBAR NAV-->

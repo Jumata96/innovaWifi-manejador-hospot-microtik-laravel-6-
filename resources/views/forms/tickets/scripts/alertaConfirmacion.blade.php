@@ -1,54 +1,10 @@
- 
+<div id="confirmacion{{$i}}" class="modal" style="width: 500px">
+	<div class="modal-content indigo white-text center">
+		<p>Está seguro que desea eliminar este registro?</p>
+	</div>
+	<div class="modal-footer indigo lighten-4">
+		<a href="#" class="waves-effectwaves-light btn-flat modal-action modal-close">Cancelar</a>
+		<a href="{{url('/tickets/Venta/eliminar')}}/{{$datos->codigo}}" id="eliminar" class="waves-effect waves-light btn-flat modal-action modal-close">Aceptar</a>
+	</div>
+</div>
 
-	<div id="modalUpdate" class="addTicketTrabajadores modal modal-fixed-footer" style="height: 100%; overflow: hidden;">
-		<div class="modal-content" style="padding: 0px; overflow-y: disabled; height: 300%; background-color: #f9f9f9;">
-								  
-								  <div class="card" style="position: fixed; width: 100%; z-index: 2">                 
-									 <div class="card-header">                    
-										<i class="fa fa-table fa-lg material-icons">receipt</i>
-										<h2>Modificar Venta</h2>
-									 </div>
-								  </div> 
-								  
-								  <div class="row card-header sub-header" style="margin-top: 3.15rem; margin-left: 0rem; margin-right: 0rem; position: fixed; width: 100%; z-index: 3">
-										  <div class="col s12 m12 herramienta">                         
-											 <a id="#" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Guardar">
-												<i class="material-icons " style="color: #2E7D32">check</i></a>
-										
-	 
-	
-											 <a   id="cerrarModalVendedores" class="btn-floating right waves-effect waves-light grey lighten-5 tooltipped modal-close" data-activates="dropdown2" data-position="top" data-delay="500" data-tooltip="Regresar">
-												<i class="material-icons" style="color: #424242">keyboard_tab</i></a>  
-										  </div>   
-	
-	
-										  
-								  </div>
-	
-								  <br><br><br><br><br> 
-								  <div class="card white">
-									<div class="card-content">
-	
-	
-	
-									 
-	
-								 
-										 
-	
-	 
-										  
-														 
-									</div> 
-								</div>                         
-	
-									  
-	
-		</div>
-		
-	 </div>  <br> 
-	  
-	
-	
-	
- 

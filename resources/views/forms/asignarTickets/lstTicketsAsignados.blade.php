@@ -52,15 +52,16 @@
 							  
 								 <div class="card-content">
 									Existen <?php echo ($bandera)? count($tickets) : 0; ?> registros. <br><br>
-									<table id="data-table-simple" class="responsive-table display" cellspacing="0">
+									<table id="data-table-simple" class="responsive-table display centered" cellspacing="0">
 										  <thead>
 											  <tr>
 												  <th>#</th> 
 												  <th>Punto de Venta</th>
+												  <th>Detalle</th>
 												  <th>Cantidad</th>
 												  <th>Vendidos</th>
 												  <th>Saldo</th>
-												  <th>Fecha creación</th>
+												  <th >Fecha creación</th>
 												  <th>Estado</th>
 												  <th>Acción</th>
 											  </tr>
@@ -72,10 +73,11 @@
 											  <tr>
 												  <th>#</th> 
 												  <th>Punto de Venta</th>
+												  <th>Detalle</th>
 												  <th>Cantidad</th>
 												  <th>Vendidos</th>
 												  <th>Saldo</th>
-												  <th>Fecha creación</th>
+												  <th >Fecha creación</th>
 												  <th>Estado</th>
 												  <th>Acción</th>
 											  </tr>
@@ -89,17 +91,18 @@
 											?>
 
 											<tr> 
-												  <td>{{ $i }}</td> 
+												  <td style="width:4ex">{{ $i }}</td> 
 
 												  @foreach ($zonas  as $item)
 														@if ($item->id ==$datos->idzona)
-														<td> {{ $item->nombre }} </td>  	 
+														<td style="width:7ex" > {{ $item->nombre }} </td>  	 
 														@endif
 														
 												  @endforeach
+												  <td style="width:3em" > {{ $datos->descripcion }} </td>
 													  
-												  <td><?php echo substr($datos->tickets_cant,0,30) ?></td> 
-												  <td>
+												  <td style="width:3ex"><?php echo substr($datos->tickets_cant,0,30) ?></td> 
+												  <td style="width:3ex">
 													<?php  $total=0 ?>
 													@foreach ($tickets_Venta as $venta)
 													  @if ($datos->codigo==$venta->codigo)
@@ -108,25 +111,31 @@
 													@endforeach
 													{{$total}} 
 												   </td> 
-												  <td>
+												  <td style="width:2ex">
 														<?php  $saldo;  $saldo =$datos->tickets_cant-$total ?> 
 														{{$saldo}} 
 												  </td>
-												  <td> {{$datos->fecha_creacion}} </td>  
-												  <td>
+												  <td style="width:5ex"> {{$datos->fecha_creacion}} </td>  
+												  <td  style="width:8ex" >
 														@if($datos->estado == 0)
-														<div id="u_estado" class="chip center-align" style="width: 70%">
-																<b>NO DISPONIBLE</b>
-															<i class="material-icons"></i>
-														</div>
+															<div id="u_estado" class="chip center-align" style="width: 85%">
+																	<b>NO DISPONIBLE</b>
+																<i class="material-icons"></i>
+															</div>
+														@elseif($datos->estado == 3) 
+															<div id="u_estado2" class="chip center-align teal accent-4 white-text" style="width: 85%">
+																<b>VENDIDO</b>
+																<i class="material-icons"></i>
+															</div> 
 														@else
-														<div id="u_estado2" class="chip center-align teal accent-4 white-text" style="width: 70%">
-															<b>ACTIVO</b>
-															<i class="material-icons"></i>
-														</div>
+															<div id="u_estado2" class="chip center-align teal accent-4 white-text" style="width: 85%">
+																<b>ACTIVO</b>
+																<i class="material-icons"></i>
+															</div>
 														@endif
 												  </td>
-												  <td class="center" style="width: 9rem">
+												  </td>
+												  <td class="center" style="width: 10em">
 													<a href="{{ url('/tickets/Asignados/mostrar') }}/{{$datos->codigo}}" target="_blank" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Ver">
 														<i class="material-icons" style="color: #7986cb ">visibility</i></a>
 
@@ -136,15 +145,19 @@
 															@if($datos->estado == 1)                                      
 															<a href="#h_confirmacion2{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Desabilitar">
 															<i class="material-icons" style="color: #757575 ">clear</i></a>
-															@else
+															@elseif($datos->estado == 3)
+															@else 
 															<a href="#h_confirmacion3{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Habilitar">
 															<i class="material-icons" style="color: #2e7d32 ">check</i></a>
 															@endif  
+															@if($datos->estado != 3) 
 															<a  class="btnSeleccionarTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
 															data-idTicket="{{$datos->codigo}}" 
 															data-idzona="{{$datos->idzona}}" 
 															data-tooltip="Asignar Trabajadores" 
-															><i class="material-icons " style="color: #ffd54f">autorenew</i></a> 
+															><i class="material-icons " style="color: #ffd54f">autorenew</i></a>
+															@endif  
+															 
 												  </td> 
 											  </tr>  
 											  @include('forms.asignarTickets.scripts.alertaConfirmacion') 

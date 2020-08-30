@@ -63,7 +63,10 @@
           -->
             <!-- profile-dropdown -->
             <ul id="profile-dropdown" class="dropdown-content">
-              <li><a href="#" style="color: black">
+              {{-- <li><a href="#" style="color: black">
+                <i class="material-icons">face</i> Perfil</a>
+              </li> --}}
+              <li><a href="{{url('usuario/mostrarTrabajadores')}}/{{(is_null(Auth::user()))? 0 : Auth::user()->id}}" style="color: black">
                 <i class="material-icons">face</i> Perfil</a>
               </li>
              

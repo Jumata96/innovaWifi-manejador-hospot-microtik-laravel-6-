@@ -1,10 +1,42 @@
 <script type="text/javascript">
 
-    $('#tipoTicket').on('click',function () { 
-        console.log('tipo selec');
+    $('#tipoTicket').on('click',function () {  
     
         var el = document.getElementById('cantidad'); //se define la variable "el" igual a nuestro div
             el.readOnly =false; 
+           let variable= idTicketPerfil=$('#tipoTicket').val();
+           if(variable!=null){
+
+            idTicketPerfil=$('#tipoTicket').val();
+            cantidad =0;//se utiliza para ejecutar el ajax no realiza ninguna operacion 
+    
+             
+               $.ajax({
+                url: "{{ url('/tickets/contarVentaPerfilAsignado') }}",
+                type:"POST",
+                beforeSend: function (xhr) {
+                    var token = $('meta[name="csrf-token"]').attr('content');
+    
+                    if (token) {
+                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
+                type:'POST',
+                url:"{{ url('/tickets/contarVentaPerfilAsignado') }}",
+                data:{
+                    idTicketPerfil:idTicketPerfil,
+                    cantidad:cantidad
+                },
+    
+                success:function(data){              
+                    $('#total').val(data.ticketsDisponibles);  
+                },
+    
+                error:function(){ 
+                    alert("error!!!!");
+            }
+            }); 
+           }
     
     });
     
@@ -45,6 +77,7 @@
 
 
                     if (ticketsDisponibles == 0) {
+                        $('#cantidad').val("");
                         $('#errorModal2').text(" Todos los tickets disponibles fueron vendidos"); 
                         
                     }else{ 
@@ -81,6 +114,42 @@
         }
         
     }); 
+    $("#codigo").focusout(function() {
+     
+    codigo = $('#codigo').val(); 
+    if(codigo!=""){ 
+        $.ajax({
+            url: "{{ url('/tickets/Venta/ValidarCodigo') }}",
+            type:"POST",
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf-token"]').attr('content');
+
+                if (token) {
+                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            type:'POST',
+            url:"{{ url('/tickets/Venta/ValidarCodigo') }}",
+            data:{ 
+                codigo:codigo
+            },
+
+            success:function(data){     
+
+                if(data.valor=="EXISTE"){ 
+                     $('#errorModal3').text("El codigo ingresado ya existe"); 
+                     $('#codigo').val("");  
+                }          
+
+            },
+
+            error:function(){ 
+                alert("error!!!!");
+        }
+        }); 
+    }
+    
+}); 
     
     $('#add').on('click',function () { 
         cantidad = $('#cantidad').val();
@@ -102,11 +171,7 @@
         else if(idTicketPerfil==null){ 
             $('#errorModal2').text("");
             $('#errorModal1').text("El campo tipo perfil es obligatorio."); 
-        }else if(codigo==""){ 
-            $('#errorModal2').text("");
-            $('#errorModal1').text("Este  campo  es obligatorio."); 
-        }
-        else{
+        }else{
     
     
             $.ajax({

@@ -15,7 +15,7 @@
 											<i class="material-icons " style="color: #2E7D32">check</i></a>
 										 <a style="margin-left: 6px"></a> 
 
-										 <a class=" btn-floating waves-effect waves-light grey btn  lighten-5  modal-trigger tooltipped" href="#modalAddPlan"  data-position="top" data-tooltip="AGREGAR PLAN DE INTERNET" >
+										 <a class="abrirModalPerfiles btn-floating waves-effect waves-light grey btn  lighten-5  modal-trigger tooltipped" href="#modalAddPlan"  data-position="top" data-Perfiles="{{count($perfiles)}}" data-tooltip="AGREGAR PLAN DE INTERNET" >
 											<i class="material-icons " style="color: #03a9f4">add</i>
 										</a>
 
@@ -54,13 +54,26 @@
 														<label for="cantidad"> Cantidad</label>
 														<div class="errorTxt1" id="error10" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 													</div> 
-													<div class="input-field col s12 m12 l12">
+													<div class="input-field col s12 m6 l6">
+														<i class="material-icons prefix">assignment</i>
+														<input id="descripcion" name="descripcion" type="text" style="text-align: center" data-error=".error2"    >
+														<label for="descripcion"> descriptión</label>
+														<div class="errorTxt1" id="error15" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+													</div> 
+													
+													{{-- <div class="input-field col s12 m12 l6">
+														  
+														<i class="material-icons prefix">description</i> 
+														<input id="descripcion" name="descripcion" maxlength="20" onkeyup="mayus(this);"    >
+														<label for="descripcion">descriptión 2</label>  
+														<div class="errorTxt1" id="error15" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+													</div>  --}}
+													<div class="input-field col s12 m12 l6">
 														<i class="material-icons prefix">comment</i>
 														<label for="glosa">Glosa</label>
 														<textarea  class="materialize-textarea" name="glosa" > 
 														</textarea>
 														<div class="errorTxt1" id="error3" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
-														
 													</div> 
 												</div>                     
 											</div> 

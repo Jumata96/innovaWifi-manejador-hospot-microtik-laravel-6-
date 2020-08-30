@@ -37,6 +37,8 @@ class HomeController extends Controller
         $usu_suspendidos = 0;
         $idrouter = null;
         $interface = null;
+        $asignado=0;
+        $vendidos=0;
 
         $users = DB::table('clientes')->where('estado', 1)->get();
         $users2 = DB::table('clientes')->where('estado', 0)->get();
@@ -115,11 +117,37 @@ class HomeController extends Controller
             $asignados +=$ticket->cantidad; 
         } 
         dd($tickets); */
-        
+
+        $tickets_asignados=DB::table ('tickets_asignados_det')
+        ->select('tickets_asignados_det.*' )
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')  
+        ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo')  
+        ->where('tickets_asignados_det.idtrabajador',Auth::user()->id)
+        /* ->where('tickets_asignados.estado','1') */
+        ->get(); 
+        $ticketsVendidosTicket = DB::table('ticket_venta')//consulta para saber los vendidos de los tickets activos por cleinte  
+        ->select('ticket_venta.*')
+        ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
+        ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
+        ->where('ticket_venta.estado',1)
+        ->where('ticket_venta.idusuario',Auth::user()->id) 
+        ->get(); 
+        foreach( $ticketsVendidosTicket as $ticket){
+                $vendidos+=$ticket->cantidad;
+        } 
+
+       // dd($tickets_asignados);
+        foreach( $tickets_asignados as $asignados){
+                $asignado+=$asignados->cantidad;
+        } 
+       // dd($asignado);
         return view('home',[
             "tot_usuarios"  => $tot_usuarios,
             "usu_suspendidos"  => $usu_suspendidos,
             'tot_conexion'  => $tot_conexion,
+            'tickets_asignados' =>$asignado,
+            'vendidos'          =>$vendidos,
             'load_cpu'      => $load_cpu,
             'router'        => $router,
             'idrouter'      => $idrouter,

@@ -337,5 +337,23 @@ class UsuarioController extends Controller
         return response()->json($collection->toJson());   
     }
 
+    public function showTrabajadores($id)
+    {
+        $usuario = DB::table('users')
+                    ->where('id',$id)->get();
+        $empresa = DB::table('empresa')->where('estado',1)->get();
+        $zonas  =DB::table('zonas')->get();
+        $tipo_documento = DB::table('documento')
+                ->select('iddocumento', 'descripcion', 'dsc_corta')
+                ->where('estado', '1')
+                ->get(); 
+        return view('forms.usuarios.updUsuarioTrabajador',[
+            'usuario'           => $usuario,
+            'empresa'           => $empresa,
+            'tipo_documento'    => $tipo_documento,
+            'zonas'             => $zonas
+        ]);
+    }
+
 
 }

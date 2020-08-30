@@ -168,7 +168,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/usuarios', 'UsuarioController@index');
     Route::get('/usuario/nuevo', 'UsuarioController@create');
     Route::post('/usuario/grabar', 'UsuarioController@store');
-    Route::get('/usuario/mostrar/{id}', 'UsuarioController@show');
+    Route::get('/usuario/mostrarTrabajadores/{id}', 'UsuarioController@showTrabajadores');
+    Route::get('/usuario/mostrar/{id}', 'UsuarioController@show'); 
+
     Route::post('/usuario/actualizar', 'UsuarioController@update');
     Route::get('/usuario/eliminar/{id}', 'UsuarioController@destroy');
     Route::post('/usuario/desabilitar', 'UsuarioController@disabled');
@@ -276,6 +278,8 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('/tickets/Asignados/habilitar/{id}','TicketsAsignadosController@habilitar');
      Route::get('/tickets/Asignados/desabilitar/{id}','TicketsAsignadosController@desabilitar');  
      Route::post('/tickets/TiporPerfil/contador','TicketsAsignadosController@contadorPerfilesAsignados');
+     Route::get('/tickets/Asignados/historialVentas','TicketsAsignadosController@historialVentas');
+
 
     //Gestión de Tickest Vendedor
     Route::get('/tickets/vendedor','TicketsController@vwVendedor');	
@@ -283,7 +287,20 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('/tickets/registrarVenta','TicketsController@registrarVenta');
     Route::post('/tickets/contarVentaPerfilAsignado','TicketsController@contadorVentasPerfilAsignado');
     Route::post('/tickets/registrarVenta/grabar','TicketsController@storeTicketsVenta');
-    Route::get('/tickets/ Venta/mostrar/{id}','TicketsController@mostrarVenta');
+    Route::get('/tickets/Venta/mostrar/{id}','TicketsController@mostrarVenta');
+    Route::post('/tickets/Venta/actualizar','TicketsController@UpdateVenta');
+    Route::get('/tickets/Venta/eliminar/{id}','TicketsController@destroy');
+    Route::post('/tickets/Venta/ValidarCodigo','TicketsController@ValidarCodigo');
+
+    Route::get('/tickets/historialVentas','TicketsController@historialVentas');
+
+
+    
+
+    
+
+
+    
 
 
 
