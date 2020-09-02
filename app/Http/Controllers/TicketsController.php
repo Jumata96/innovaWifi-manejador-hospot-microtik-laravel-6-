@@ -363,27 +363,87 @@ class TicketsController extends Controller
             'perfiles'              =>$perfiles
         ]); 
     }
+    public function TicketsAsignadosPorPersona (Request $request){
+        // dd($request);
+ 
+         $asignados=0;
+         $nombre=null; 
+         $alterno=null;
+         $API = new routeros_api();
+         $API->debug = false;
+         $ARRAY=[];
 
-    public function saldoTicketsAsignados()
-    {
-        $API = new routeros_api();
-        $API->debug = false;
-        $router = DB::table('router')->where('idrouter','R01')->get();
+         
+         $vendedor=DB::table ('users')->where('id',$request->idvendedor)->get(); 
+         foreach ($vendedor as  $user) {
+             $nombre =$user->nombre." ".$user->apellidos /* + $user->apellidos */; 
+             $alterno=$user->cod_alterno;
+         }   
+        
 
+         $tickets=DB::table ('tickets_asignados_det') 
+         ->where('idtrabajador',$request->idvendedor) 
+         ->get();
+         //dd($tickets) ;
+         foreach ($tickets as  $ticket) {
+             $asignados +=$ticket->cantidad; 
+         }  
+         $router = DB::table('router')->where('idrouter','R01')->get();  
+         
         foreach ($router as $rou) {
             if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
                 $ARRAY = $API->comm("/ip/hotspot/user/print");
                 //$collection = Collection::make($ARRAY); 
             }
-        }
-        $usuarios = DB::table('users')->where('idtipo','VEN')->get();
-        // dd($ARRAY);
-         return view('forms.asignarTickets.saldoTickets.lstSaldoTicketsAsignados',[
-             'ARRAY'       =>$ARRAY,
-             'usuarios'   =>$usuarios
+        } 
+        $perfiles = DB::table('perfiles')-> get(); 
+
+        //dd($ARRAY,$alterno); 
+
+         $datos['cantidad'] = $asignados;    
+         $datos['nombre'] =$nombre; 
+         $datos['idvendedor'] =$request->idvendedor; 
+         $datos['alterno'] =$alterno; 
+         $datos['perfiles'] =$perfiles; 
+         $datos['ARRAY'] =$ARRAY;  
+
+         return response()->json($datos);
+     
+     }
+
+    public function saldoTicketsAsignados()
+    {
+        $API = new routeros_api();
+        $API->debug = false;
+        $router = DB::table('router')->where('idrouter','R01')->get(); 
+
+        /* foreach ($router as $rou) {
+            if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
+                $ARRAY = $API->comm("/ip/hotspot/user/print");
+                //$collection = Collection::make($ARRAY); 
+            }
+        } */
+        $usuarios = DB::table('users')->where('idtipo','VEN')->get(); 
+
+         return view('forms.asignarTickets.saldoTickets.lstSaldoTicketsAsignados',[ 
+             'vendedores'   =>$usuarios
 
          ]);
 
+    }
+    public function showSaldo($id){
+        $API = new routeros_api();
+        $API->debug = false;
+        $router = DB::table('router')->where('idrouter','R01')->get(); 
+        $usuarios = DB::table('users')->where('id',$id)->get(); 
+        $perfiles = DB::table('perfiles')-> get();   
+        return view('forms.asignarTickets.saldoTickets.saldoTicketsVendedor',[
+             
+            'usuarios'         =>$usuarios,
+            'perfiles'         =>$perfiles
+
+        ]);
+         
     }
 
     

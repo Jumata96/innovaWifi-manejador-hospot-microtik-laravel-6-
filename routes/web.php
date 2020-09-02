@@ -279,6 +279,11 @@ Route::group(['middleware' => 'auth'], function () {
      Route::post('/tickets/TiporPerfil/contador','TicketsAsignadosController@contadorPerfilesAsignados');
      Route::get('/tickets/Asignados/historialVentas','TicketsAsignadosController@historialVentas');
      Route::get('/tickets/Asignados/saldo','TicketsController@saldoTicketsAsignados');
+     Route::post('/tickets/Asignados/Vendedor','TicketsController@TicketsAsignadosPorPersona');
+     Route::get('/tickets/Asignados/mostrarVendedor/{id}','TicketsController@showSaldo'); 
+
+
+     
 
      
 
