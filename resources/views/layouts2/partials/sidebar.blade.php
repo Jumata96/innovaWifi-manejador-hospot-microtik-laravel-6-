@@ -167,6 +167,12 @@
                           <span>Historial tickets</span>
                         </a>
                       </li>
+                      <li>
+                        <a href="{{ url('/tickets/Asignados/saldo') }}">
+                          <i class="material-icons">keyboard_arrow_right</i>
+                          <span>Saldo</span>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </li>

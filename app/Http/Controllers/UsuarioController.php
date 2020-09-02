@@ -119,6 +119,7 @@ class UsuarioController extends Controller
                 'usuario'           => $request->usuario,
                 'iddocumento'       => $request->iddocumento,
                 'nro_documento'     => $request->nro_documento,
+                'cod_alterno'       => $request->codigoAlterno,
                 'cargo'             => $request->cargo,
                 'avatar'            => null,
                 'telefono'          => $request->telefono,
@@ -213,6 +214,8 @@ class UsuarioController extends Controller
                 'usuario'           => $request->usuario,
                 'iddocumento'       => $request->iddocumento,
                 'nro_documento'     => $request->nro_documento,
+                'cod_alterno'       => $request->codigoAlterno,
+
                 'cargo'             => $request->cargo,
                 'avatar'            => null,
                 'telefono'          => $request->telefono,

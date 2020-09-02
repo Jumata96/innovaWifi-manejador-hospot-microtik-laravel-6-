@@ -356,17 +356,34 @@ class TicketsController extends Controller
         ->where('ticket_venta.idusuario',Auth::user()->id) 
         ->get(); 
 
-        $perfiles=DB::table ('perfiles')->get();    
-
-
+        $perfiles=DB::table ('perfiles')->get();     
         // dd($ticketsVendidosTicket);
         return view('forms.tickets.lstHistorialTickets',[
             'ticketsVendidosTicket' =>$ticketsVendidosTicket,
             'perfiles'              =>$perfiles
-        ]);
-         
-         
-         
+        ]); 
+    }
+
+    public function saldoTicketsAsignados()
+    {
+        $API = new routeros_api();
+        $API->debug = false;
+        $router = DB::table('router')->where('idrouter','R01')->get();
+
+        foreach ($router as $rou) {
+            if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
+                $ARRAY = $API->comm("/ip/hotspot/user/print");
+                //$collection = Collection::make($ARRAY); 
+            }
+        }
+        $usuarios = DB::table('users')->where('idtipo','VEN')->get();
+        // dd($ARRAY);
+         return view('forms.asignarTickets.saldoTickets.lstSaldoTicketsAsignados',[
+             'ARRAY'       =>$ARRAY,
+             'usuarios'   =>$usuarios
+
+         ]);
+
     }
 
     

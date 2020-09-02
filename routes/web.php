@@ -278,6 +278,9 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('/tickets/Asignados/desabilitar/{id}','TicketsAsignadosController@desabilitar');  
      Route::post('/tickets/TiporPerfil/contador','TicketsAsignadosController@contadorPerfilesAsignados');
      Route::get('/tickets/Asignados/historialVentas','TicketsAsignadosController@historialVentas');
+     Route::get('/tickets/Asignados/saldo','TicketsController@saldoTicketsAsignados');
+
+     
 
 
      //Ventas
@@ -288,6 +291,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/tickets/Venta/actualizar','TicketsController@UpdateVenta');
     Route::get('/tickets/Venta/eliminar/{id}','TicketsController@destroy');
     Route::post('/tickets/Venta/ValidarCodigo','TicketsController@ValidarCodigo');
+    Route::get('/tickets/hotspot','TicketsController@hotspot');
 
     Route::get('/tickets/historialVentas','TicketsController@historialVentas');
 

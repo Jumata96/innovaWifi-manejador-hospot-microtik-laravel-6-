@@ -134,6 +134,8 @@
     if(parametroFacturacion=='VEN'){
       var el = document.getElementById('divZonas'); 
       el.style.display ='block'; 
+      var elAlt = document.getElementById('divCodAlterno'); 
+      elAlt.style.display ='block';  
     }else{
       var el = document.getElementById('divZonas'); // se obtiene el elemento
       el.style.display ='none';//se oculta el div  
@@ -146,10 +148,14 @@
     if(variable=='VEN'){  
       var el = document.getElementById('divZonas'); //se define la variable "el" igual a nuestro div
       el.style.display ='block'; 
+      var elAlt = document.getElementById('divCodAlterno'); 
+      elAlt.style.display ='block'; 
        
     }else{
       var el = document.getElementById('divZonas'); //se define la variable "el" igual a nuestro div
       el.style.display ='none'; 
+      var elAlt = document.getElementById('divCodAlterno'); 
+      elAlt.style.display ='none'; 
 
     } 
    // alert(variable);
