@@ -125,7 +125,12 @@
                                 <i class="material-icons prefix">call</i>
                                 <input id="telefono" name="telefono" type="text" value="{{ $datos->telefono }}">
                                 <label for="telefono">Telefono</label>
-                              </div>                          
+                              </div>
+                              <div class="input-field col s12 m6 l6">
+                                <i class="material-icons prefix">bookmark_border</i>
+                                <input id="titulo" name="titulo" type="text" value="{{ $datos->titulo }}">
+                                <label for="titulo">Titulo de pestaña</label>
+                              </div>                             
                             </div>
 
                         </div>

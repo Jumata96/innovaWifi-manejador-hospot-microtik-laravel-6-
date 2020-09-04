@@ -1,6 +1,6 @@
 <head>
     <meta charset="UTF-8">
-    <title> InnovaMk - @yield('titulo', 'Inicio') </title>
+    <title> {{ (empty(Auth::user()->titulo))? 'InnovaWifi' : Auth::user()->titulo }} - @yield('titulo', 'Inicio') </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">

@@ -129,7 +129,14 @@ class EmpresaController extends Controller
                 'url_imagen'        => 'images/'.$fileName,
                 'imagen'            => $fileName,
                 'marca'             => $request->marca,
+                'titulo'            => $request->titulo,
                 'fecha_creacion'    => date('Y-m-d h:m:s')
+            ]);
+
+            DB::table('users')
+            ->where('id', Auth::user()->id)
+            ->update([
+                'titulo'            => $request->titulo
             ]);
 
         }else{
@@ -149,7 +156,14 @@ class EmpresaController extends Controller
                 'telefono'          => $request->telefono,
                 'iddocumento'       => $request->iddocumento,
                 'marca'             => $request->marca,
+                'titulo'            => $request->titulo,
                 'fecha_creacion'    => date('Y-m-d h:m:s')
+            ]);
+
+            DB::table('users')
+            ->where('id', Auth::user()->id)
+            ->update([
+                'titulo'            => $request->titulo
             ]);
         }       
 
@@ -302,7 +316,14 @@ class EmpresaController extends Controller
                 'url_imagen'        => 'images/'.$fileName,
                 'imagen'            => $fileName,
                 'marca'             => $request->marca,
+                'titulo'            => $request->titulo,
                 'fecha_creacion'    => date('Y-m-d h:m:s')
+            ]);
+
+            DB::table('users')
+            ->where('id', Auth::user()->id)
+            ->update([
+                'titulo'            => $request->titulo
             ]);
 
         }else{
@@ -321,7 +342,14 @@ class EmpresaController extends Controller
                 'telefono'          => $request->telefono,
                 'documento1'        => $request->documento1,
                 'marca'             => $request->marca,
+                'titulo'            => $request->titulo,
             //    'documento2'        =>  $request->documento2     
+            ]);
+
+            DB::table('users')
+            ->where('id', Auth::user()->id)
+            ->update([
+                'titulo'            => $request->titulo
             ]);
         }   
 
