@@ -31,6 +31,7 @@ contador=0;
                                      
                                     console.log(data.perfiles); 
                                     for (x=0;x<arrayTickets.length; x++) {  
+                                        //prueba
                                         if(arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno){
                                             var perfil=null;
                                             var nombre=null; 
