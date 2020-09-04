@@ -33,6 +33,7 @@
                                     var vendidos=0;
                                     var saldo=0;
                                     contador2+=1; 
+                                    //prueba 02
                                     for (x=0;x<arrayTickets.length; x++) {  
                                         if(arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno){
                                             saldo+=1;
