@@ -38,12 +38,12 @@
 										<label for="cantidad"> Vendedor</label>
 										<div class="errorTxt1" id="error2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 									</div> 
-									{{-- <div class="input-field col s12 m6 l6">
+									<div class="input-field col s12 m6 l6">
 										<i class="material-icons prefix">assignment</i>
-										<input id="descripcion" name="descripcion" type="Text" value=" " style="text-align: center" data-error=".error2"  readonly="readonly" >
-										<label for="descripcion"> Punto de venta</label>
+										<input id="cod_alterno" name="cod_alterno" type="Text" value=" {{$usuario->cod_alterno}}" style="text-align: center" data-error=".error2"  readonly="readonly" >
+										<label for="cod_alterno"> Código alterno</label>
 										<div class="errorTxt1" id="error15" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
-									</div> --}} 
+									</div> 
 									{{-- <div class="input-field col s12 m12 l6">
 										<i class="material-icons prefix">comment</i>
 										<label for="glosa">Glosa</label>
@@ -52,7 +52,11 @@
 										<div class="errorTxt1" id="error3" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 										
 									</div>  --}}
-								</div>  
+								</div>                   
+							</div> 
+						</div> 
+						<div class="card white">
+							<div class="card-content"> 
 								<div class="row cuerpo">
 									 
 		 
@@ -62,7 +66,7 @@
 									  
 										 <div class="card-content">
 											 <p id="registros"></p>
-											<table {{-- id="data-table-simple"  --}}class="tablaVendedorSaldoVer responsive-table display centered" cellspacing="0">
+											<table id="data-table-simple" class="tablaVendedorSaldoVer responsive-table display centered" cellspacing="0">
 												  <thead>
 													  <tr>
 														  <th>#</th> 
@@ -74,7 +78,7 @@
 												  </thead> 
 												  <tfoot>
 													  <tr>
-														  <th class="center" >#</th> 
+														  <th class="center"  >#</th> 
 														  <th class="center" >Perfil</th>
 														  <th class="center" >Name</th>
 														  <th class="center" >Precio</th>
@@ -83,10 +87,10 @@
 													</tfoot>
 		 
 												  <tbody>
-													<tr>  
+													{{-- <tr>  
                                                         <td  colspan="5"  ><h4>cargando data ...</h4></td>
                                                           
-													</tr>   
+													</tr>    --}}
 												  </tbody>
 											  </table>
 											</div>

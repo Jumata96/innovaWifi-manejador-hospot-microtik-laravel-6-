@@ -63,12 +63,11 @@ class UsuarioController extends Controller
         $puntoVenta=null;
         
         if($request->idtipo=='VEN'){
-            $puntoVenta= $request->zonas;
+            
 
             $rules = array(     
                 'idempresa'     => 'required',
-                'iddocumento'   => 'required',
-                'iddocumento'   => 'required',
+                'iddocumento'   => 'required', 
                 'zonas'         => 'required',
                 'nro_documento' => 'required',
                 'nombre'        => 'required',
@@ -77,6 +76,7 @@ class UsuarioController extends Controller
                 'email'         => 'required|string|email|max:255|unique:users',
                 'password'      => 'required|string|min:6|confirmed',
             );
+            $puntoVenta= $request->zonas;
 
         }else{
             $rules = array(     
@@ -196,10 +196,49 @@ class UsuarioController extends Controller
      public function update(Request $request)
     {        $puntoVenta=null;
 
-        if($request->idtipo=='VEN'){
+        /* if($request->idtipo=='VEN'){
             $puntoVenta= $request->zonas; 
 
         } 
+        $puntoVenta=null; */
+        
+        if($request->idtipo=='VEN'){
+            
+
+            $rules = array(     
+                'idempresa'     => 'required',
+                'iddocumento'   => 'required', 
+                'zonas'         => 'required',
+                'nro_documento' => 'required',
+                'nombre'        => 'required',
+                'apellidos'     => 'required',
+                'usuario'       => 'required|string|max:255',
+                'email'         => 'required|string|email|max:255',
+               /*  'password'      => 'required|string|min:6|confirmed', */
+            );
+            $puntoVenta= $request->zonas;
+
+        }else{
+            $rules = array(     
+                'idempresa'     => 'required',
+                'iddocumento'   => 'required',
+                'nro_documento' => 'required',
+                'nombre'        => 'required',
+                'apellidos'     => 'required',
+                'usuario'       => 'required|string|max:255',
+                'email'         => 'required|string|email|max:255',
+               /*  'password'      => 'required|string|min:6|confirmed', */
+            );
+
+        }
+        $validator = Validator::make ( $request->all(), $rules );
+
+        if ($validator->fails()){
+            $var = $validator->getMessageBag()->toarray();
+            array_push($var, 'error');            
+            return response()->json($var);
+        }
+
 
         DB::table('users')
         ->where('id',strval($request->id))

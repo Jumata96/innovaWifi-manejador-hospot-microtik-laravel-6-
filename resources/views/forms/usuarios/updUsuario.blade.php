@@ -62,7 +62,7 @@
                                     @endif
                                     @endforeach
                                   </select>
-                                  <div class="errorTxt1"></div>
+                                  <div id="error22" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
                                 </div> 
                                 <div class="col s12 m6 l6">
                                   <label for="idempresa">Empresa</label>                 

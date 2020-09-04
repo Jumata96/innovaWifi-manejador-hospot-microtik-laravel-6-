@@ -27,12 +27,36 @@ contador=0;
                                     var cod_alterno=data.alterno; 
                                     var idvendedor=data.idvendedor;
                                     var arrayTickets=data.ARRAY;
-                                    var perfiles=data.perfiles;
-                                     
-                                    console.log(data.perfiles); 
+                                    var perfiles=data.perfiles; 
+                                    var cod =null;
+                                    cod =cod_alterno.length;
+                                    /* console.log(data.perfiles);  */
                                     for (x=0;x<arrayTickets.length; x++) {  
                                         //prueba
-                                        if(arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno){
+                                        if(
+                                            arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&    
+                                        arrayTickets[x].name.substr(cod,1)=='0'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='1'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='2'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='3'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='4'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='5'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='6'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='7'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='8'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='9'
+
+                                        ){
                                             var perfil=null;
                                             var nombre=null; 
                                             contador +=1;
@@ -42,17 +66,15 @@ contador=0;
                                                 trs=$(".tablaVendedorSaldoVer tbody tr").length; //obtenermos el numero de tr en la tabla  
                                                 for (var i = 0; i < trs; i++) { //elimnamos los tr de la tabla  (limpiar)
                                                     $(".tablaVendedorSaldoVer tbody tr:last").remove(); 	
-                                                }
-
+                                                } 
                                             }  
                                             for (y=0;y<perfiles.length; y++) { 
-                                                if(perfiles[y].name==perfil){
-                                                    console.log(perfiles[y]);
+                                                if(perfiles[y].name==perfil){ 
                                                     $(".tablaVendedorSaldoVer").append(
                                                         '<tr>'  +
                                                             '<td class="center" >'+contador+'</td>'+
                                                             '<td class="center" >'+perfiles[y].name+' </td>'+
-                                                            '<td class="center" >'+nombre+'</td>'+
+                                                            '<td class="center offset-l2" >'+nombre+'</td>'+
                                                             '<td class="center" >'+perfiles[y].precio+'</td>'+
                                                             '<td class="center" >'+perfiles[y].rate_limit+'</td>' +
 													   ' </tr>'   
@@ -61,8 +83,7 @@ contador=0;
                                             } 
                                         } 
                                     }
-                                    var text = document.createTextNode("Existen "+contador+" registros") 
-                                     ;                                    
+                                    var text = document.createTextNode("Existen "+contador+" registros");                                    
                                     document.getElementById("registros").appendChild(text); 
 
 

@@ -1,32 +1,27 @@
-<div id="modalAddVendedores" class="modal modal-fixed-footer">  
-	<div class="card-header">                    
-		<i class="fa fa-table fa-lg material-icons">receipt</i>
-		<h2>LISTA DE VENDEDORES</h2>   
-	</div> 
-	<div class="row card-header sub-header"  >
-		<div class="col s12 m12 l1  herramienta">    
-			{{-- <a href="{{url('tecnicos')}}"  target="_blank" class="btn-floating  waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Agregar Tecnico">
-				<i class="material-icons" style="color: #2E7D32">add</i></a> --}}
-		</div>    
-		@include('forms.scripts.modalInformacion')  
-	</div>
+<div id="modalAddVendedores" class="modal modal-fixed-footer" style="height: 100%; overflow: hidden;">  
+	<div class="modal-content" style="padding: 0px; overflow-y: disabled; height: 300%; background-color: #f9f9f9">
+		<div class="card-header" style="position: fixed; width: 100%; z-index: 2">                    
+			<i class="fa fa-table fa-lg material-icons">receipt</i>
+			<h2>LISTA DE VENDEDORES</h2>   
+		</div>
+		<br><br> 
+		<form action="#">
 			<div class="row cuerpo">
-				<?php 
-
+				<?php  
 				$bandera = false;
 
 				if (count($vendedores) > 0) {
 					# code...
 					$bandera = true;
 					$i = 0;
-				}
-
+				} 
 				?> 
 				<br>
+				
 				<div class="row">  
-						<div class="card-content">
+						<div class="card-content herramienta">
 							Existen <?php echo ($bandera)? count($vendedores) : 0; ?> registros. <br><br>
-							<table id={{ ($bandera)? "data-table-simple" : "" }} class="responsive-table display" cellspacing="0">
+							<table {{-- id={{ ($bandera)? "data-table-simple" : "" }} --}} class="{{-- responsive-table --}} {{-- display --}}" cellspacing="0">
 								<thead>
 									<tr>
 										<th>#</th>
@@ -55,12 +50,12 @@
 										?>
 										<td style="width:4em;"><?php echo $i; ?></td>
 										<td style="width:4em;">
-											<p class="center">
+											{{-- <p class="center">
 											  <label for="c{{$datos->id}}">
-												<input type="checkbox" class="filled-in" id="c{{$datos->id}}" name="check" tabindex="{{$i}}">
+												<input type="checkbox"checked="checked" id="c{{$datos->id}}" name="check" tabindex="{{$i}}">
 												<span></span>
 											  </label>
-											</p>
+											</p> --}}
 										 </td>
 										  
 										<td  style="width:12em;" >
@@ -79,7 +74,10 @@
 							</table>
 						</div>  
 				</div>
+			
 			</div>
+		</form>
+	</div>
 
 
 </div>

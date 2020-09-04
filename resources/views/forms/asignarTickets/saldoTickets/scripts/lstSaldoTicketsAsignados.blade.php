@@ -34,13 +34,51 @@
                                     var saldo=0;
                                     contador2+=1; 
                                     //prueba 02
-                                    for (x=0;x<arrayTickets.length; x++) {  
-                                        if(arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno){
+                                    var cod =null;
+                                    cod =cod_alterno.length;
+                                    // cod =cod+1;
+                                    // console.log( cod+1 );   
+                                        
+                                    for (x=0;x<arrayTickets.length; x++) {
+                                        console.log(arrayTickets[x].name.substr(cod,1));  
+                                        if(
+                                            arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&    
+                                        arrayTickets[x].name.substr(cod,1)=='0'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='1'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='2'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='3'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='4'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='5'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='6'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='7'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='8'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='9'
+                                         ){
                                             saldo+=1;
-                                            // console.log(arrayTickets[x].name.substr(0,3),cod_alterno); 
                                         } 
                                     }
-                                     vendidos =cantidad-saldo; 
+                                     if(cantidad>0){
+                                         if(cantidad>saldo){
+                                            vendidos =cantidad-saldo;
+                                         }
+                                         else{
+                                            vendidos=cantidad;
+                                         }
+                                         
+                                    }else{
+                                        vendidos=0;
+
+                                    }
                                     if(contador2==1){
                                         trs=$(".tablaVendedoresSaldo tbody tr").length; //obtenermos el numero de tr en la tabla  
                                         for (var i = 0; i < trs; i++) { //elimnamos los tr de la tabla  (limpiar)
@@ -75,7 +113,7 @@
 
                                       
     @endforeach 
-    console.log(array);
+    // console.log(array);
 
 
     // for(x=0;x<arrayTickets.length; x++) { 
@@ -84,7 +122,7 @@
     
 
     function cargar(valor) {
-        console.log(valor);
+        // console.log(valor);
         idVendedor = $('#btnVendedorVer'+valor).attr("data-id");  
 		 redirec =  "{{url('/tickets/Asignados/mostrarVendedor/')}}/"+idVendedor;   
 		 var win = window.open(redirec, '_blank'); // Cambiar el foco al nuevo tab (punto opcional)
@@ -125,13 +163,41 @@
                                     var vendidos=0;
                                     var saldo=0;
                                     contador+=1; 
+                                    var cod =null;
+                                    cod =cod_alterno.length;
                                     for (x=0;x<arrayTickets.length; x++) {  
-                                        if(arrayTickets[x].name.substr(0,3)==cod_alterno){
+                                        if(arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&    
+                                        arrayTickets[x].name.substr(cod,1)=='0'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='1'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='2'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='3'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='4'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='5'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='6'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='7'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='8'||
+                                        arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno
+                                        &&arrayTickets[x].name.substr(cod,1)=='9'){
                                             saldo+=1;
                                             // console.log(arrayTickets[x].name.substr(0,3),cod_alterno); 
                                         } 
                                     }
-                                     vendidos =cantidad-saldo; 
+                                    if(cantidad>0){
+                                        vendidos =cantidad-saldo; 
+                                    }else{
+                                        vendidos=0;
+
+                                    }
+                                      
                                     if(contador==1){
                                         trs=$(".tablaVendedoresSaldo tbody tr").length; //obtenermos el numero de tr en la tabla  
                                         for (var i = 0; i < trs; i++) { //elimnamos los tr de la tabla  (limpiar)

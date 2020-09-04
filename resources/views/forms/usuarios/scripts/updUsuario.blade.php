@@ -28,6 +28,7 @@
                 ( typeof data.apellidos != "undefined" )? $('#error4').text(data.apellidos) : null;
                 ( typeof data.usuario != "undefined" )? $('#error5').text(data.usuario) : null;
                 ( typeof data.email != "undefined" )? $('#error6').text(data.email) : null;
+                ( typeof data.zonas != "undefined" )? $('#error22').text(data.zonas) : null; 
               } else {   
 
                 //alert(data.success);
