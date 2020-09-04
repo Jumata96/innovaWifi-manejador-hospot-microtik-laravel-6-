@@ -34,7 +34,7 @@
                                     var saldo=0;
                                     contador2+=1; 
                                     for (x=0;x<arrayTickets.length; x++) {  
-                                        if(arrayTickets[x].name.substr(0,3)==cod_alterno){
+                                        if(arrayTickets[x].name.substr(0,cod_alterno.length)==cod_alterno){
                                             saldo+=1;
                                             // console.log(arrayTickets[x].name.substr(0,3),cod_alterno); 
                                         } 
