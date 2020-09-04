@@ -59,10 +59,14 @@
     if(variable=='VEN'){  
       var el = document.getElementById('divZona'); //se define la variable "el" igual a nuestro div
       el.style.display ='block'; 
+      var elAlt = document.getElementById('divCodAlterno'); 
+      elAlt.style.display ='block'; 
        
     }else{
       var el = document.getElementById('divZona'); //se define la variable "el" igual a nuestro div
       el.style.display ='none'; 
+      var elAlt = document.getElementById('divCodAlterno'); 
+      elAlt.style.display ='none'; 
 
     } 
    // alert(variable);

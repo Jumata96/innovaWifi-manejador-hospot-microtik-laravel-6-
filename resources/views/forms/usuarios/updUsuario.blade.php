@@ -63,7 +63,7 @@
                                     @endforeach
                                   </select>
                                   <div class="errorTxt1"></div>
-                                </div>
+                                </div> 
                                 <div class="col s12 m6 l6">
                                   <label for="idempresa">Empresa</label>                 
                                   <select class="browser-default" id="idempresa" name="idempresa" required>
@@ -81,6 +81,12 @@
                                   </select>
                                   <div class="errorTxt1"></div>
                                 </div>
+                                <div id="divCodAlterno" class="input-field col s12 m6 l6" style="display: none;">
+                                  <i class="material-icons prefix active">label_outline</i>
+                                <input id="codigoAlterno" value="{{$datos->cod_alterno}}" name="codigoAlterno" type="text" data-error=".errorTxt1" minlength="8" maxlength="11" value=" ">
+                                  <label for="codigoAlterno">Código Alterno</label>
+                                  <div id="error21" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+                                </div> 
                                 <div class="col s12 m6 l6">
                                   <label for="idempresa">Tipo documento</label>  
                                   <select class="browser-default" id="iddocumento" name="iddocumento" required> 
