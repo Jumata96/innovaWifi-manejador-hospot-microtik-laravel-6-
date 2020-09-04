@@ -30,6 +30,7 @@
 								<thead>
 									<tr>
 										<th>#</th>
+										<th class="center">Check</th>
 										<th>Nombre</th> 
 										<th>Acción</th>
 									</tr>
@@ -40,6 +41,7 @@
 								<tfoot>
 									<tr>
 										<th>#</th>
+										<th>Check</th>
 										<th>Nombre</th>
 										<th>Acción</th>
 									</tr>
@@ -51,8 +53,17 @@
 											foreach ($vendedores as $datos) {
 											$i++;
 										?>
-										<td><?php echo $i; ?></td>
-										<td>
+										<td style="width:4em;"><?php echo $i; ?></td>
+										<td style="width:4em;">
+											<p class="center">
+											  <label for="c{{$datos->id}}">
+												<input type="checkbox" class="filled-in" id="c{{$datos->id}}" name="check" tabindex="{{$i}}">
+												<span></span>
+											  </label>
+											</p>
+										 </td>
+										  
+										<td  style="width:12em;" >
 											 {{$datos->nombre}} {{$datos->apellidos}} 
 										</td>  
 										<td class="center" style="width: 9rem">

@@ -27,8 +27,8 @@
                     <div class="col s12 m12 l12">
                       
                         <div class="card-content">
-                          Existen 0 registros. <br><br>
-                          <table id="data-table-simple" class=" tablaVendedoresSaldo responsive-table display" cellspacing="0">
+                          <P id="registrosVendedores" ></P> 
+                          <table {{-- id="data-table-simple" --}} class="tablaVendedoresSaldo responsive-table display centered" {{-- cellspacing="0" --}}>
                                <thead>
                                   <tr>
                                     <th>#</th> 
@@ -52,8 +52,18 @@
                                   </tr>
                                 </tfoot> 
                                <tbody>
-                                  <tr  >                                  
-                                     <td colspan="7" class="center"> <h4>Debe de seleccionar un  vendedor</h4></td>  
+                                  
+                                  <tr >
+                                    {{-- <td ></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td ></td>
+                                    <td></td>
+                                    <td></td>  
+                                    <td></td>  --}} 
+
+                                                                    
+                                     <td colspan="7" class="center" > <h4>Cargando ...</h4></td>  
                                   </tr> 
                                   {{-- <tr  >
                                     <td ></td>
