@@ -432,15 +432,76 @@ class TicketsController extends Controller
 
     }
     public function showSaldo($id){
+        $asignados=0;
+        $nombre=null; 
+        $alterno=null;
         $API = new routeros_api();
         $API->debug = false;
-        $router = DB::table('router')->where('idrouter','R01')->get(); 
+        $ARRAY=[];
+        $data = null;
+        $plan = null;
+        $precio = null;
+        $target = null;
+        $cont = 0;
+         
+         $vendedor=DB::table ('users')->where('id',$id)->get(); 
+         foreach ($vendedor as  $user) {
+             $nombre =$user->nombre." ".$user->apellidos /* + $user->apellidos */; 
+             $alterno=$user->cod_alterno;
+         }   
+        
+
+         $tickets=DB::table ('tickets_asignados_det') 
+         ->where('idtrabajador',$id) 
+         ->get();
+         //dd($tickets) ;
+         foreach ($tickets as  $ticket) {
+             $asignados +=$ticket->cantidad; 
+         }  
+         $router = DB::table('router')->where('idrouter','R01')->get();  
+         
+        foreach ($router as $rou) {
+            if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
+                $ARRAY = $API->comm("/ip/hotspot/user/print");
+                //$collection = Collection::make($ARRAY); 
+            }
+        } 
+        $perfiles = DB::table('perfiles')-> get(); 
+
+        //dd($perfiles,$alterno); 
+
+        foreach($ARRAY as $valor){
+            
+            if(isset($valor['name']) and substr($valor['name'],0,strlen($alterno)) == trim($alterno)){
+
+                foreach($perfiles as $perfil){
+                    if($perfil->name == $valor['profile']){
+                        //dd($perfil->rate_limit);
+                        $precio = $perfil->precio;
+                        $target = $perfil->rate_limit;
+                    }
+                }
+
+                $cont++;
+                $data = array(
+                    'id'        => $cont,
+                    'nombre'    => $valor['name'],
+                    'plan'      => $valor['profile'],
+                    'precio'    => $precio,
+                    'target'    => $target
+                );
+            }
+        }
+        
+        $data = Collection::make($data);
         $usuarios = DB::table('users')->where('id',$id)->get(); 
-        $perfiles = DB::table('perfiles')-> get();   
+        $perfiles = DB::table('perfiles')-> get();  
+
         return view('forms.asignarTickets.saldoTickets.saldoTicketsVendedor',[
              
             'usuarios'         =>$usuarios,
-            'perfiles'         =>$perfiles
+            'perfiles'         =>$perfiles,
+            'data'            =>$data
 
         ]);
          

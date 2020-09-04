@@ -87,10 +87,14 @@
 													</tfoot>
 		 
 												  <tbody>
-													{{-- <tr>  
-                                                        <td  colspan="5"  ><h4>cargando data ...</h4></td>
-                                                          
-													</tr>    --}}
+													@foreach($data as $val)
+														  <tr>{{ $valor->id }}</tr>
+														  <tr>{{ $valor->plan }}</tr>
+														  <tr>{{ $valor->nombre }}</tr>
+														  <tr>{{ $valor->precio }}</tr>
+														  <tr>{{ $valor->target }}</tr>
+
+													@endforeach
 												  </tbody>
 											  </table>
 											</div>
@@ -112,7 +116,7 @@
  
 
 @section('script') 
-@include('forms.asignarTickets.saldoTickets.scripts.saldoTicketsVendedor')
+
     
 @endsection
 
