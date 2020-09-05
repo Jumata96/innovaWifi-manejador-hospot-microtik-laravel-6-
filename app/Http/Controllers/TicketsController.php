@@ -438,7 +438,7 @@ class TicketsController extends Controller
         $API = new routeros_api();
         $API->debug = false;
         $ARRAY=[];
-        $data = null;
+        $data = [];
         $plan = null;
         $precio = null;
         $target = null;
@@ -466,9 +466,8 @@ class TicketsController extends Controller
                 //$collection = Collection::make($ARRAY); 
             }
         } 
+        
         $perfiles = DB::table('perfiles')-> get(); 
-
-        //dd($perfiles,$alterno); 
 
         foreach($ARRAY as $valor){
             
@@ -483,19 +482,38 @@ class TicketsController extends Controller
                 }
 
                 $cont++;
-                $data = array(
+                array_push($data,[
                     'id'        => $cont,
                     'nombre'    => $valor['name'],
                     'plan'      => $valor['profile'],
                     'precio'    => $precio,
                     'target'    => $target
-                );
+                ]);
+            }
+         
+        }
+       
+        $cont = 0;
+        $usuarios = DB::table('users')->where('idtipo','VEN')->get(); 
+
+        foreach($usuarios as $datos){
+            if("".$datos->id !== "".trim($id)){
+                foreach($data as $key => $valor){
+                    if(substr($valor['nombre'],0,strlen($datos->cod_alterno)) == trim($datos->cod_alterno)){
+                        if(substr($alterno,0,strlen($datos->cod_alterno)) != trim($datos->cod_alterno) ){
+                            unset($data[$key]);
+                        }                                              
+                    }
+                }
             }
         }
-        
-        $data = Collection::make($data);
+        //dd($cont);
+        // dd($data);
         $usuarios = DB::table('users')->where('id',$id)->get(); 
         $perfiles = DB::table('perfiles')-> get();  
+
+
+        
 
         return view('forms.asignarTickets.saldoTickets.saldoTicketsVendedor',[
              

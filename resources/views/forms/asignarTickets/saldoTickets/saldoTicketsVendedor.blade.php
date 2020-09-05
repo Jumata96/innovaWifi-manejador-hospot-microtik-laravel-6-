@@ -87,13 +87,14 @@
 													</tfoot>
 		 
 												  <tbody>
-													@foreach($data as $val)
-														  <tr>{{ $valor->id }}</tr>
-														  <tr>{{ $valor->plan }}</tr>
-														  <tr>{{ $valor->nombre }}</tr>
-														  <tr>{{ $valor->precio }}</tr>
-														  <tr>{{ $valor->target }}</tr>
-
+													@foreach($data as $valor) 
+														  <tr>
+															<td>{{ $valor['id'] }}</td>
+															<td>{{ $valor ['plan'] }}</td>
+															<td>{{ $valor ['nombre'] }}</td>
+															<td>{{ $valor ['precio'] }}</td>
+															<td>{{ $valor ['target'] }}</td>
+														  </tr> 
 													@endforeach
 												  </tbody>
 											  </table>

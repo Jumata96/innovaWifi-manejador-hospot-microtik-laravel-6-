@@ -6,7 +6,7 @@
     //cont = parseInt($('#cont').val());
     
       var data = $('#formImportHotspot').serializeArray();
-        console.log(data);
+        // console.log(data);
         $.ajax({
             url: "{{ url('/guardarImportPerfil') }}",
             type:"POST",
