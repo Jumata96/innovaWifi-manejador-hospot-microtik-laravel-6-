@@ -14,13 +14,16 @@
             <!-- START WRAPPER -->
             <div class="wrapper"> 
                 @if(Auth::user()->idtipo === 'ADM')
-                  @include('layouts2.partials.sidebar') 
+                  @include('layouts2.partials.sidebar')  
                 @elseif(Auth::user()->idtipo === 'VEN' )  
-                  @include('layoutsVendedores.partials.sidebar') 
+                  @include('layoutsVendedores.partials.sidebar')  
                 @endif      
               <section id="content">
-                  @yield('sub-cabecera')
+                 
+                  @yield('sub-cabecera') 
+                  @include('layouts2.partials.mensaje')
                   @yield('main-content')
+                  
               </section>
               <!--
               @include('layouts2.partials.floatButton')

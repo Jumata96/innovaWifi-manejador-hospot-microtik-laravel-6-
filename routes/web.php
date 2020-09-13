@@ -279,15 +279,27 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('/tickets/Asignados/desabilitar/{id}','TicketsAsignadosController@desabilitar');  
      Route::post('/tickets/TiporPerfil/contador','TicketsAsignadosController@contadorPerfilesAsignados');
      Route::get('/tickets/Asignados/historialVentas','TicketsAsignadosController@historialVentas');
-     Route::get('/tickets/Asignados/saldo','TicketsController@saldoTicketsAsignados');
+    //  Route::get('/tickets/Asignados/saldo','TicketsController@saldoTicketsAsignados');
+     Route::get('/tickets/Asignados/saldo','TicketsController@showSaldoTickets');
+
      Route::post('/tickets/Asignados/Vendedor','TicketsController@TicketsAsignadosPorPersona');
-     Route::get('/tickets/Asignados/mostrarVendedor/{id}','TicketsController@showSaldo'); 
+     Route::get('/tickets/Asignados/mostrarVendedor/{id}','TicketsController@showSaldo');  
+
+    //--------reporte de ventas 
+     Route::get('/tickets/reporte-venta-trabajador','TicketsController@reporteVenta');
+     Route::post('/tickets/reporte-venta-Filtro','TicketsController@reporteVentaFiltro');
+     Route::post('/reporteVenta/exportExcel','TicketsController@exportExcelVentas'); 
+     Route::post('/tickets/buscar','TicketsController@reporteVentaPorVendedor');
+     Route::post('/tickets/buscar/ventas/zona','TicketsController@reporteVentaPorZona');
 
 
      
 
      
 
+       
+
+     
 
     //Gestión de Tickest Vendedor
     Route::get('/tickets/vendedor','TicketsController@vwVendedor');	
@@ -299,11 +311,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/tickets/Venta/actualizar','TicketsController@UpdateVenta');
     Route::get('/tickets/Venta/eliminar/{id}','TicketsController@destroy');
     Route::post('/tickets/Venta/ValidarCodigo','TicketsController@ValidarCodigo');
-    Route::get('/tickets/hotspot','TicketsController@hotspot');
-
+    Route::get('/tickets/hotspot','TicketsController@hotspot'); 
     Route::get('/tickets/historialVentas','TicketsController@historialVentas');
 
+    Route::post('/tickets/consultarMikrotik','TicketsController@consultarVentasMikrotik');
 
+
+
+
+
+ 
     
 
     
