@@ -173,6 +173,12 @@
                       <i class="material-icons">keyboard_arrow_right</i>
                       <span>Reporte de Venta</span></a>
                       </li>
+                       <li>
+                        <a href="{{ url('/parametros-reportes') }}">
+                          <i class="material-icons">keyboard_arrow_right</i>
+                          <span>Parametros</span>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </li>

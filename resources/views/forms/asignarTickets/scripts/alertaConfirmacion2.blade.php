@@ -1,5 +1,3 @@
- 
-
 <div id="h_confirmacion2{{$datos->codigo}}" class="modal" style="width: 500px">
 	<div class="modal-content indigo white-text center">
 		<p>Está seguro que desea desabilitar este registro ?</p>

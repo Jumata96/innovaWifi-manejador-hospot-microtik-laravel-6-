@@ -199,8 +199,7 @@ class TicketsController extends Controller
 
       return response()->json($datos);
     }
-    public function storeTicketsVenta(Request $request){
-        //dd($request)  ;
+    public function storeTicketsVenta(Request $request){ 
 
         DB::table('ticket_venta')
         ->insert([  
@@ -214,8 +213,30 @@ class TicketsController extends Controller
             'fecha_creacion'          =>date('Y-m-d h:m:s')  
         ]); 
 
+        $ventasRealizadas=DB::table ('ticket_venta')
+        ->select('ticket_venta.cantidad',DB::raw('tickets_asignados_det.cantidad  as cantidadPerfilAsignado') )         
+        ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
+        ->where([
+            ['ticket_venta.estado','=','1'],
+            ['tickets_asignados_det.item','=', intval($request->idTicketAsignadoDet)] 
+        ]) 
+        ->get();  
+        $cantidadPerfilAsig=null;
+        $cantidadVentasPerfilAsig=null;
 
-        
+        foreach($ventasRealizadas as $ventasPerfil){  
+             $cantidadPerfilAsig +=$ventasPerfil->cantidad;
+             $cantidadVentasPerfilAsig =$ventasPerfil->cantidadPerfilAsignado; 
+        } 
+        // dd($cantidadPerfilAsig,$cantidadVentasPerfilAsig) ;
+        if($cantidadPerfilAsig==$cantidadVentasPerfilAsig){
+           // dd("ingreso a guardar");
+            DB::table('tickets_asignados_det')
+            ->where('item',intval($request->idTicketAsignadoDet))
+            ->update([ 
+                'estado'            => '0',  
+            ]);
+        }  
         $codigo=0;
         $cantidadTotalAsignados=0; 
         $totalVentas=0;
@@ -350,7 +371,8 @@ class TicketsController extends Controller
             'perfiles'              =>$perfiles
         ]); 
     }
-    public function TicketsAsignadosPorPersona (Request $request){
+    public function TicketsAsignadosPorPersona (Request $request)
+    {
         // dd($request);
  
          $asignados=0;
@@ -500,13 +522,20 @@ class TicketsController extends Controller
             array_push($arrayZonas,[
                 'id'    =>$zona->id,
                 'value' =>$zona->nombre,
-                'label' => $zona->nombre,
+                'label' =>"PV| ".$zona->nombre,
             ]);
           }
 
         foreach($ticketsVendidos as $vendidos){ 
             $total +=intval($vendidos->precio)*intval($vendidos->cantidad);
         }    
+         $parametros = DB::table('parametros') 
+            ->where([
+                ['tipo_parametro','=','REPORTES'],
+                ['estado','=',1]
+            ]) 
+            ->get();
+
         return view('forms.reportes.reporteVentas.rptVenta',[
             'Ventas'       => $ticketsVendidos, 
             'perfiles'       => $perfiles,
@@ -515,7 +544,8 @@ class TicketsController extends Controller
             'total'       => $total ,
             'arrayFiltro'       => $arrayFiltro  ,
             'arrayZonas'       => $arrayZonas  ,  
-             'ArrayDatosFiltrados'=>$ArrayDatosFiltrados
+             'ArrayDatosFiltrados'=>$ArrayDatosFiltrados,
+             'parametros'        => $parametros
             
         ]); 
 
@@ -580,6 +610,48 @@ class TicketsController extends Controller
              return $data;
 
     }
+    public function TicketsEstado(string $tickets_asignados_Cod){
+        $codigo=0;
+        $cantidadTotalAsignados=0; 
+        $totalVentas=0;
+        $idperfil_det=0;
+        $cantidadPerfilAsignado=0;
+        $ventasDePerfil=0;
+
+        $ticketsCodigos=DB::table ('ticket_venta')
+        ->select('ticket_venta.cantidad','tickets_asignados_perfil_det.codigo','tickets_asignados.tickets_cant','tickets_asignados_perfil_det.idperfil_det',DB::raw('tickets_asignados_perfil_det.cantidad as cantidadPerfil '))         
+        ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
+        ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
+        ->where('tickets_asignados_det.item',$request->idTicketAsignadoDet)
+        ->get();   
+        foreach($ticketsCodigos as $codigos){
+            $cantidadTotalAsignados         =$codigos->tickets_cant;
+            $codigo                         =$codigos->codigo; 
+            $idperfil_det                   =$codigos->idperfil_det;
+            $cantidadPerfilAsignado         =$codigos->cantidadPerfil; 
+        }  
+        $ventasRealizadas=DB::table ('ticket_venta')
+        ->select('ticket_venta.cantidad','tickets_asignados_perfil_det.codigo','tickets_asignados.tickets_cant')         
+        ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
+        ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
+        ->where('tickets_asignados.codigo',$codigo)
+        ->where('ticket_venta.estado','1') 
+        ->get(); 
+        foreach($ventasRealizadas as $codigos){
+            $totalVentas  +=$codigos->cantidad; 
+        }
+ 
+        if($totalVentas==$cantidadTotalAsignados){
+           // dd("ingreso a guardar");
+            DB::table('tickets_asignados')
+            ->where('codigo',$codigo)
+            ->update([ 
+                'estado'            => '3',  
+            ]);
+        } 
+    }
 
     public function reporteVentaFiltro(Request $request){  
         $total=0;   
@@ -632,6 +704,8 @@ class TicketsController extends Controller
                 ->whereBetween('ticket_venta.fecha_creacion', array($from, $to)) 
                 ->get();   
         }  
+
+        // dd($ticketsVendidos);
         $router = DB::table('router')->where('activo',1)->get();
         $formaPago = DB::table('forma_pagos')->get();
         $perfiles = DB::table('perfiles')->get(); 
@@ -654,7 +728,7 @@ class TicketsController extends Controller
             array_push($arrayZonas,[
                 'id'    =>$zona->id,
                 'value' =>$zona->nombre,
-                'label' => $zona->nombre,
+                'label' =>"PV| ".$zona->nombre,
             ]);
           }
 
@@ -755,7 +829,13 @@ class TicketsController extends Controller
 
 
         } 
-        //  dd($ArrayDatosFiltrados);
+         $parametros = DB::table('parametros') 
+            ->where([
+                ['tipo_parametro','=','REPORTES'],
+                ['estado','=',1]
+            ]) 
+            ->get();
+
 
         return view('forms.reportes.reporteVentas.rptVenta',[
             'Ventas'       => $ticketsVendidos, 
@@ -767,6 +847,7 @@ class TicketsController extends Controller
             'fechaTo'       => $to,
             'arrayZonas'       => $arrayZonas,
             'arrayFiltro' =>$arrayFiltro,
+            'parametros'   =>$parametros,
             'ArrayDatosFiltrados'=>$ArrayDatosFiltrados
         ]);
 
@@ -869,9 +950,8 @@ class TicketsController extends Controller
             } 
 
             //  dd($prueba);
-            foreach ($prueba as  $datosPerfil) {
-
-
+            foreach ($prueba as  $datosPerfil) { 
+               
                 if($datosPerfil['cantidadVendidosBd']==$datosPerfil['cantidadticketAsig'] ){
                      DB::table('tickets_asignados_det')
                     ->where('item',$datosPerfil['idTicketAsignado'])
@@ -880,6 +960,49 @@ class TicketsController extends Controller
                     ]); 
                     $registro="SI" ;
                 }
+
+
+                $codigo=0;
+                $cantidadTotalAsignados=0; 
+                $totalVentas=0;
+                $idperfil_det=0;
+                $cantidadPerfilAsignado=0;
+                $ventasDePerfil=0;
+
+                $ticketsCodigos=DB::table ('tickets_asignados_det')
+                ->select('tickets_asignados.*')         
+                ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
+                ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
+                ->where('tickets_asignados_det.item',$datosPerfil['idTicketAsignado']) 
+                ->get();  
+                foreach($ticketsCodigos as $codigos){
+                    $cantidadTotalAsignados         =$codigos->tickets_cant;
+                    $codigo                         =$codigos->codigo;   
+                }  
+                $ventasRealizadas=DB::table ('ticket_venta')
+                ->select('ticket_venta.cantidad','tickets_asignados_perfil_det.codigo','tickets_asignados.tickets_cant')         
+                ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
+                ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
+                ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
+                ->where('tickets_asignados.codigo',$codigo)
+                ->where('ticket_venta.estado','1') 
+                ->get(); 
+                 foreach($ventasRealizadas as $codigos){
+                    $totalVentas  +=$codigos->cantidad; 
+                }
+                // dd($totalVentas,$cantidadTotalAsignados);
+        
+                if($totalVentas==$cantidadTotalAsignados){
+                // dd("ingreso a guardar");
+                    DB::table('tickets_asignados')
+                    ->where('codigo',$codigo)
+                    ->update([ 
+                        'estado'            => '3',  
+                    ]);
+                } 
+
+                
+
                 
                
 

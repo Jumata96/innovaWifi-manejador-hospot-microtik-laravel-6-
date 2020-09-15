@@ -199,8 +199,8 @@
           },
     
             success:function(data){ 
-                redirec =  "{{url('/tickets/registrarVenta')}}/";  
-		    setTimeout("location.href='"+redirec+"'", 0000); 
+                   redirec =  "{{url('/tickets/registrarVenta')}}/";  
+                setTimeout("location.href='"+redirec+"'", 0000); 
      
                 
             },

@@ -168,13 +168,18 @@
 																data-idzona="{{$datos->idzona}}" 
 																data-tooltip="Ver Trabajadores Asignados" 
 																><i class="material-icons " style="color: #ffd54f">autorenew</i></a> 
+																@if ($datos->estado != 3)
+																<a href="#confirmacion4{{$i}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Eliminar">
+																<i class="material-icons" style="color: #dd2c00">done_all</i>
+																</a>
+																 
+																@endif  
 															@else
 															<a  class="btnSeleccionarTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
 															data-idTicket="{{$datos->codigo}}" 
 															data-idzona="{{$datos->idzona}}" 
 															data-tooltip="Asignar Trabajadores" 
-															><i class="material-icons " style="color: #ffd54f">autorenew</i></a>
-																
+															><i class="material-icons " style="color: #ffd54f">autorenew</i></a> 
 															@endif
 															 
 												  </td> 
@@ -182,6 +187,8 @@
 											  @include('forms.asignarTickets.scripts.alertaConfirmacion') 
 											  @include('forms.asignarTickets.scripts.alertaConfirmacion2') 
 											  @include('forms.asignarTickets.scripts.alertaConfirmacion3') 
+											  @include('forms.asignarTickets.scripts.alertaConfirmacion4') 
+
 
 
 											  <?php }} ?>

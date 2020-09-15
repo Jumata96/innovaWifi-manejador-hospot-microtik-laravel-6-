@@ -34,12 +34,12 @@
 
                           <a id="exportReportPdf"  class="btn-floating right waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Descargar PDF">
                             <i class="material-icons" style="color: black">vertical_align_bottom</i></a>
+                            
 
                           <a id="exportReport" onclick="tableToExcel('data-table-simple', 'Reporte de venta')"  class="btn-floating right waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Descargar excel">
                             <i class="material-icons" style="color: black">vertical_align_bottom</i></a>
                         </div>   
-                  </div>
-                                    
+                  </div>               
                   <div class="row cuerpo">  
                   <div class="row">
                     <div class="col s12">
@@ -58,7 +58,7 @@
                                 
                                 <div class="input-field col s12 m6 l3  ">
                                     <i class="material-icons  prefix">event</i>
-                                <input class="datepicker picker1" id="from"   name="from" type="text" required>
+                                  <input class="datepicker picker1" id="from"   name="from" type="text" required>
                                     <label for="from">Fecha inicio</label>
                                     <div id="error10" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
                                 </div> 
@@ -67,24 +67,60 @@
                                       <input  id="to"  class="datepicker picker2"   name="to" type="text" required>
                                       <label for="to">Fecha fin</label>
                                       <div id="error20" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div> 
-                                </div>  
-                                <div>
-                                  <div id="ex1" class="modal" style="width: 100%;height: 100%;">
-                                    <p>Thanks for clicking. That felt good.</p>
-                                    <a href="#" rel="modal:close">Close</a>
-                                  </div> 
+                                </div> 
+                              {{--   <div class="input-field col s12 m6 l2 offset-l1">
+                                  <div class="switch center"> 
+                                      <label>
+                                        on
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                        off
+                                      </label>  
+                                    </div>
+                                  
+                                </div> 
+                                <div class="input-field col s12 m6 l3"> 
+                                   <blockquote style="margin: 0px;width: 20em;"> 
+                                    <div>
+                                   Al activar se pintara  la cabecera de la tabla, la cual se vera reflejada al momento de la exportación de los reportes.  
+                                    </div> 
+                                  </blockquote>  
+                                </div>  --}}
                                 
-                                                                             
-                              </div> 
                       
                     </div>
+                       
                     <div class="col s12 m12 l12">
                       
                         <div class="card-content" style="overflow-x:scroll">
                           
                           <table id="data-table-simple" class="responsive-table centered Highlight  tablaFiltro" cellspacing="10" style="white-space: nowrap;">
                                <thead>
-                                  <tr>
+
+                                @foreach($parametros as $Param)
+                                    @if($Param->parametro == 'ADD_CABECERA' and $Param->valor == 'SI')
+                                     <tr style="background-color: steelblue;color: white">
+                                      <th>#</th>
+                                      <th>Vendedor</th>
+                                      <th>Cod.Alterno</th>
+                                      <th >Punto de Venta</th>
+                                      <th>Paquete</th> 
+                                      <th>Plan</th> 
+                                      <th>Precio</th> 
+                                      <th>Total Asignados </th>
+                                        <th>Total Asignados Monto</th>
+                                      <th>Saldo Total</th>
+                                      <th>Saldo Total Monto</th>
+                                      <th >Total Vendidos</th> 
+                                      <th >Total Vendidos Monto</th> 
+                                      <th >Cantidad Venta</th> 
+                                      <th>Subtotal</th>
+                                      <th >Fecha de venta</th>
+                                      <th  >Estado</th> 
+                                  </tr>
+                                      
+                                    @elseif($Param->parametro == 'ADD_CABECERA' and $Param->valor == 'NO')
+                                     <tr>
                                      <th >#</th>
                                      <th>Vendedor</th>
                                      <th>Cod.Alterno</th>
@@ -103,6 +139,11 @@
                                      <th >Fecha de venta</th>
                                      <th  >Estado</th> 
                                   </tr>
+
+                                    @endif
+                                    
+                                @endforeach
+                                 
                                </thead>
                                <?php
                                     if($bandera){                                                           
@@ -116,28 +157,22 @@
                                     <td class="idTabla">{{$i}}</td>
 
                                    @if ($datos['estadoTicket']==0)
-                                     <td  class=" red lighten-3 usuarioTabla">  {{ $datos['Vendedor'] }} </td>
-                                     <td class=" red lighten-3 Cod_Alterno">{{ $datos['Cod_Alterno'] }}</td>
-                                     <td class=" red lighten-3  zonaTabla">{{ $datos['Punto_de_Venta']}}</td>                                     
-                                     <td class=" red lighten-3 Ticket"> {{ $datos['Ticket'] }} </td> 
-                                     <td class=" red lighten-3 perfilTabla"> {{ $datos['Plan'] }}</td>
-                                     <td class=" red lighten-3 precioTabla">{{ $datos['Precio'] }} </td>  
-                                     <td class="Total_Asignados red lighten-3"> {{ $datos['Total_Asignados'] }} </td>
-                                     <td class="Total_AsignadosMonto red lighten-3"> {{ $datos['Total_AsignadosMonto'] }} </td>
-                                     <td class="Saldo_Total red lighten-3"> {{ $datos['Saldo_Total'] }} </td> 
-                                     <td class="Saldo_TotalMonto red lighten-3"> {{ $datos['Saldo_TotalMonto'] }}</td>
-                                     <td class="Total_Vendidos red lighten-3"> {{ $datos['Total_Vendidos'] }}</td> 
-                                     <td class="Total_VendidosMonto red lighten-3">   {{ $datos['Total_VendidosMonto'] }} </td> 
-                                     <td class=" cantidadTabla  red lighten-3">{{ $datos['Cantidad_Venta'] }}</td>
-                                     <td class=" subtotalTabla  red lighten-3 "> {{ $datos['Subtotal'] }} </td>
-                                       
+                                     <td style="background-color:#FC4D67;" class=" usuarioTabla">  {{ $datos['Vendedor'] }} </td>
+                                     <td style="background-color:#FC4D67;" class=" Cod_Alterno">{{ $datos['Cod_Alterno'] }}</td>
+                                     <td style="background-color:#FC4D67;" class="  zonaTabla">{{ $datos['Punto_de_Venta']}}</td>                                     
+                                     <td style="background-color:#FC4D67;" class=" Ticket"> {{ $datos['Ticket'] }} </td> 
+                                     <td style="background-color:#FC4D67;" class=" perfilTabla"> {{ $datos['Plan'] }}</td>
+                                     <td style="background-color:#FC4D67;" class=" precioTabla">{{ $datos['Precio'] }} </td>  
                                    @else
                                      <td  class="usuarioTabla">  {{ $datos['Vendedor'] }} </td>
                                      <td class="Cod_Alterno">{{ $datos['Cod_Alterno'] }}</td>
                                      <td class=" zonaTabla">{{ $datos['Punto_de_Venta']}}</td>                                     
                                      <td class="Ticket"> {{ $datos['Ticket'] }} </td> 
                                      <td class="perfilTabla"> {{ $datos['Plan'] }}</td>
-                                     <td class="precioTabla">{{ $datos['Precio'] }} </td> 
+                                     <td class="precioTabla">{{ $datos['Precio'] }} </td>  
+                                   @endif
+
+                                   
                                      <td class="Total_Asignados lime lighten-3"> {{ $datos['Total_Asignados'] }} </td> 
                                      <td class="Total_AsignadosMonto lime lighten-3"> {{ $datos['Total_AsignadosMonto'] }} </td>
                                      <td class="Saldo_Total lime lighten-2"> {{ $datos['Saldo_Total'] }} </td> 
@@ -145,14 +180,7 @@
                                      <td class="Total_Vendidos lime lighten-3"> {{ $datos['Total_Vendidos'] }}</td> 
                                      <td class="Total_VendidosMonto lime lighten-3">   {{ $datos['Total_VendidosMonto'] }} </td> 
                                      <td class=" cantidadTabla  light-blue lighten-3">{{ $datos['Cantidad_Venta'] }}</td>
-                                     <td class=" subtotalTabla  light-blue lighten-3 "> {{ $datos['Subtotal'] }} </td>
-                                       
-                                   @endif
-                                    
-                                     
-
-                                     
-                                   
+                                     <td class=" subtotalTabla  light-blue lighten-3 "> {{ $datos['Subtotal'] }} </td> 
                                      <td class=" fechaTabla">{{ date("Y-m-d", strtotime($datos['Fecha_de_venta']))}} </td>
                                       
                                      

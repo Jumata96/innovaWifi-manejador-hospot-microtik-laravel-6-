@@ -398,6 +398,37 @@ class TicketsAsignadosController extends Controller
     }
 
 
+    public function cerrarTicket($id)
+    {
+         
+        DB::table('tickets_asignados')
+        ->where('codigo',$id)
+        ->update([ 
+            'estado'            => '3',  
+        ]); 
+        $TicketsAsignados=DB::table ('tickets_asignados_det')
+        ->select('tickets_asignados_det.*')          
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
+        ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
+        ->where('tickets_asignados.codigo',$id) 
+        ->get(); 
+        foreach($TicketsAsignados as $asig){
+            DB::table('tickets_asignados_det')
+            ->where('item',$asig->item)
+            ->update([ 
+                'estado'            => '0',  
+            ]); 
+        }
+ 
+        // dd( $TicketsAsignados);
+
+        return redirect('/tickets/Asignar');
+    }
+
+
+    
+
+
 
     
 }

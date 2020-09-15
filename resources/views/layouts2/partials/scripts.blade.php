@@ -97,10 +97,10 @@
     }
     //   buscarDireccion();
      
-     /* setInterval(function(){
+     setInterval(function(){
       buscarDireccion();  
-    	}, 1000); 
-   */
+    	}, 5000); 
+  
     $('#CerrarMensajeGeneral').on('click',function( ){ 
         var elementoMensajeGeneral = document.getElementById('mensajeGeneral'); //se define la variable "el" igual a nuestro div
              elementoMensajeGeneral.style.display ='none'; 

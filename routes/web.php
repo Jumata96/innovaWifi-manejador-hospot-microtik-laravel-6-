@@ -231,7 +231,8 @@ Route::group(['middleware' => 'auth'], function () {
     //Parametros
     Route::get('/parametros-generales','ParametrosController@generales');
     Route::post('/parametros/updGenerales','ParametrosController@updGenerales');
-
+    Route::get('/parametros-reportes','ParametrosController@reportes');
+    
     //Helpers
     Route::view('/colores', 'forms.helpers.colores');
     Route::view('/iconos', 'forms.helpers.iconos');
@@ -275,6 +276,8 @@ Route::group(['middleware' => 'auth'], function () {
      Route::post('/tickets/Asignados/contarTicketsvendedor2','TicketsAsignadosController@ticketsPorPersona2');
  
      Route::get('/tickets/Asignados/eliminar/{id}','TicketsAsignadosController@destroy');
+     Route::get('/tickets/Asignados/cerrar/{id}','TicketsAsignadosController@cerrarTicket'); 
+
      Route::get('/tickets/Asignados/habilitar/{id}','TicketsAsignadosController@habilitar');
      Route::get('/tickets/Asignados/desabilitar/{id}','TicketsAsignadosController@desabilitar');  
      Route::post('/tickets/TiporPerfil/contador','TicketsAsignadosController@contadorPerfilesAsignados');
