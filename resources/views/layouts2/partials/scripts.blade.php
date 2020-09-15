@@ -84,24 +84,23 @@
         data:{
           bandera:"bandera"
         },
-        success:function(data){
-          console.log(data);
-
-            var elementoMensajeGeneral = document.getElementById('mensajeGeneral'); //se define la variable "el" igual a nuestro div
-             elementoMensajeGeneral.style.display ='none'; 
-         
+        success:function(data){  
+          if(data.EstadoTicket=="SI"){  
+              var elementoMensajeGeneral = document.getElementById('mensajeGeneral'); //se define la variable  
+             elementoMensajeGeneral.style.display ='block';    
+          }
+            
         },
-        error:function(){ 
-        //   alert("error!!!!");
+        error:function(){  
           }
       });
     }
-    buscarDireccion();
+    //   buscarDireccion();
      
-    /*  setInterval(function(){
+     /* setInterval(function(){
       buscarDireccion();  
-    	}, 10000);  */
-
+    	}, 1000); 
+   */
     $('#CerrarMensajeGeneral').on('click',function( ){ 
         var elementoMensajeGeneral = document.getElementById('mensajeGeneral'); //se define la variable "el" igual a nuestro div
              elementoMensajeGeneral.style.display ='none'; 

@@ -89,10 +89,10 @@
                                      <th>Vendedor</th>
                                      <th>Cod.Alterno</th>
                                      <th >Punto de Venta</th>
-                                     <th>Ticket</th> 
+                                     <th>Paquete</th> 
                                      <th>Plan</th> 
                                      <th>Precio</th> 
-                                     <th>Total Asignados</th>
+                                     <th>Total Asignados </th>
                                       <th>Total Asignados Monto</th>
                                      <th>Saldo Total</th>
                                      <th>Saldo Total Monto</th>
@@ -113,21 +113,45 @@
                                       foreach ($ArrayDatosFiltrados as $datos) {
                                       $i++;
                                    ?>
-                                     <td class="idTabla">{{$i}}</td>
+                                    <td class="idTabla">{{$i}}</td>
+
+                                   @if ($datos['estadoTicket']==0)
+                                     <td  class=" red lighten-3 usuarioTabla">  {{ $datos['Vendedor'] }} </td>
+                                     <td class=" red lighten-3 Cod_Alterno">{{ $datos['Cod_Alterno'] }}</td>
+                                     <td class=" red lighten-3  zonaTabla">{{ $datos['Punto_de_Venta']}}</td>                                     
+                                     <td class=" red lighten-3 Ticket"> {{ $datos['Ticket'] }} </td> 
+                                     <td class=" red lighten-3 perfilTabla"> {{ $datos['Plan'] }}</td>
+                                     <td class=" red lighten-3 precioTabla">{{ $datos['Precio'] }} </td>  
+                                     <td class="Total_Asignados red lighten-3"> {{ $datos['Total_Asignados'] }} </td>
+                                     <td class="Total_AsignadosMonto red lighten-3"> {{ $datos['Total_AsignadosMonto'] }} </td>
+                                     <td class="Saldo_Total red lighten-3"> {{ $datos['Saldo_Total'] }} </td> 
+                                     <td class="Saldo_TotalMonto red lighten-3"> {{ $datos['Saldo_TotalMonto'] }}</td>
+                                     <td class="Total_Vendidos red lighten-3"> {{ $datos['Total_Vendidos'] }}</td> 
+                                     <td class="Total_VendidosMonto red lighten-3">   {{ $datos['Total_VendidosMonto'] }} </td> 
+                                     <td class=" cantidadTabla  red lighten-3">{{ $datos['Cantidad_Venta'] }}</td>
+                                     <td class=" subtotalTabla  red lighten-3 "> {{ $datos['Subtotal'] }} </td>
+                                       
+                                   @else
                                      <td  class="usuarioTabla">  {{ $datos['Vendedor'] }} </td>
                                      <td class="Cod_Alterno">{{ $datos['Cod_Alterno'] }}</td>
                                      <td class=" zonaTabla">{{ $datos['Punto_de_Venta']}}</td>                                     
                                      <td class="Ticket"> {{ $datos['Ticket'] }} </td> 
                                      <td class="perfilTabla"> {{ $datos['Plan'] }}</td>
                                      <td class="precioTabla">{{ $datos['Precio'] }} </td> 
-                                     <td> {{ $datos['Total_Asignados'] }} </td>
-                                     <td> {{ $datos['Total_AsignadosMonto'] }} </td>
-                                     <td> {{ $datos['Saldo_Total'] }} </td> 
-                                     <td> {{ $datos['Saldo_TotalMonto'] }}</td>
-                                     <td> {{ $datos['Total_Vendidos'] }}</td> 
-                                     <td>   {{ $datos['Total_VendidosMonto'] }} </td> 
-                                     <td class=" cantidadTabla">{{ $datos['Cantidad_Venta'] }}</td>
-                                     <td class=" subtotalTabla"> {{ $datos['Subtotal'] }} </td>
+                                     <td class="Total_Asignados lime lighten-3"> {{ $datos['Total_Asignados'] }} </td> 
+                                     <td class="Total_AsignadosMonto lime lighten-3"> {{ $datos['Total_AsignadosMonto'] }} </td>
+                                     <td class="Saldo_Total lime lighten-2"> {{ $datos['Saldo_Total'] }} </td> 
+                                     <td class="Saldo_TotalMonto lime lighten-2"> {{ $datos['Saldo_TotalMonto'] }}</td>
+                                     <td class="Total_Vendidos lime lighten-3"> {{ $datos['Total_Vendidos'] }}</td> 
+                                     <td class="Total_VendidosMonto lime lighten-3">   {{ $datos['Total_VendidosMonto'] }} </td> 
+                                     <td class=" cantidadTabla  light-blue lighten-3">{{ $datos['Cantidad_Venta'] }}</td>
+                                     <td class=" subtotalTabla  light-blue lighten-3 "> {{ $datos['Subtotal'] }} </td>
+                                       
+                                   @endif
+                                    
+                                     
+
+                                     
                                    
                                      <td class=" fechaTabla">{{ date("Y-m-d", strtotime($datos['Fecha_de_venta']))}} </td>
                                       
@@ -159,8 +183,8 @@
                                      <th></th>
                                      <th></th>
                                      <th></th>
-                                     <th class="center">TOTAL:</th>
-                                     <th id="total"class="total" >{{number_format($total,2)}}</th>
+                                     <th class="center  light-blue lighten-5">TOTAL:</th>
+                                     <th id="total"class="total  light-blue lighten-5" >{{number_format($total,2)}}</th>
                                      
                                      <th></th>
                                      <th></th>

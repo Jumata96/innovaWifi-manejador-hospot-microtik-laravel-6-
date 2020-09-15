@@ -417,212 +417,62 @@ class TicketsController extends Controller
          ]);
 
     }
-    public function showSaldo($id){
+    public function showSaldo($id ,$item){
+        // dd("ingresa");
         $asignados=0;
         $nombre=null; 
-        $alterno=null;
-        $API = new routeros_api();
-        $API->debug = false;
-        $ARRAY=[];
+        $alterno=null; 
         $data = [];
-        $plan = null;
-        $precio = null;
-        $target = null;
+        $dataFiltrada = []; 
         $cont = 0;
-        $saldoPrecio=0;
-         
-         $vendedor=DB::table ('users')->where('id',$id)->get(); 
+        $saldoPrecio=0; 
+        $asignadosPrecio=0; 
+         $saldoPrecio=0;
+         $vendedor=DB::table ('users')->where('id',$id)->get();  
          foreach ($vendedor as  $user) {
-             $nombre =$user->nombre." ".$user->apellidos /* + $user->apellidos */; 
+             $nombre =$user->nombre." ".$user->apellidos;
              $alterno=$user->cod_alterno;
-         }   
-        
-
-         $tickets=DB::table ('tickets_asignados_det') 
-         ->where('idtrabajador',$id) 
-         ->get();
-         //dd($tickets) ;
-         foreach ($tickets as  $ticket) {
-             $asignados +=$ticket->cantidad; 
-         }  
-         $router = DB::table('router')->where('idrouter','R01')->get();  
-         
-        foreach ($router as $rou) {
-            if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
-                $ARRAY = $API->comm("/ip/hotspot/user/print");
-                //$collection = Collection::make($ARRAY); 
-            }
-        } 
-        
-        $perfiles = DB::table('perfiles')-> get(); 
-
-        foreach($ARRAY as $valor){
-            
-            if(isset($valor['name']) and substr($valor['name'],0,strlen($alterno)) == trim($alterno)){
-
-                foreach($perfiles as $perfil){
-                    if($perfil->name == $valor['profile']){
-                        //dd($perfil->rate_limit);
-                        $precio = $perfil->precio;
-                        $target = $perfil->rate_limit;
-                    }
-                }
-
-                $cont++;
-                array_push($data,[
-                    'id'        => $cont,
-                    'nombre'    => $valor['name'],
-                    'plan'      => $valor['profile'],
-                    'precio'    => $precio,
-                    'target'    => $target
-                ]); 
-            }
-         
-        }
-       
-        $cont = 0;
-        $usuarios = DB::table('users')->where('idtipo','VEN')->get(); 
-
-        foreach($usuarios as $datos){
-            if("".$datos->id !== "".trim($id)){
-                foreach($data as $key => $valor){
-                    if(substr($valor['nombre'],0,strlen($datos->cod_alterno)) == trim($datos->cod_alterno)){
-                        if(substr($alterno,0,strlen($datos->cod_alterno)) != trim($datos->cod_alterno) ){
-                            unset($data[$key]);
-                        }                                              
-                    }
-                }
-            }
-        }  
-        foreach($data as $dat){
-            $saldoPrecio += intval($dat['precio']);
-
-        }
-        //dd($cont);
-         
-        $usuarios = DB::table('users')->where('id',$id)->get(); 
-        $perfiles = DB::table('perfiles')-> get();  
-
+         }    
+        $ticketCom = new TicketsController();  
+        $data=$ticketCom->TicketsMikroPorVendedor(strval($alterno),intval($id));  
         $ticketsAsignados=DB::table ('tickets_asignados_det') 
-            ->where('idtrabajador',$id) 
-            ->get();
-            //dd($tickets) ;
-             $asignadosPrecio=0;
+         ->where([
+             ['idtrabajador','=',$id],
+             ['item','=',$item]
+
+         ]) ->get(); 
             foreach ($ticketsAsignados as  $ticket) { 
-                $asignadosPrecio +=intval($ticket->cantidad)*intval($ticket->precio);
-                // dd($asignadosPrecio); 
-            }  
+                $asignadosPrecio =intval($ticket->cantidad)*intval($ticket->precio); 
+                foreach ($data as  $dataArray) {
+                    if($ticket->idperfil==$dataArray['perfil']){ 
+                        $cont++;
+                        array_push($dataFiltrada,[
+                            'id'        => $cont,
+                            'nombre'    => $dataArray['nombre'],
+                            'plan'      => $dataArray['plan'],
+                            'precio'    => $ticket->precio,
+                            'target'    => $dataArray['target']
+                        ]);  
+                        $saldoPrecio+=$ticket->precio;
+                        
 
-        $puntoVenta = DB::table('zonas')->where('estado',1)-> get(); 
-        
-
+                    } 
+                } 
+            }   
+        $usuarios = DB::table('users')->where('id',$id)->get();  
+        $puntoVenta = DB::table('zonas')->where('estado',1)-> get();  
         return view('forms.asignarTickets.saldoTickets.saldoTicketsVendedor',[
              
             'usuarios'         =>$usuarios,
-            'puntoVenta'       =>$puntoVenta,
-            'perfiles'         =>$perfiles,
+            'puntoVenta'       =>$puntoVenta, 
             'asignadosPrecio'  =>$asignadosPrecio,
             'saldoPrecio'      =>$saldoPrecio,
-            'data'            =>$data
+            'data'            =>$dataFiltrada
 
         ]);
          
     } 
-    public function showSaldoTickets( ){
-        $arrayDatos=[]; 
-        $contForm = 0;  
-         $vendedor=DB::table ('users')->where('idtipo','VEN')->get(); 
-          $ARRAY=[];
-            $API = new routeros_api();
-            $API->debug = false;
-           
-             $router = DB::table('router')->where('idrouter','R01')->get();           
-             foreach ($router as $rou) {//--------trae la informaciòn
-                 if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
-                     $ARRAY = $API->comm("/ip/hotspot/user/print");
-                     //$collection = Collection::make($ARRAY); 
-                 }
-             } 
-         //dd($vendedor);
-         foreach ($vendedor as  $user) { 
-            $asignados=0;
-            $nombre=null; 
-            $alterno=null;
-           
-            $data = [];
-            $plan = null;
-            $precio = null;
-            $target = null;
-            $cont = 0;
-            $id=$user->id;
-             
-             $nombre =$user->nombre." ".$user->apellidos ; 
-            // //  dd($nombre);
-             $alterno=$user->cod_alterno; 
-            
-             $ticketsAsignados=DB::table ('tickets_asignados_det') 
-            ->where('idtrabajador',$id) 
-            ->get();
-            //dd($tickets) ;
-            foreach ($ticketsAsignados as  $ticket) {
-                $asignados +=$ticket->cantidad; 
-            }   
-             $perfiles = DB::table('perfiles')-> get();  
-             foreach($ARRAY as $valor){
-                 
-                 if(isset($valor['name']) and substr($valor['name'],0,strlen($alterno)) == trim($alterno)and isset($valor['profile']) ){  
-                        array_push($data,[
-                            'id'        => $cont,
-                            'nombre'    => $valor['name'],
-                            'plan'      => $valor['profile'],
-                        ]); 
-                     
-                 }
-              
-             }  
-             $cont = 0; 
-             foreach($vendedor as $datos){
-                 if("".$datos->id !== "".trim($id)){
-                     foreach($data as $key => $valor){
-                         if(substr($valor['nombre'],0,strlen($datos->cod_alterno)) == trim($datos->cod_alterno)){
-                             if(substr($alterno,0,strlen($datos->cod_alterno)) != trim($datos->cod_alterno) ){
-                                 unset($data[$key]);
-                             }                                              
-                         }
-                     }
-                 }
-             }
-            $saldoVentas= count($data);
-            // $asignados
-            // dd($saldoVentas,$asignados,$nombre,$alterno);
-            $contForm++; 
-            $diferencia=$asignados-$saldoVentas;
-            
-            if ($diferencia <1){
-                $diferencia =0; 
-            } 
-            array_push($arrayDatos,[
-                'cont'=>$contForm, 
-                'nombre'    => $nombre,
-                'id'        => $id,
-                'asignados' =>$asignados,
-                'cod_alterno'=>$alterno,
-                'saldo'      =>$saldoVentas,
-                'diferencia'   =>$diferencia
-
-            ]);  
-
-         }   
-         $puntoVenta = DB::table('zonas')->where('estado',1)-> get(); 
-        //dd($puntoVenta);
     
-        return view('forms.asignarTickets.saldoTickets.lstSaldoTicketsAsignados2',[ 
-            'arrayDatos'   =>$arrayDatos,
-            'puntoDeVenta'   =>$puntoVenta,
-            'vendedores'   =>$vendedor
-
-        ]);
-    }
     public function reporteVenta(){ 
         $total = 0;
 
@@ -681,7 +531,8 @@ class TicketsController extends Controller
           $data=[];
           $cont=0;
           $router = DB::table('router')->where('idrouter','R01')->get();    
-          $vendedor=DB::table ('users')->where('idtipo','VEN')->get();        
+          $vendedor=DB::table ('users')->where('idtipo','VEN')->get();    
+          $perfiles = DB::table('perfiles')-> get();     
              foreach ($router as $rou) {//--------trae la informaciòn
                  if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
                      $ARRAY = $API->comm("/ip/hotspot/user/print");
@@ -692,12 +543,23 @@ class TicketsController extends Controller
               foreach($ARRAY as $valor){
                  
                  if(isset($valor['name']) and substr($valor['name'],0,strlen($alterno)) == trim($alterno)and isset($valor['profile']) ){  
-                     $cont++;
-                        array_push($data,[
-                            'id'        => $cont,
-                            'nombre'    => $valor['name'],
-                            'plan'      => $valor['profile'],
-                        ]); 
+
+
+                       
+                      foreach($perfiles as $perfilAs){
+                        //   dd($perfilAs);
+                          if($perfilAs->name==$valor['profile']){
+                              $cont++;
+                                array_push($data,[
+                                    'id'        => $cont,
+                                    'nombre'    => $valor['name'],
+                                    'plan'      => $valor['profile'],
+                                    'perfil'    =>$perfilAs->idperfil,
+                                    'target'    =>$perfilAs->rate_limit
+                                ]);   
+                          }
+                          
+                      } 
                      
                  }
               
@@ -719,12 +581,8 @@ class TicketsController extends Controller
 
     }
 
-    public function reporteVentaFiltro(Request $request){ 
-        // dd($request);
-        
-         
-        $total=0;  
-        // dd($request); 
+    public function reporteVentaFiltro(Request $request){  
+        $total=0;   
         $from = Carbon::createFromFormat('d/m/Y',$request->from); 
         $to = Carbon::createFromFormat('d/m/Y',$request->to);
         $from = $from->subDay(1);// $to = $to->addDay(1); 
@@ -744,7 +602,7 @@ class TicketsController extends Controller
             } 
 
             $ticketsVendidos = DB::table('ticket_venta') 
-            ->select('ticket_venta.idusuario','tickets_asignados_perfil_det.idperfil_det','tickets_asignados.idzona','ticket_venta.idperfil','ticket_venta.precio','ticket_venta.cantidad','ticket_venta.fecha_creacion','ticket_venta.estado','tickets_asignados.descripcion',DB::raw('tickets_asignados_det.cantidad  as cantidadAsignados') ) 
+            ->select('ticket_venta.idusuario','tickets_asignados_perfil_det.idperfil_det','tickets_asignados.idzona','ticket_venta.idperfil','ticket_venta.precio','ticket_venta.cantidad','ticket_venta.fecha_creacion','ticket_venta.estado','tickets_asignados.descripcion',DB::raw('tickets_asignados_det.cantidad  as cantidadAsignados'),DB::raw('tickets_asignados_det.estado  as estadoTicketAsig') ) 
             ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
             ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
             ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
@@ -755,7 +613,7 @@ class TicketsController extends Controller
         }else if($request->PuntoVentaFiltrado!=""||$request->PuntoVentaFiltrado!=null) {
             // dd("pasa");
                 $ticketsVendidos = DB::table('ticket_venta')//consulta para saber los vendidos de los tickets activos por cleinte  
-                ->select('ticket_venta.idusuario','tickets_asignados_perfil_det.idperfil_det','tickets_asignados.idzona','ticket_venta.idperfil','ticket_venta.precio','ticket_venta.cantidad','ticket_venta.fecha_creacion','ticket_venta.estado','tickets_asignados.descripcion',DB::raw('tickets_asignados_det.cantidad  as cantidadAsignados') ) 
+                ->select('ticket_venta.idusuario','tickets_asignados_perfil_det.idperfil_det','tickets_asignados.idzona','ticket_venta.idperfil','ticket_venta.precio','ticket_venta.cantidad','ticket_venta.fecha_creacion','ticket_venta.estado','tickets_asignados.descripcion',DB::raw('tickets_asignados_det.cantidad  as cantidadAsignados'),DB::raw('tickets_asignados_det.estado  as estadoTicketAsig') ) 
                 ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
                 ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
                 ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
@@ -766,7 +624,7 @@ class TicketsController extends Controller
 
         }else{ 
             $ticketsVendidos = DB::table('ticket_venta')//consulta para saber los vendidos de los tickets activos por cliente  
-                ->select('ticket_venta.idusuario','tickets_asignados_perfil_det.idperfil_det','tickets_asignados.idzona','ticket_venta.idperfil','ticket_venta.precio','ticket_venta.cantidad','ticket_venta.fecha_creacion','ticket_venta.estado','tickets_asignados.descripcion',DB::raw('tickets_asignados_det.cantidad  as cantidadAsignados') ) 
+                ->select('ticket_venta.idusuario','tickets_asignados_perfil_det.idperfil_det','tickets_asignados.idzona','ticket_venta.idperfil','ticket_venta.precio','ticket_venta.cantidad','ticket_venta.fecha_creacion','ticket_venta.estado','tickets_asignados.descripcion',DB::raw('tickets_asignados_det.cantidad  as cantidadAsignados'),DB::raw('tickets_asignados_det.estado  as estadoTicketAsig') ) 
                 ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
                 ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
                 ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
@@ -800,16 +658,18 @@ class TicketsController extends Controller
             ]);
           }
 
-        foreach($ticketsVendidos as $vendidos){ 
+        /* foreach($ticketsVendidos as $vendidos){ 
             $total +=intval($vendidos->precio)*intval($vendidos->cantidad);
-        } 
+        }  */
         
          foreach($ticketsVendidos as $ticketF){  
+                 $total +=intval($ticketF->precio)*intval($ticketF->cantidad);
                 $Vendedor=null;
                 $Cod_Alterno=null;
                 $Punto_de_Venta=null;
                 $Ticket=null;
                 $Plan=null;
+                $idPlan=null;
                 $Precio=null;
                 $Total_AsignadosMonto=0;
                 $Saldo_TotalMonto=0;
@@ -824,7 +684,7 @@ class TicketsController extends Controller
                 //  dd($ticketF);
                 foreach($users  as $user){
                     if($user->id==$ticketF->idusuario){ 
-                        // dd($ticketF);
+                        //  dd($ticketF);
                          $Vendedor=$user->nombre." ".$user->apellidos;
                          $Cod_Alterno=$user->cod_alterno;
                          foreach($zonas  as $punto){
@@ -834,22 +694,33 @@ class TicketsController extends Controller
                          } 
                     }  
                 }
+                $ticket = new TicketsController(); 
+                $data=$ticket->TicketsMikroPorVendedor(strval($Cod_Alterno),intval($ticketF->idusuario)); 
                  $Ticket=$ticketF->descripcion;
+
                  foreach($perfiles  as $perfil){
                     if($perfil->idperfil==$ticketF->idperfil){ 
                          $Plan=$perfil->name;
+                         $idPlan=$perfil->idperfil; 
                          $Precio=$perfil->precio;
                     }  
                 } 
-                $ticket = new TicketsController(); 
-                $data=$ticket->TicketsMikroPorVendedor(strval($Cod_Alterno),intval($ticketF->idusuario)); 
-                // dd(count($data)); 
+                    $cont=0;
+                 foreach($data  as $datosfiltrados){
+                     if($datosfiltrados['perfil']==$idPlan ){
+                          $cont++ ;
+                     } 
+                 }
+                
+                //   dd($ticketF); 
                 $Total_Asignados=$ticketF->cantidadAsignados; 
-                $Saldo_Total=count($data); 
-                $Total_Vendidos=$Total_Asignados- $Saldo_Total; 
-                 if ($Total_Vendidos <$Total_Asignados){
+                $Saldo_Total=$cont; 
+                $Total_Vendidos=$Total_Asignados-$Saldo_Total; 
+                 if ($Total_Vendidos >$Total_Asignados){
                         $Total_Vendidos =$Total_Asignados; 
                     } 
+                // dd($Total_Asignados,$Saldo_Total, $Total_Vendidos);
+
                 $Total_AsignadosMonto=$Total_Asignados*$Precio;
                 $Saldo_TotalMonto=$Saldo_Total*$Precio;
                 $Total_VendidosMonto=$Total_Vendidos*$Precio; 
@@ -876,6 +747,7 @@ class TicketsController extends Controller
                     'Cantidad_Venta'=>$Cantidad_Venta,
                     'Subtotal'=>$Subtotal,
                     'Fecha_de_venta'=>$Fecha_de_venta,
+                    'estadoTicket'=>$ticketF->estadoTicketAsig,
                     'Estado'=>$Estado
 
                 ]);
@@ -883,7 +755,7 @@ class TicketsController extends Controller
 
 
         } 
-        // dd($ArrayDatosFiltrados);
+        //  dd($ArrayDatosFiltrados);
 
         return view('forms.reportes.reporteVentas.rptVenta',[
             'Ventas'       => $ticketsVendidos, 
@@ -900,6 +772,7 @@ class TicketsController extends Controller
 
     } 
     public function consultarVentasMikrotik (Request $request){  
+        $registro="NO";
         $ARRAY=[];
         $arrayDatos=[]; 
         $data = [];
@@ -1004,7 +877,8 @@ class TicketsController extends Controller
                     ->where('item',$datosPerfil['idTicketAsignado'])
                     ->update([ 
                         'estado'            => '0',  
-                    ]);
+                    ]); 
+                    $registro="SI" ;
                 }
                 
                
@@ -1022,16 +896,92 @@ class TicketsController extends Controller
                         'estado'                  =>'1', 
                         'fecha_creacion'          =>date('Y-m-d h:m:s')  
                     ]);  
+
+                    
                 }         
             }  
                
 
 
-        } 
+        }  
+        // dd($ARRAY);
         
-
  
-        return response()->json($ARRAY);   
+        // return response()->json($ARRAY);   
+           return response()->json([
+                'EstadoTicket' => $registro  
+            ]);
+    }
+    public function showSaldoTickets( ){
+        $arrayDatos=[];  
+        $cont = 0;
+         $vendedor=DB::table ('users')->where('idtipo','VEN')->get();  
+         foreach ($vendedor as  $user) { 
+            $asignados=0;
+            $nombre=null; 
+            $alterno=null; 
+            $data = [];
+            $plan = null;
+            $precio = null;
+            $target = null;
+            
+            $id=$user->id;  
+             $nombre =$user->nombre." ".$user->apellidos ;  
+             $alterno=$user->cod_alterno;  
+             
+             $perfiles = DB::table('perfiles')-> get();   
+            $ticketCom = new TicketsController(); 
+
+            $data=$ticketCom->TicketsMikroPorVendedor(strval($alterno),intval($id));  
+            $ticketsAsignados=DB::table ('tickets_asignados_det') 
+                ->where([
+                    ['idtrabajador','=',$id],
+                    ['estado','=',1]
+                ]) 
+                ->get();  
+
+            foreach ($ticketsAsignados as  $ticketsA) { 
+                $nombrePerfil=null;
+                $contadorTickets = 0; 
+                foreach ($data as  $dataMik) {
+                    // dd($dataMik);
+                    if($ticketsA->idperfil==$dataMik['perfil']){
+                         $contadorTickets++;
+                         $nombrePerfil=$dataMik['plan'];
+                    }
+                } 
+                     $asignados=$ticketsA->cantidad;
+                     $saldoVentas=$contadorTickets;
+                     $diferencia =$asignados-$saldoVentas;
+                    //  dd($ticketsA);
+                    if ($diferencia <1){
+                        $diferencia =0; 
+                    } 
+                     $cont+=1;
+                    array_push($arrayDatos,[
+                        'cont'=>$cont, 
+                        'nombre'    => $nombre,
+                        'PerfilAsignado'=>$nombrePerfil,
+                        'id'        => $id,
+                        'asignados' =>$asignados,
+                        'cod_alterno'=>$alterno,
+                        'saldo'      =>$saldoVentas,
+                        'item'      =>$ticketsA->item,
+                        'diferencia'   =>$diferencia 
+                    ]);  
+            }  
+            // dd($arrayDatos);
+         }   
+         
+         $puntoVenta = DB::table('zonas')->where('estado',1)-> get(); 
+        
+    
+        return view('forms.asignarTickets.saldoTickets.lstSaldoTicketsAsignados2',[ 
+            'arrayDatos'   =>$arrayDatos,
+            'puntoDeVenta'   =>$puntoVenta,
+            'vendedores'   =>$vendedor
+
+        ]);
     }
 
 

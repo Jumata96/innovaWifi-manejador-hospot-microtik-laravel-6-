@@ -34,6 +34,7 @@
                                     <th>#</th> 
                                     <th>Trabajador</th>
                                     <th>Cod.Alterno</th>
+                                     <th>Perfil</th> 
                                     <th>Cant.Asignado</th>
                                     <th>Saldo</th>
                                     <th>Vendidos</th>
@@ -45,6 +46,7 @@
                                      <th>#</th> 
                                      <th>Trabajador</th>
                                      <th>Cod.Alterno</th>
+                                     <th>Perfil</th> 
                                      <th>Cant.Asignado</th>
                                      <th>Saldo</th>
                                      <th>Vendidos</th>
@@ -55,13 +57,14 @@
                                  @foreach ($arrayDatos as $datos)
                                  <tr> 
                                   <td>{{ $datos['cont'] }}</td>
-                                  <td>{{ $datos ['nombre'] }}</td>
+                                  <td>{{ $datos ['nombre'] }}</td> 
                                   <td>{{ $datos ['cod_alterno'] }}</td>
+                                  <td>{{ $datos ['PerfilAsignado'] }}</td>
                                   <td>{{ $datos ['asignados'] }}</td>
                                   <td>{{ $datos ['saldo'] }}</td>
                                   <td>{{ $datos ['diferencia'] }}</td>
                                   <td>  
-                                      <a  onclick="cargar({{ $datos['id'] }});" class=" btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Ver">
+                                      <a  onclick="cargar({{ $datos['id'] }},{{ $datos['item'] }});" class=" btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Ver">
                                           <i class="material-icons" style="color: #7986cb ">visibility</i>
                                       </a>  
                                   </td>
@@ -73,15 +76,7 @@
                             </table>
                           </div>
                     
-                  </div>
-                   
-                  
-                                    
-                   
-
-
-
-
+                  </div> 
                   </div>
                 </div>
               </div>

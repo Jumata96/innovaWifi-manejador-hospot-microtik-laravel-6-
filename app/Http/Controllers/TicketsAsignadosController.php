@@ -11,7 +11,8 @@ use Auth;
 class TicketsAsignadosController extends Controller
 {
     //
-    public function asignarTickets(Request $request){
+    public function asignarTickets(Request $request){ 
+
 
         $tickets = DB::table('tickets_asignados')->whereIn('estado', [3,1, 0])->get(); 
         $zonas  =DB::table('zonas')->get(); 
@@ -19,14 +20,21 @@ class TicketsAsignadosController extends Controller
         $perfiles=DB::table ('perfiles')->where('estado',1)->where('idtipo','HST')->get();
         $equipos = DB::table('equipos') ->where('estado',1)->get();  
         $vendedores = DB::table('users')->where('users.idtipo','VEN')->get();
+        // dd($tickets );
+        
+       
         
         $tickets_Venta=DB::table ('ticket_venta')
         ->select('ticket_venta.cantidad','tickets_asignados_perfil_det.codigo')         
         ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
         ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det') 
          ->where('ticket_venta.estado','1') 
-        ->get();  
-
+        ->get(); 
+         $tickets_Asig =DB::table ('tickets_asignados_det')
+         ->select('tickets_asignados_det.idtrabajador','tickets_asignados_det.cantidad','tickets_asignados_perfil_det.idperfil_det','tickets_asignados_perfil_det.codigo')          
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')  
+        ->get(); 
+        // dd( $tickets_Asig);
         return view('forms.asignarTickets.lstTicketsAsignados',[
             'tickets'           => $tickets,
             'zonas'             =>$zonas,
@@ -34,6 +42,7 @@ class TicketsAsignadosController extends Controller
             'router'            => $router,
             'vendedores'       =>$vendedores,
             'tickets_Venta'     =>$tickets_Venta,
+            'tickets_Asig'     =>$tickets_Asig,
             'equipos'           => $equipos
 
         ] );
@@ -297,7 +306,13 @@ class TicketsAsignadosController extends Controller
         ->where('tickets_asignados_perfil_det.codigo',$request->idticket)  
         ->distinct()->get();   
         // dd($tiposTickets);
-
+        $tiposTicketsActivos = DB::table('tickets_asignados_det')
+        ->select('tickets_asignados_det.idperfil')
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det') 
+        ->where([
+            ['tickets_asignados_det.idtrabajador','=',$request->idvendedor],
+            ['tickets_asignados_det.estado','=',1]
+        ])->distinct()->get();  
         $vendedor=DB::table ('users')->where('id',$request->idvendedor)->get(); 
         foreach ($vendedor as  $user) {
             $nombre =$user->nombre." ".$user->apellidos /* + $user->apellidos */; 
@@ -315,8 +330,8 @@ class TicketsAsignadosController extends Controller
             $asignados +=$ticket->cantidad; 
         }  
         $datos['cantidad'] = $asignados;  
-        $datos['ticketsTipos'] =count($tiposTickets);   
-
+        $datos['ticketsTipos'] =count($tiposTickets); 
+        $datos['ticketsActivos'] =count($tiposTicketsActivos);    
 
         $datos['nombre'] =$nombre; 
         $datos['idvendedor'] =$request->idvendedor; 

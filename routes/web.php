@@ -283,7 +283,7 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('/tickets/Asignados/saldo','TicketsController@showSaldoTickets');
 
      Route::post('/tickets/Asignados/Vendedor','TicketsController@TicketsAsignadosPorPersona');
-     Route::get('/tickets/Asignados/mostrarVendedor/{id}','TicketsController@showSaldo');  
+     Route::get('/tickets/Asignados/mostrarVendedor/{id}/{item}','TicketsController@showSaldo');  
 
     //--------reporte de ventas 
      Route::get('/tickets/reporte-venta-trabajador','TicketsController@reporteVenta');

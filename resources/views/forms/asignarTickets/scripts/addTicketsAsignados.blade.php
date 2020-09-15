@@ -165,19 +165,10 @@
 
 								( typeof data.puntoDeVenta != "undefined" )? $('#error1').text(data.puntoDeVenta) && $('#puntoDeVenta').focus() : null;
 								( typeof data.cantidad != "undefined" )? $('#error2').text(data.cantidad) : null;
-								( typeof data.descripcion != "undefined" )? $('#error15').text(data.descripcion) : null;
-
-								// ( typeof data.nombre != "undefined" )? $('#error2').text(data.nombre) : null; 
-											
+								( typeof data.descripcion != "undefined" )? $('#error15').text(data.descripcion) : null; 	
 							} else {   
 
-								var codigo =data.codigo ;
-
-								//alert(data.success);
-								/*  setTimeout(function() {
-									Materialize.toast('<span style="color:#e65100"><b></b> Registrado.</i></span>', 500);
-							}, 000);  */
-								//
+								var codigo =data.codigo ; 
 
 									for (var i = 0; i < detalle.length; i++) {
 										conceptoId=detalle[i][3];//obtenemos el id del plan guardado en el array

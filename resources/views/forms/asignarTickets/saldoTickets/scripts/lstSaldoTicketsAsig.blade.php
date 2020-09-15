@@ -19,9 +19,9 @@
             }
           }); 
            //--------------------------redirecciona al detall de cada vendedor-----------------------------
-            function cargar(valor) {
+            function cargar(valor,item) {
                   
-              redirec =  "{{url('/tickets/Asignados/mostrarVendedor/')}}/"+valor;   
+              redirec =  "{{url('/tickets/Asignados/mostrarVendedor/')}}/"+valor+"/"+item;   
               var win = window.open(redirec, '_blank'); // Cambiar el foco al nuevo tab (punto opcional)
                   win.focus();
 

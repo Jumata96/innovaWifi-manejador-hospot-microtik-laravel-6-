@@ -22,7 +22,7 @@
             }); 
             $("#to").datepicker("setDate", new Date()); 
            /*  $("#from").datepicker("setDate", new Date(2020, 9-1,2)); */
-            $("#from").datepicker("setDate", "-1m"); 
+            $("#from").datepicker("setDate", "-7d"); 
         }); 
         $(document).focusout(  function(){ 
           var fechaFrom =$("#from").val();

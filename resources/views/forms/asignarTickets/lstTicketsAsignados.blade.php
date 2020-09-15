@@ -50,15 +50,16 @@
 						 <div class="row">
 							<div class="col s12 m12 l12">
 							  
-								 <div class="card-content">
+								 <div class="card-content" style="overflow-x:scroll">
 									Existen <?php echo ($bandera)? count($tickets) : 0; ?> registros. <br><br>
-									<table id="data-table-simple" class="responsive-table display centered" cellspacing="0">
+									<table id="data-table-simple"  style="white-space: nowrap;" class="responsive-table display centered" cellspacing="0">
 										  <thead>
 											  <tr>
 												  <th>#</th> 
 												  <th>Punto de Venta</th>
 												  <th>Detalle</th>
 												  <th>Cantidad</th>
+												  <th>Asignados</th>
 												  <th>Vendidos</th>
 												  <th>Saldo</th>
 												  <th >Fecha creación</th>
@@ -75,6 +76,7 @@
 												  <th>Punto de Venta</th>
 												  <th>Detalle</th>
 												  <th>Cantidad</th>
+												  <th>Asignados</th>
 												  <th>Vendidos</th>
 												  <th>Saldo</th>
 												  <th >Fecha creación</th>
@@ -103,6 +105,15 @@
 													  
 												  <td style="width:3ex"><?php echo substr($datos->tickets_cant,0,30) ?></td> 
 												  <td style="width:3ex">
+													<?php  $totaAsig=0 ?>
+													@foreach ($tickets_Asig as $asig)
+													  @if ($datos->codigo==$asig->codigo)
+														<?php  $totaAsig +=$asig->cantidad ?> 
+													  @endif   
+													@endforeach
+													{{$totaAsig}} 
+												   </td> 
+												  <td style="width:3ex">
 													<?php  $total=0 ?>
 													@foreach ($tickets_Venta as $venta)
 													  @if ($datos->codigo==$venta->codigo)
@@ -115,7 +126,8 @@
 														<?php  $saldo;  $saldo =$datos->tickets_cant-$total ?> 
 														{{$saldo}} 
 												  </td>
-												  <td style="width:5ex"> {{$datos->fecha_creacion}} </td>  
+												  
+												  <td style="width:5ex"> {{ date("Y-m-d", strtotime($datos->fecha_creacion))}} </td>  
 												  <td  style="width:8ex" >
 														@if($datos->estado == 0)
 															<div id="u_estado" class="chip center-align" style="width: 85%">
@@ -150,13 +162,20 @@
 															<a href="#h_confirmacion3{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Habilitar">
 															<i class="material-icons" style="color: #2e7d32 ">check</i></a>
 															@endif  
-															@if($datos->estado != 3) 
+															@if ($datos->tickets_cant==$totaAsig)
+															<a  class="btnVerTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
+																data-idTicket="{{$datos->codigo}}" 
+																data-idzona="{{$datos->idzona}}" 
+																data-tooltip="Ver Trabajadores Asignados" 
+																><i class="material-icons " style="color: #ffd54f">autorenew</i></a> 
+															@else
 															<a  class="btnSeleccionarTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
 															data-idTicket="{{$datos->codigo}}" 
 															data-idzona="{{$datos->idzona}}" 
 															data-tooltip="Asignar Trabajadores" 
 															><i class="material-icons " style="color: #ffd54f">autorenew</i></a>
-															@endif  
+																
+															@endif
 															 
 												  </td> 
 											  </tr>  
