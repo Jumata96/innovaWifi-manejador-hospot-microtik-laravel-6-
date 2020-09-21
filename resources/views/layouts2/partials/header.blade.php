@@ -15,7 +15,7 @@
                 </a>
               </li>
               <li>
-                <a href="javascript:void(0);" class="waves-effect waves-block waves-light toggle-fullscreen">
+                <a href="javascript:void(0);" class="fullscreenNavClass waves-effect waves-block waves-light toggle-fullscreen">
                   <i class="material-icons">settings_overscan</i>
                 </a>
               </li>

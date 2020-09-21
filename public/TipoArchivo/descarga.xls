@@ -1,0 +1,550 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Reporte de venta</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>
+                               <thead>
+
+                                                                                                        <input type="hidden" id="Cabecera_color" name="Cabecera_color" value="SI">
+                                     <tr style="background-color: steelblue;color: white">
+                                      <th>#</th>
+                                      <th>Vendedor</th>
+                                      <th>Cod.Alterno</th>
+                                      <th>Punto de Venta</th>
+                                      <th>Paquete</th> 
+                                      <th>Plan</th> 
+                                      <th>Precio</th> 
+                                      <th>Total Asignados </th>
+                                        <th>Total Asignados Monto</th>
+                                      <th>Saldo Total</th>
+                                      <th>Saldo Total Monto</th>
+                                      <th>Total Vendidos</th> 
+                                      <th>Total Vendidos Monto</th> 
+                                      <th>Cantidad Venta</th> 
+                                      <th>Subtotal</th>
+                                      <th>Fecha de venta</th>
+                                      <th>Estado</th> 
+                                  </tr>
+                                      
+                                                                        
+                                                                 
+                               </thead>
+                                
+                               <tbody>
+                                <tr>
+                                                                      <td class="idTabla">1</td>
+
+                                                                        <td class="usuarioTabla">  FRACISCO YE FRANCISCO YE </td>
+                                     <td class="Cod_Alterno">PACH</td>
+                                     <td class=" zonaTabla">pachaca</td>                                     
+                                     <td class="Ticket"> 5 HORAS </td> 
+                                     <td class="perfilTabla"> 5 HORAS MAX</td>
+                                     <td class="precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 454 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 454000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 1 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 1000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 453</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   453000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">6</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 6000 </td> 
+                                     <td class=" fechaTabla">2020-09-15 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">2</td>
+
+                                                                        <td class="usuarioTabla">  SOVEIDA SOBE </td>
+                                     <td class="Cod_Alterno">7VTASO</td>
+                                     <td class=" zonaTabla">7VTA</td>                                     
+                                     <td class="Ticket"> 5 HORAS </td> 
+                                     <td class="perfilTabla"> 5 HORAS MAX</td>
+                                     <td class="precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 371 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 371000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 1 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 1000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 370</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   370000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">42</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 42000 </td> 
+                                     <td class=" fechaTabla">2020-09-15 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">3</td>
+
+                                                                        <td class="usuarioTabla">  DIEGO SULUAGA </td>
+                                     <td class="Cod_Alterno">SANJ</td>
+                                     <td class=" zonaTabla">SAN JOSE</td>                                     
+                                     <td class="Ticket"> 5 HORAS </td> 
+                                     <td class="perfilTabla"> 5 HORAS SAN MAX</td>
+                                     <td class="precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 500 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 500000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 2 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 2000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 498</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   498000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">25</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 25000 </td> 
+                                     <td class=" fechaTabla">2020-09-15 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">4</td>
+
+                                                                        <td class="usuarioTabla">  DIEGO SULUAGA </td>
+                                     <td class="Cod_Alterno">SANJ</td>
+                                     <td class=" zonaTabla">SAN JOSE</td>                                     
+                                     <td class="Ticket"> 12 H </td> 
+                                     <td class="perfilTabla"> 12 HORAS SAN JOSE MAX</td>
+                                     <td class="precioTabla">2000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 270 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 540000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 1 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 2000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 269</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   538000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">3</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 6000 </td> 
+                                     <td class=" fechaTabla">2020-09-15 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">5</td>
+
+                                                                        <td class="usuarioTabla">  TERESA LAMBERTINEZ </td>
+                                     <td class="Cod_Alterno">TRNTER</td>
+                                     <td class=" zonaTabla">TRINIDAD</td>                                     
+                                     <td class="Ticket"> 5 HORAS </td> 
+                                     <td class="perfilTabla"> 5 HORAS MAX</td>
+                                     <td class="precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 500 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 500000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 1 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 1000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 499</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   499000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">22</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 22000 </td> 
+                                     <td class=" fechaTabla">2020-09-15 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">6</td>
+
+                                                                        <td style="background-color:#64b5f6;" class=" usuarioTabla">  EDILMA MEDINA BARRAGAN </td>
+                                     <td style="background-color:#64b5f6;" class=" Cod_Alterno">TRNED5H</td>
+                                     <td style="background-color:#64b5f6;" class="  zonaTabla">TRINIDAD</td>                                     
+                                     <td style="background-color:#64b5f6;" class=" Ticket"> 5 H </td> 
+                                     <td style="background-color:#64b5f6;" class=" perfilTabla"> 5 HORAS MAX</td>
+                                     <td style="background-color:#64b5f6;" class=" precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 500 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 500000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 0 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 0</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 500</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   500000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">30</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 30000 </td> 
+                                     <td class=" fechaTabla">2020-09-15 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">7</td>
+
+                                                                        <td style="background-color:#64b5f6;" class=" usuarioTabla">  MARIA EUJENIA CEBALLOS </td>
+                                     <td style="background-color:#64b5f6;" class=" Cod_Alterno">CANBEL</td>
+                                     <td style="background-color:#64b5f6;" class="  zonaTabla">CANDELARIA</td>                                     
+                                     <td style="background-color:#64b5f6;" class=" Ticket"> 1 DIA </td> 
+                                     <td style="background-color:#64b5f6;" class=" perfilTabla"> 1 DIA MAX</td>
+                                     <td style="background-color:#64b5f6;" class=" precioTabla">3000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 77 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 231000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 0 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 0</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 77</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   231000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">2</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 6000 </td> 
+                                     <td class=" fechaTabla">2020-09-15 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">8</td>
+
+                                                                        <td style="background-color:#64b5f6;" class=" usuarioTabla">  JAVIER ANTONIO MATINEZ OVIEDO </td>
+                                     <td style="background-color:#64b5f6;" class=" Cod_Alterno">CANJAV</td>
+                                     <td style="background-color:#64b5f6;" class="  zonaTabla">CANDELARIA</td>                                     
+                                     <td style="background-color:#64b5f6;" class=" Ticket"> Semana 01 Setiembre </td> 
+                                     <td style="background-color:#64b5f6;" class=" perfilTabla"> 5 HORAS MAX</td>
+                                     <td style="background-color:#64b5f6;" class=" precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 300 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 300000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 0 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 0</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 300</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   300000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">293</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 293000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">9</td>
+
+                                                                        <td class="usuarioTabla">  FRACISCO YE FRANCISCO YE </td>
+                                     <td class="Cod_Alterno">PACH</td>
+                                     <td class=" zonaTabla">pachaca</td>                                     
+                                     <td class="Ticket"> 5 HORAS </td> 
+                                     <td class="perfilTabla"> 5 HORAS MAX</td>
+                                     <td class="precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 454 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 454000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 1 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 1000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 453</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   453000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">350</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 350000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">10</td>
+
+                                                                        <td class="usuarioTabla">  SOVEIDA SOBE </td>
+                                     <td class="Cod_Alterno">7VTASO</td>
+                                     <td class=" zonaTabla">7VTA</td>                                     
+                                     <td class="Ticket"> 5 HORAS </td> 
+                                     <td class="perfilTabla"> 5 HORAS MAX</td>
+                                     <td class="precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 371 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 371000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 1 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 1000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 370</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   370000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">69</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 69000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">11</td>
+
+                                                                        <td style="background-color:#64b5f6;" class=" usuarioTabla">  AMALFI PAJARA </td>
+                                     <td style="background-color:#64b5f6;" class=" Cod_Alterno">7VTPAJ</td>
+                                     <td style="background-color:#64b5f6;" class="  zonaTabla">7VTA</td>                                     
+                                     <td style="background-color:#64b5f6;" class=" Ticket"> 5 horas </td> 
+                                     <td style="background-color:#64b5f6;" class=" perfilTabla"> 5 HORAS MAX</td>
+                                     <td style="background-color:#64b5f6;" class=" precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 385 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 385000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 0 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 0</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 385</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   385000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">40</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 40000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">12</td>
+
+                                                                        <td class="usuarioTabla">  DIEGO SULUAGA </td>
+                                     <td class="Cod_Alterno">SANJ</td>
+                                     <td class=" zonaTabla">SAN JOSE</td>                                     
+                                     <td class="Ticket"> 5 HORAS </td> 
+                                     <td class="perfilTabla"> 5 HORAS SAN MAX</td>
+                                     <td class="precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 500 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 500000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 2 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 2000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 498</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   498000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">135</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 135000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">13</td>
+
+                                                                        <td class="usuarioTabla">  DIEGO SULUAGA </td>
+                                     <td class="Cod_Alterno">SANJ</td>
+                                     <td class=" zonaTabla">SAN JOSE</td>                                     
+                                     <td class="Ticket"> 12 H </td> 
+                                     <td class="perfilTabla"> 12 HORAS SAN JOSE MAX</td>
+                                     <td class="precioTabla">2000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 270 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 540000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 1 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 2000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 269</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   538000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">262</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 524000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">14</td>
+
+                                                                        <td class="usuarioTabla">  DIEGO SULUAGA </td>
+                                     <td class="Cod_Alterno">SANJ</td>
+                                     <td class=" zonaTabla">SAN JOSE</td>                                     
+                                     <td class="Ticket"> 1 DIA </td> 
+                                     <td class="perfilTabla"> 1 DIA SAN JOSE MAX</td>
+                                     <td class="precioTabla">3000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 300 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 900000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 1 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 3000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 299</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   897000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">299</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 897000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">15</td>
+
+                                                                        <td class="usuarioTabla">  TERESA LAMBERTINEZ </td>
+                                     <td class="Cod_Alterno">TRNTER</td>
+                                     <td class=" zonaTabla">TRINIDAD</td>                                     
+                                     <td class="Ticket"> 5 HORAS </td> 
+                                     <td class="perfilTabla"> 5 HORAS MAX</td>
+                                     <td class="precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 500 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 500000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 1 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 1000</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 499</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   499000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">386</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 386000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">16</td>
+
+                                                                        <td style="background-color:#64b5f6;" class=" usuarioTabla">  EDILMA MEDINA BARRAGAN </td>
+                                     <td style="background-color:#64b5f6;" class=" Cod_Alterno">TRNED5H</td>
+                                     <td style="background-color:#64b5f6;" class="  zonaTabla">TRINIDAD</td>                                     
+                                     <td style="background-color:#64b5f6;" class=" Ticket"> 5 H </td> 
+                                     <td style="background-color:#64b5f6;" class=" perfilTabla"> 5 HORAS MAX</td>
+                                     <td style="background-color:#64b5f6;" class=" precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 500 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 500000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 0 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 0</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 500</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   500000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">414</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 414000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">17</td>
+
+                                                                        <td style="background-color:#64b5f6;" class=" usuarioTabla">  MARIA EUJENIA CEBALLOS </td>
+                                     <td style="background-color:#64b5f6;" class=" Cod_Alterno">CANBEL</td>
+                                     <td style="background-color:#64b5f6;" class="  zonaTabla">CANDELARIA</td>                                     
+                                     <td style="background-color:#64b5f6;" class=" Ticket"> 1 DIA </td> 
+                                     <td style="background-color:#64b5f6;" class=" perfilTabla"> 1 DIA MAX</td>
+                                     <td style="background-color:#64b5f6;" class=" precioTabla">3000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 77 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 231000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 0 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 0</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 77</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   231000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">68</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 204000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">18</td>
+
+                                                                        <td style="background-color:#64b5f6;" class=" usuarioTabla">  JAVIER ANTONIO MATINEZ OVIEDO </td>
+                                     <td style="background-color:#64b5f6;" class=" Cod_Alterno">CANJAV</td>
+                                     <td style="background-color:#64b5f6;" class="  zonaTabla">CANDELARIA</td>                                     
+                                     <td style="background-color:#64b5f6;" class=" Ticket"> PRUEBA TICKET CERRADO </td> 
+                                     <td style="background-color:#64b5f6;" class=" perfilTabla"> 5 HORAS MAX</td>
+                                     <td style="background-color:#64b5f6;" class=" precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 2 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 2000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 0 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 0</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 2</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   2000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">1</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 1000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                      <tr><td class="idTabla">19</td>
+
+                                                                        <td style="background-color:#64b5f6;" class=" usuarioTabla">  JAVIER ANTONIO MATINEZ OVIEDO </td>
+                                     <td style="background-color:#64b5f6;" class=" Cod_Alterno">CANJAV</td>
+                                     <td style="background-color:#64b5f6;" class="  zonaTabla">CANDELARIA</td>                                     
+                                     <td style="background-color:#64b5f6;" class=" Ticket"> PRUEBA TICKET CERRADO </td> 
+                                     <td style="background-color:#64b5f6;" class=" perfilTabla"> 5 HORAS MAX</td>
+                                     <td style="background-color:#64b5f6;" class=" precioTabla">1000.00 </td>  
+                                   
+                                   
+                                     <td style="background-color:#e6ee9c ;" class="Total_Asignados"> 2 </td> 
+                                     <td style="background-color:#e6ee9c ;" class="Total_AsignadosMonto"> 2000 </td>
+                                     <td style="background-color:#dce775 ;" class="Saldo_Total "> 0 </td> 
+                                     <td style="background-color:#dce775;" class="Saldo_TotalMonto "> 0</td>
+                                     <td style="background-color:#e6ee9c;" class="Total_Vendidos"> 2</td> 
+                                     <td style="background-color:#e6ee9c;" class="Total_VendidosMonto">   2000 </td> 
+                                     <td style="background-color:#c5e1a5 ;" class=" cantidadTabla ">1</td>
+                                     <td style="background-color:#c5e1a5 ;" class=" subtotalTabla "> 1000 </td> 
+                                     <td class=" fechaTabla">2020-09-16 </td>
+                                      
+                                     
+                                    <td class="center estadoTable">
+                                                                              <span value="VENDIDO" class="badge green lighten-5 green-text text-accent-4">VENDIDO</span>                                        
+                                                                          </td> 
+                                  </tr>
+                                    
+                                                                 </tbody>
+                               
+                               <tfoot>
+                                  <tr> 
+                                     <th></th>
+                                     <th></th>
+                                     <th></th>
+                                     <th></th>
+                                     <th></th>
+                                     <th></th>
+                                     <th class="center"></th>
+                                     <th></th>
+                                     <th></th>
+                                     <th></th>
+                                     <th></th>
+                                     <th></th>
+                                     <th></th>
+                                     <th class="center  light-blue lighten-5">TOTAL:</th>
+                                     <th id="total" class="total  light-blue lighten-5">3,451,000.00</th>
+                                     
+                                     <th></th>
+                                     <th></th>
+                                     <th class="center hide"></th>
+                                  </tr>
+                                </tfoot>
+                            </table></body></html>

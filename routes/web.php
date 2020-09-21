@@ -99,6 +99,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/zonas/eliminar/{id}','ZonasController@destroy');
 	Route::get('/zonas/habilitar/{id}','ZonasController@habilitar');
     Route::get('/zonas/desabilitar/{id}','ZonasController@desabilitar');
+	Route::post('/zonas/validarEliminacion','ZonasController@validarEliminacion');
+
+    
     //tickets 
 	
 
@@ -297,6 +300,15 @@ Route::group(['middleware' => 'auth'], function () {
 
 
      
+     Route::get('/pruebaVue','ModeloController@prueba'); 
+	Route::get('/modelo', 'ModeloController@index');
+	Route::get('/modelo/lista', 'ModeloController@list');
+	Route::post('/modelo/store', 'ModeloController@store');
+	Route::put('/modelo/update/{id}', 'ModeloController@update');
+	Route::delete('/modelo/delete/{id}', 'ModeloController@delete');
+	Route::delete('/modelo/disable/{id}', 'ModeloController@disable');
+	Route::delete('/modelo/enable/{id}', 'ModeloController@enable');
+	Route::get('/modelo/buscar/{id}', 'ModeloController@buscar');
 
      
 

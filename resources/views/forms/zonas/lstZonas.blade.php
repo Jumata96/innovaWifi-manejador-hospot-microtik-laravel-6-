@@ -41,7 +41,7 @@
 							  
 								 <div class="card-content">
 									Existen <?php echo ($bandera)? count($zonas) : 0; ?> registros. <br><br>
-									<table id="data-table-simple" class="responsive-table display" cellspacing="0">
+									<table id="data-table-simple" class="responsive-table display" cellspacing="0" style="white-space: nowrap;">
 										  <thead>
 											  <tr>
 												  <th>#</th> 
@@ -116,7 +116,7 @@
 													 <a href="{{ url('/zonas/mostrar') }}/{{$datos->id}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Ver">
 													  <i class="material-icons" style="color: #7986cb ">visibility</i>
 													</a>                                       
-													 <a href="#confirmacion{{$i}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Eliminar">
+													 <a {{-- href="#confirmacion{{$i}}" --}}  class="btnEliminarZona btn-floating waves-effect waves-light grey lighten-5 tooltipped  " data-id="{{$datos->id}}" data-position="top" data-delay="500" data-tooltip="Eliminar">
 													  <i class="material-icons" style="color: #dd2c00">remove</i>
 													</a>
 													@if($datos->estado == 1)                                      
@@ -128,11 +128,11 @@
 													 @endif
 												  </td>
 											  </tr> 
-											  @include('forms.zonas.scripts.alertaConfirmacion')
+											 
 											  @include('forms.zonas.scripts.alertaConfirmacion2') 
-											  @include('forms.zonas.scripts.alertaConfirmacion3') 
-
+											  @include('forms.zonas.scripts.alertaConfirmacion3')  
 											  <?php }} ?>
+											   @include('forms.zonas.scripts.alertaConfirmacion')
 										  </tbody>
 									  </table>
 									</div>
@@ -146,6 +146,11 @@
 
 
  
+@endsection
+
+@section('script')
+@include('forms.zonas.scripts.lstZonas')
+	
 @endsection
 
  

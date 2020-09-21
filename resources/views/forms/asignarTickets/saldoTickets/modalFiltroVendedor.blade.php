@@ -53,7 +53,7 @@
 								<tbody>
 									<tr>
 									<?php 
-											foreach ($vendedores as $datos) {
+											foreach ($vendedorConSaldo as $datos) {
 											$i++;
 										?>
 										<td style="width:4em;"><?php echo $i; ?></td>

@@ -395,9 +395,7 @@ class TicketsAsignadosController extends Controller
          
          
          
-    }
-
-
+    } 
     public function cerrarTicket($id)
     {
          

@@ -835,7 +835,7 @@ class TicketsController extends Controller
                 ['estado','=',1]
             ]) 
             ->get();
-
+      
 
         return view('forms.reportes.reporteVentas.rptVenta',[
             'Ventas'       => $ticketsVendidos, 
@@ -1097,11 +1097,22 @@ class TicketsController extends Controller
          }   
          
          $puntoVenta = DB::table('zonas')->where('estado',1)-> get(); 
-        
+
+          $vendedorConSaldo=DB::table ('users')
+          ->select('users.*','tickets_asignados_det.estado')
+          ->join( 'tickets_asignados_det','tickets_asignados_det.idtrabajador','=','users.id')
+          ->where([
+               ['users.idtipo','=','VEN'],
+               ['tickets_asignados_det.estado','=','1'] 
+          ])->distinct()
+          ->get();
+        //  dd($vendedorConSaldo);
+       
     
         return view('forms.asignarTickets.saldoTickets.lstSaldoTicketsAsignados2',[ 
             'arrayDatos'   =>$arrayDatos,
             'puntoDeVenta'   =>$puntoVenta,
+            'vendedorConSaldo'=>$vendedorConSaldo,
             'vendedores'   =>$vendedor
 
         ]);

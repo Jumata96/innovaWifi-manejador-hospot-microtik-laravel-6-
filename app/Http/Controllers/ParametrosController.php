@@ -61,7 +61,7 @@ class ParametrosController extends Controller
         //--
 
         $parametros = DB::table('parametros')
-            ->whereIn('tipo_parametro',['HOTSPOT_EXTERNO','DASHBOARD'])
+            ->whereIn('tipo_parametro',['HOTSPOT_EXTERNO','DASHBOARD','ESTILOS'])
             ->where('estado',1)
             ->orderBy('tipo_parametro','desc')
             ->get();
@@ -78,7 +78,7 @@ class ParametrosController extends Controller
     public function update(Request $request)
     {
         $parametros = DB::table('parametros')
-            ->whereIn('tipo_parametro',['PPPOE','DASHBOARD'])
+            ->whereIn('tipo_parametro',['PPPOE','DASHBOARD','ESTILOS'])
             ->where('estado',1)->get();
 
         foreach ($parametros as $value) {

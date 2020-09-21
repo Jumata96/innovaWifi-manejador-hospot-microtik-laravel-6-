@@ -45,16 +45,26 @@
         $(document).ready(function() {
             // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
-        });
-
-        $('#radio').click(function(e) {
-            val = $('#left-sidebar-nav').data('valor');
-
+            val = $('#left-sidebar-nav').data('valor'); 
             if (val == '0') {
                 console.log('entroooo');
                 $('#sideusuario').hide();
                 $('#left-sidebar-nav').data('valor', '1');
-                $('#mas_opciones').text('MÁS');
+                $('#mas_opciones').text('--');
+            } else {
+                $('#sideusuario').show();
+                $('#left-sidebar-nav').data('valor', '0');
+                $('#mas_opciones').text('MÁS OPCIONES');
+            }
+        });
+
+        $('#radio').click(function(e) {
+            val = $('#left-sidebar-nav').data('valor'); 
+            if (val == '0') {
+                console.log('entroooo');
+                $('#sideusuario').hide();
+                $('#left-sidebar-nav').data('valor', '1');
+                $('#mas_opciones').text('--');
             } else {
                 $('#sideusuario').show();
                 $('#left-sidebar-nav').data('valor', '0');
@@ -97,9 +107,9 @@
     }
     //   buscarDireccion();
      
-     setInterval(function(){
+     /* setInterval(function(){
       buscarDireccion();  
-    	}, 5000); 
+    	}, 5000);  */
   
     $('#CerrarMensajeGeneral').on('click',function( ){ 
         var elementoMensajeGeneral = document.getElementById('mensajeGeneral'); //se define la variable "el" igual a nuestro div

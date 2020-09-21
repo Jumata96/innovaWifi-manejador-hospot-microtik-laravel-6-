@@ -22,8 +22,7 @@ class ZonasController extends Controller
         ]);
     }
     public function destroy($id)
-    {
-         
+    { 
         DB::table('zonas')
             ->where('id',$id)->delete();
 
@@ -115,6 +114,19 @@ class ZonasController extends Controller
         ]);
         return response()->json("conforme");
 
+    }
+     public function validarEliminacion (Request $request){ 
+
+          $contador=0; 
+          $tickets = DB::table('tickets_asignados')->where('idzona', $request->id)->get(); 
+          $contador +=count($tickets);
+          $usuarios = DB::table('users')->where('idzona',$request->id )->get(); 
+          $contador +=count($usuarios);
+        //    dd( $tickets);
+          return response()->json([
+                'registros' => $contador  
+            ]);
+         
     }
 
 

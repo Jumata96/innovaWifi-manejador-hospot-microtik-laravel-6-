@@ -147,42 +147,73 @@
 														@endif
 												  </td>
 												  </td>
-												  <td class="center" style="width: 10em">
-													<a href="{{ url('/tickets/Asignados/mostrar') }}/{{$datos->codigo}}" target="_blank" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top" data-delay="500" data-tooltip="Ver">
-														<i class="material-icons" style="color: #7986cb ">visibility</i></a>
+												  <td  class="center" style="padding-bottom:0px,padding-top:0px"  >
+													   
 
-														 <a href="#confirmacion{{$i}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Eliminar">
-															<i class="material-icons" style="color: #dd2c00">remove</i>
-															</a>
-															@if($datos->estado == 1)                                      
-															<a href="#h_confirmacion2{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Desabilitar">
-															<i class="material-icons" style="color: #757575 ">clear</i></a>
+													{{-- <div style="position: relative;z-index: 1"> --}}
+													<div class="fixed-action-btn horizontal  direction-top direction-left" style="z-index: 1;position: relative;height:1px;padding-left:20px; padding-top:0px;padding-bottom:0px">
+														<a     class=" small btn-floating   light-blue darken-1" data-position="top"  >
+														<i class="material-icons prefix" >format_list_bulleted</i></a>
+														</a>
+														<ul>
+														<li>
+															<a href="{{ url('/tickets/Asignados/mostrar') }}/{{$datos->codigo}}" target="_blank" class="btn-floating blue  tooltipped" data-position="top" data-delay="500" data-tooltip="Ver">
+														<i class="material-icons">visibility</i></a> 
+														</li>
+														<li>
+															<a href="#confirmacion{{$i}}" class="btn-floating red tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Eliminar">
+															<i class="material-icons" >remove</i></a>
+														</li>
+														@if($datos->estado == 1)                                      
+															<li>
+																<a href="#h_confirmacion2{{$datos->codigo}}" class="btn-floating gradient-45deg-deep-orange-orange tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Desabilitar">
+															<i class="material-icons">clear</i></a>
+															</li>
 															@elseif($datos->estado == 3)
 															@else 
-															<a href="#h_confirmacion3{{$datos->codigo}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Habilitar">
-															<i class="material-icons" style="color: #2e7d32 ">check</i></a>
-															@endif  
-															@if ($datos->tickets_cant==$totaAsig)
-															<a  class="btnVerTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
-																data-idTicket="{{$datos->codigo}}" 
-																data-idzona="{{$datos->idzona}}" 
-																data-tooltip="Ver Trabajadores Asignados" 
-																><i class="material-icons " style="color: #ffd54f">autorenew</i></a> 
+															<li>
+																<a href="#h_confirmacion3{{$datos->codigo}}" class="btn-floating green darken-3 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Habilitar">
+															<i class="material-icons">check</i></a>
+															</li>
+														@endif 
+														
+														@if ($datos->tickets_cant==$totaAsig)
+																<li>
+																	<a  class="btnVerTrabajador btn-floating yellow darken-1 tooltipped" 
+																	data-idTicket="{{$datos->codigo}}" 
+																	data-idzona="{{$datos->idzona}}" 
+																	data-tooltip="Ver Trabajadores Asignados" 
+																	><i class="material-icons " >autorenew</i></a> 
+																</li>
+															
 																@if ($datos->estado != 3)
-																<a href="#confirmacion4{{$i}}" class="btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Eliminar">
-																<i class="material-icons" style="color: #dd2c00">done_all</i>
-																</a>
+																<li>
+																	<a href="#confirmacion4{{$i}}" class="btn-floating  light-green darken-2 tooltipped modal-trigger" data-position="top" data-delay="500" data-tooltip="Cerrar Ticket">
+																	<i class="material-icons">done_all</i>
+																	</a>
+																</li>
+																
 																 
 																@endif  
-															@else
-															<a  class="btnSeleccionarTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
-															data-idTicket="{{$datos->codigo}}" 
-															data-idzona="{{$datos->idzona}}" 
-															data-tooltip="Asignar Trabajadores" 
-															><i class="material-icons " style="color: #ffd54f">autorenew</i></a> 
-															@endif
-															 
-												  </td> 
+														@else
+															<li>
+																<a  class="btnSeleccionarTrabajador btn-floating waves-effect waves-light grey lighten-5 tooltipped  " 
+																data-idTicket="{{$datos->codigo}}" 
+																data-idzona="{{$datos->idzona}}" 
+																data-tooltip="Asignar Trabajadores" 
+																><i class="material-icons " style="color: #ffd54f">autorenew</i></a> 
+															</li>
+														@endif
+														</ul>
+													</div>
+													{{-- </div> --}}
+
+													
+											 
+										 
+
+
+ 												</td> 
 											  </tr>  
 											  @include('forms.asignarTickets.scripts.alertaConfirmacion') 
 											  @include('forms.asignarTickets.scripts.alertaConfirmacion2') 
@@ -211,6 +242,18 @@
 @endsection
 
 @section('script') 
+<script>
+	$('.dropdown-trigger').dropdown();
+	$('#drop').dropdown();
+
+// 	  document.addEventListener('DOMContentLoaded', function() {
+//     var elems = document.querySelectorAll('.dropdown-trigger');
+//     var instances = M.Dropdown.init(elems,[autoTrigger=true]);
+//   });
+
+
+	
+</script>
   @include('forms.asignarTickets.scripts.addTicketsAsignados')
   @include('forms.asignarTickets.scripts.addTicketsTrabajadores') 
 @endsection

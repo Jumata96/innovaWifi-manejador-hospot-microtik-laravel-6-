@@ -34,16 +34,32 @@
           // unit: "in",
           // format: [4, 3]
         });
+        
         // doc.text("REPORTE DE VENTAS", 4.5, 0.5);
         // doc.text("___________________",4.5,0.7); 
-      
+        var bandera =$('#Cabecera_color').val();
+        var tipo=null;
+        console.log(bandera);
+        if(bandera=='SI'){
+           tipo ='striped'; 
+        }else{
+           tipo ='grid'; 
+        } 
         doc.text(110,20,"REPORTE DE VENTAS");  
         doc.text(110,24,"___________________"); 
+
+       /*   var logo = new Image(); 
+        logo.src = " {{asset('images/img8.jpg') }} ";  
+        doc.addImage(logo, 'JPG', 10, 10, 50, 70); */
+        
          var columns = ["Id", "Vendedor","Cod.Alterno", "Punto de Venta","Paquete","Plan", "Precio","Total Asignados","Total Vendidos","Saldo Total","Cantidad Venta", "Subtotal", "Fecha de venta"];   
         doc.autoTable(columns,materiales,{
-          margin:{ top: 30},content: 'Text',theme: 'striped',styles: { halign: 'center' } 
-        } 
+          margin:{ top: 30},content: 'Text',theme:tipo,styles: { halign: 'center' } 
+        } ,materiales
         ); 
+
+ 
+
         doc.save('Reporte ventas.pdf');  
         // temas :  ->grid,plain,striped
  }); 

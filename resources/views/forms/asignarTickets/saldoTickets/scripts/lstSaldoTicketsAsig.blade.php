@@ -51,6 +51,7 @@
                                           ' <td>'+jArray[x].cont+'</td>'+
                                             '<td style="width:12em;" >'+jArray[x].nombre+'</td>'+
                                             '<td>'+jArray[x].cod_alterno+'</td>'+
+                                            '<td>'+jArray[x].PerfilAsignado+'</td>'+
                                             '<td>'+jArray[x].asignados+'</td>'+
                                             '<td>'+jArray[x].saldo+'</td>'+
                                             '<td>'+jArray[x].diferencia+'</td>'+

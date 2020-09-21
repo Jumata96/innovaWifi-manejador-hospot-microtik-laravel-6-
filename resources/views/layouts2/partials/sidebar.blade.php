@@ -1,14 +1,31 @@
 <!-- START LEFT SIDEBAR NAV-->
-        <aside id="left-sidebar-nav" data-valor="0" class="nav-expanded nav-lock nav-collapsible">
+{{--         <aside id="left-sidebar-nav" data-valor="0" class="nav-expanded nav-lock nav-collapsible"> --}}
+             <aside  id="left-sidebar-nav"   data-valor="1" class="sidenav-main full main-full nav-collapsible   sidenav-active-square {{ (Auth::user()->menu_colapsible == 1)? 'nav-collapsed' : 'nav-lock'}}">
+
+
           <div class="brand-sidebar">
+            @if(Auth::user()->menu_colapsible == 0) 
             <h1 class="logo-wrapper" style="padding-top: 8px; padding-left: 15px">
               <a href="http://innovawisp.com" class="brand-logo darken-1" target="_blank">
                 <img src="{{asset('images/logo/InnovaWifi3.png')}}" alt="InnovaWifi" style=" height: 43px">               
               </a>
               <a href="#" class="navbar-toggler" id="radio" onclick="Materialize.fadeInImage('#sideusuario')" style="margin-left: 70px">
-                <i class="material-icons" id="radio2">radio_button_checked</i>
+                <i class="material-icons" id="radio2">radio_button_unchecked</i>
               </a>
             </h1>
+            @else
+            <h1 class="logo-wrapper white" style="padding-top: 8px; padding-left: 15px">
+              <a href="http://innovawisp.com" class="brand-logo darken-1" target="_blank">
+                <img src="{{asset('images/Isotipo.png')}}" alt="InnovaWifi" style=" height: 43px ;background-image: url('{{asset('images/Isotipo.png')}}') !importar;" >  
+                <span id="LogoInnovaTec" style="color:black;" class="logo-text hide-on-med-and-down "><b >Innova</b>Wifi</span>             
+              </a>
+                
+              <a href="#" class="navbar-toggler"   id="radio" onclick="Materialize.fadeInImage('#sideusuario')" style="margin-left: 70px;padding-top: 5px;">
+                <i class="material-icons"  style="color:black;"   id="radio2">radio_button_checked</i>
+              </a>
+            </h1> 
+
+          @endif
           </div>
           <ul id="slide-out" class="side-nav fixed leftside-navigation">
             <li class="no-padding">

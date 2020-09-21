@@ -7,4 +7,23 @@
 		<a href="{{url('/zonas/eliminar')}}/{{$datos->id}}" id="eliminar" class="waves-effect waves-light btn-flat modal-action modal-close">Aceptar</a>
 	</div>
 </div>
+<div id="confirmacionEliminar" class="modal" style="width: 500px">
+	<div class="modal-content indigo white-text center">
+		<p>Está seguro que desea eliminar este registro?</p>
+	</div>
+	<div class="modal-footer indigo lighten-4">
+		<a   class="waves-effectwaves-light btn-flat modal-action modal-close">Cancelar</a>
+		<a  id="eliminarzona" class="waves-effect waves-light btn-flat modal-action modal-close">Aceptar</a>
+	</div>
+</div>
+
+<div id="confirmacionFallida" class="modal" style="width: 500px">
+	<div class="modal-content indigo white-text center">
+		<p>Existen datos relacionados con este punto de venta, elimine la relaciones para poder eliminar este registro.</p>
+	</div>
+	<div class="modal-footer indigo lighten-4"> 
+		<a    class="waves-effect waves-light btn-flat modal-action modal-close">Aceptar</a>
+	</div>
+</div>
+
 
