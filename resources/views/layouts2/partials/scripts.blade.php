@@ -75,7 +75,7 @@
         });
 
         //registro de ventas del mickotick
-        function buscarDireccion() {
+        function consultarTickets() {
        // value = $('#value').text();
        var data = []; 
        //ar data = bandera.push('B',); 
@@ -105,11 +105,11 @@
           }
       });
     }
-    //   buscarDireccion();
+    // consultarTickets();
      
-     /* setInterval(function(){
-      buscarDireccion();  
-    	}, 5000);  */
+ /*     setInterval(function(){
+      consultarTickets();  
+    	}, 600000);   */
   
     $('#CerrarMensajeGeneral').on('click',function( ){ 
         var elementoMensajeGeneral = document.getElementById('mensajeGeneral'); //se define la variable "el" igual a nuestro div
@@ -124,3 +124,12 @@
     @section('script')
 
     @show
+
+
+
+
+
+
+
+
+

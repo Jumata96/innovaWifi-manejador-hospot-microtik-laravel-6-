@@ -56,9 +56,9 @@
                                             '<td>'+jArray[x].saldo+'</td>'+
                                             '<td>'+jArray[x].diferencia+'</td>'+
                                             '<td>'+
-                                            '<a   onclick="cargar('+jArray[x].id+');" class=" btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top"'+ 'data-delay="500" data-tooltip="Ver">'+
+                                            '<a   onclick="cargar('+jArray[x].id+','+jArray[x].item+');" class=" btn-floating waves-effect waves-light grey lighten-5 tooltipped" data-position="top"'+ 'data-delay="500" data-tooltip="Ver">'+
                                                 '<i class="material-icons" style="color: #7986cb ">visibility</i>'+
-                                            '</a>'+
+                                            '</a>'+ 
         
                                             '</td>'+
                                         '</tr>'  

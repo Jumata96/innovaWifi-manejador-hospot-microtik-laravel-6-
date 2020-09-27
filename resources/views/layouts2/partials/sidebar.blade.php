@@ -251,7 +251,7 @@
               </ul>
             </li>
             <li class="li-hover">
-              <p class="ultra-small margin more-text" id="mas_opciones">Mas opciones</p>
+              <p class="ultra-small margin more-text" id="mas_opciones">Mas</p>
             </li>
             <li>
               <a href="{{url('/colores')}}" target="_blank">

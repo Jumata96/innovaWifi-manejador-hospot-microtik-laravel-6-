@@ -30,9 +30,10 @@
                              
                         
                   </div>
+                  
                                     
                   
-                  <div class="row cuerpo">
+                  <div class="row cuerpo"><br><br>
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     
                     <div class="col col s12 m12 l12   ">
@@ -87,6 +88,7 @@
                                                           <tr>
                                                               <th>#</th> 
                                                               <th>Perfil</th>
+                                                              <th>Código Alterno</th>
                                                               <th>Precio</th>
                                                               <th>Cantidad</th>
                                                               <th>Vendidos</th>
@@ -103,6 +105,7 @@
                                                           <tr>
                                                               <th>#</th> 
                                                               <th>Perfil</th>
+                                                              <th>Código Alterno</th>
                                                               <th>Precio</th>
                                                               <th>Cantidad</th>
                                                               <th>Vendidos</th>
@@ -128,6 +131,7 @@
                                                                   @endif  
                                                                 @endforeach
                                                                 </td>  
+                                                                <td> {{$datos->codigo_alterno}} </td>
                                                                 <td>{{$datos->precio}}</td> 
                                                                 <td> {{ $datos->cantidad}}</td>  
                                                                 <td>

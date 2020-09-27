@@ -53,6 +53,12 @@
 								 <div class="card-content" style="overflow-x:scroll">
 									Existen <?php echo ($bandera)? count($tickets) : 0; ?> registros. <br><br>
 									<table id="data-table-simple"  style="white-space: nowrap;" class="responsive-table display centered" cellspacing="0">
+										@php
+											$totalAsignados=0;
+											$totalvendidos=0;
+											$totalsaldo=0;
+											$totalTickets=0;
+										@endphp
 										  <thead>
 											  <tr>
 												  <th>#</th> 
@@ -64,26 +70,13 @@
 												  <th>Saldo</th>
 												  <th >Fecha creación</th>
 												  <th>Estado</th>
-												  <th>Acción</th>
+												  <th style="width: 3em;">Acción</th>
 											  </tr>
 										  </thead>
 										  <?php
 												 if($bandera){                                                           
 											?>
-										  <tfoot>
-											  <tr>
-												  <th>#</th> 
-												  <th>Punto de Venta</th>
-												  <th>Detalle</th>
-												  <th>Cantidad</th>
-												  <th>Asignados</th>
-												  <th>Vendidos</th>
-												  <th>Saldo</th>
-												  <th >Fecha creación</th>
-												  <th>Estado</th>
-												  <th>Acción</th>
-											  </tr>
-											</tfoot>
+										 
  
 										  <tbody>
 												<?php 
@@ -101,9 +94,8 @@
 														@endif
 														
 												  @endforeach
-												  <td style="width:3em" > {{ $datos->descripcion }} </td>
-													  
-												  <td style="width:3ex"><?php echo substr($datos->tickets_cant,0,30) ?></td> 
+												  <td style="width:3em" > {{ $datos->descripcion }} </td> 
+												  <td style="width:3ex"><?php echo substr($datos->tickets_cant,0,30) ?></td>  
 												  <td style="width:3ex">
 													<?php  $totaAsig=0 ?>
 													@foreach ($tickets_Asig as $asig)
@@ -112,6 +104,7 @@
 													  @endif   
 													@endforeach
 													{{$totaAsig}} 
+													
 												   </td> 
 												  <td style="width:3ex">
 													<?php  $total=0 ?>
@@ -126,6 +119,12 @@
 														<?php  $saldo;  $saldo =$datos->tickets_cant-$total ?> 
 														{{$saldo}} 
 												  </td>
+												  	@php
+														$totalAsignados+=$totaAsig;
+														$totalvendidos+=$total;
+														$totalsaldo+=$saldo;
+														$totalTickets+=$datos->tickets_cant;
+													@endphp
 												  
 												  <td style="width:5ex"> {{ date("Y-m-d", strtotime($datos->fecha_creacion))}} </td>  
 												  <td  style="width:8ex" >
@@ -148,10 +147,20 @@
 												  </td>
 												  </td>
 												  <td  class="center" style="padding-bottom:0px,padding-top:0px"  >
-													   
 
-													{{-- <div style="position: relative;z-index: 1"> --}}
-													<div class="fixed-action-btn horizontal  direction-top direction-left" style="z-index: 1;position: relative;height:1px;padding-left:20px; padding-top:0px;padding-bottom:0px">
+
+													{{-- <a class="dropdown-trigger" href="#!" id="dropDown" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a>
+
+													<ul id="dropdown1" class="dropdown-content">
+														<li><a href="#!">one</a></li>
+														<li><a href="#!">two</a></li>
+														<li class="divider"></li>
+														<li><a href="#!">three</a></li>
+													</ul> --}}
+
+		 					   
+ 
+													<div class="fixed-action-btn horizontal  direction-top direction-left" style="z-index: 1;position: relative;height:1px;padding-left:20px; padding-top:0px;padding-bottom:0px ">
 														<a     class=" small btn-floating   light-blue darken-1" data-position="top"  >
 														<i class="material-icons prefix" >format_list_bulleted</i></a>
 														</a>
@@ -205,14 +214,7 @@
 															</li>
 														@endif
 														</ul>
-													</div>
-													{{-- </div> --}}
-
-													
-											 
-										 
-
-
+													</div>  
  												</td> 
 											  </tr>  
 											  @include('forms.asignarTickets.scripts.alertaConfirmacion') 
@@ -227,6 +229,20 @@
 											   
 											  
 										  </tbody>
+										   <tfoot >
+											  <tr>
+												  <th></th> 
+												  <th> </th>
+												  <th  class="center">Total</th>
+												  <th  class="center">{{$totalTickets}} </th>
+											 	  <th  class="center">{{$totalAsignados}}</th>
+												  <th  class="center"> {{$totalvendidos}} </th>
+												  <th  class="center"> {{$totalsaldo}} </th>
+												  <th ></th>
+												  <th></th>
+												  <th></th>
+											  </tr>
+											</tfoot> 
 									  </table>
 									</div>
 							
@@ -243,15 +259,10 @@
 
 @section('script') 
 <script>
-	$('.dropdown-trigger').dropdown();
-	$('#drop').dropdown();
+	$('.dropdown-trigger').dropdown(); 
+	$("#dropDown").dropdown();
 
-// 	  document.addEventListener('DOMContentLoaded', function() {
-//     var elems = document.querySelectorAll('.dropdown-trigger');
-//     var instances = M.Dropdown.init(elems,[autoTrigger=true]);
-//   });
-
-
+ 
 	
 </script>
   @include('forms.asignarTickets.scripts.addTicketsAsignados')

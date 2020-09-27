@@ -22,7 +22,8 @@
                             <i class="material-icons" style="color: #424242">keyboard_tab</i></a>            
                         </div>  
 
-                        @include('forms.scripts.modalInformacion')            
+                        @include('forms.scripts.modalInformacion')    
+                                
                         
                         
                   </div>
@@ -47,23 +48,6 @@
                                   </select>
                                   <div class="errorTxt1"></div>
                                 </div> 
-                                <div class="col s12 m6 l6" id="divZonas" style="display: none;">
-                                  <label for="zonas">Puntos de Venta</label>                 
-                                  <select class="browser-default" id="zonas" name="zonas" required>
-                                    <option value="" disabled selected="">Seleccione</option>
-                                    @foreach($zonas as $val)
-                                    @if($val->id == $datos->idzona)
-                                      <option value="{{$val->id}}" selected> {{$val->nombre}}</option>
-                                    @endif
-                                    @endforeach
-                                    @foreach($zonas as $val)
-                                    @if($val->id != $datos->idzona)
-                                      <option value="{{$val->id}}"> {{$val->nombre}}</option>
-                                    @endif
-                                    @endforeach
-                                  </select>
-                                  <div id="error22" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
-                                </div> 
                                 <div class="col s12 m6 l6">
                                   <label for="idempresa">Empresa</label>                 
                                   <select class="browser-default" id="idempresa" name="idempresa" required>
@@ -81,11 +65,50 @@
                                   </select>
                                   <div class="errorTxt1"></div>
                                 </div>
-                                <div id="divCodAlterno" class="input-field col s12 m6 l6" style="display: none;">
-                                  <i class="material-icons prefix active">label_outline</i>
-                                <input id="codigoAlterno" value="{{$datos->cod_alterno}}" name="codigoAlterno" type="text" data-error=".errorTxt1" minlength="8" maxlength="11" value=" ">
-                                  <label for="codigoAlterno">Código Alterno</label>
-                                  <div id="error21" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+                                <div class="col s12 m6 l6" id="divZonas" style="display: none;">
+                                  <label for="zonas">Puntos de Venta</label>                 
+                                  <select class="browser-default" id="zonas" name="zonas" required>
+                                    <option value="" disabled selected="">Seleccione</option>
+                                    @foreach($zonas as $val)
+                                    @if($val->id == $datos->idzona)
+                                      <option value="{{$val->id}}" selected> {{$val->nombre}}</option>
+                                    @endif
+                                    @endforeach
+                                    @foreach($zonas as $val)
+                                    @if($val->id != $datos->idzona)
+                                      <option value="{{$val->id}}"> {{$val->nombre}}</option>
+                                    @endif
+                                    @endforeach
+                                  </select>
+                                  <div id="error22" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+                                </div> 
+                                
+                                <div id="divCodAlterno" class="col s12 m6 l6" style="display: none;"> 
+                                    <div class="col s12 m6 l10"> 
+                                      <label for="codigoAlterno">Codigo alterno</label>
+                                        <select class="browser-default" id="codigoAlterno" name="codigoAlterno" data-error=".errorTxt1" > 
+
+                                          @if( $datos->id_codigo_alterno !=null)
+                                              @foreach ($codigos as $valor)
+                                                        @if($valor->codigo ==$datos->id_codigo_alterno)
+                                                          <option value="{{ $valor->codigo }}" selected="">{{ $valor->descripcion }}</option>
+                                                        @else
+                                                          <option value="{{ $valor->codigo }}">{{ $valor->descripcion }}</option>
+                                                        @endif
+                                              @endforeach
+                                                         
+                                          @else
+                                             <option  >Agregar Código Alterno</option>
+                                          @endif 
+                                         </select>                     
+                                    </div>
+                                    <div class="col s12 m6 l2" style="padding-bottom: 30px">
+                                      <br>
+                                      <a href="#modalAddCodAlt" class=" btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger"  
+                                        data-tooltip="AGREGAR CODIGO ALTERNO" 
+                                        ><i class="material-icons " style="color: #ffd54f">playlist_add</i></a> 
+                                    </div>
+                                      <div id="error21" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
                                 </div> 
                                 <div class="col s12 m6 l6">
                                   <label for="idempresa">Tipo documento</label>  
@@ -104,18 +127,26 @@
                                     @endforeach                                                                                  
                                   </select>
                                 </div>
-                                <div class="input-field col s12 m6 l6">
-                                  <i class="material-icons prefix active">label_outline</i>
-                                  <input id="nro_documento" name="nro_documento" type="text" data-error=".errorTxt1" minlength="8" maxlength="11" value="{{ $datos->nro_documento }}">
-                                  <label for="nro_documento">Nro. doc. Identidad</label>
-                                  <div id="error1" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
-                                </div>   
+                                
+                                
+                                
+
                                 <div class="input-field col s12 m6 l6">
                                   <i class="material-icons prefix">clear_all</i>
                                   <input id="cargo" name="cargo" type="text" data-error=".errorTxt2" maxlength="50" value="{{ $datos->cargo }}" onkeyup="mayus(this);">
                                   <label for="cargo">Cargo</label>
                                   <div class="errorTxt2"></div>
                                 </div> 
+                                
+                                
+
+                                <div class="input-field col s12 m6 l6">
+                                  <i class="material-icons prefix active">label_outline</i>
+                                  <input id="nro_documento" name="nro_documento" type="text" data-error=".errorTxt1" minlength="8" maxlength="11" value="{{ $datos->nro_documento }}">
+                                  <label for="nro_documento">Nro. doc. Identidad</label>
+                                  <div id="error1" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+                                </div>
+                                   
                                 <div class="input-field col s12 m6 l6">
                                   <i class="material-icons prefix">account_circle</i>
                                   <input id="nombre" name="nombre" type="text" data-error=".errorTxt4" maxlength="50" value="{{ $datos->nombre }}" onkeyup="mayus(this);">
@@ -188,7 +219,11 @@
 @endsection
 
 @section('script')  
+
   @include('forms.usuarios.scripts.validacion')
   @include('forms.usuarios.scripts.updContra')
   @include('forms.usuarios.scripts.updUsuario')
+  @include('forms.usuarios.modalAddCodigoAlterno') 
+  @include('forms.usuarios.scripts.addCodigoAlterno')
+   
 @endsection

@@ -20,6 +20,7 @@
                               </div> 
                               <div class="row cuerpo" style="margin-left: 0.5rem; margin-right: 0.5rem; padding-top:55px; z-index: 1; margin-top: 70px">
                                   <div class="card white col s12 m12 l6 offset-l3" >
+                                  <form  id="myFormModal" accept-charset="UTF-8" enctype="multipart/form-data">
                                       <div class="card-content"> 
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <div class="col s12 m12 l12"   >
@@ -47,20 +48,28 @@
                                         <div class="input-field col s12 m12 l12"> 
                                             <input id="cantidad" style="text-align: center;"  name="cantidad" type="number"  readonly="readonly" >
                                             <label for="cantidad">cantidad</label>
-                                            <div class="errorTxt1" id="errorModal2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
-
-                                        </div><br><br><br><br><br>
-
-                                        {{-- <div class="input-field col s12 m6 l7">
-                                            <i class="material-icons prefix">description</i>
-                                            <input id="descripcion" name="descripcion" type="text"  maxlength="20" onkeyup="mayus(this);">
-                                            <label for="descripcion">Descripción</label>     
-                                        </div> --}}
-            
-                                        <br><br><br><br><br>
+                                            <div class="errorTxt1" id="errorModal2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div> 
+                                        </div>
+                                        <div class="col s12 m12 l12"> 
+                                            <label for="codigoAlterno">Codigo alterno</label>
+                                                <select class="browser-default" id="codigoAlterno" name="codigoAlterno" data-error=".errorTxt1" > 
+                                                        {{-- <option value="" disabled selected="">Seleccione</option>  --}}
+                                                    @foreach ($codigos as $valor)  
+                                                        @if ($valor->estado=1)
+                                                            <option value="{{ $valor->codigo }}">{{ $valor->descripcion }}</option>  
+                                                        @else
+                                                            <option value="{{ $valor->codigo }}"  disabled  >{{ $valor->descripcion }}</option>
+                                                        @endif
+                                                      
+                                                    @endforeach 
+                                                     
+                                                </select>
+                                                <div class="errorTxt1" id="errorModal6" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>  
+                                                <br><br>          
+                                        </div>   
                                       </div>
-                                  </div>
-                              </div><br><br>
+                                    </form>
+                                  </div> 
 							  
 
 	</div>

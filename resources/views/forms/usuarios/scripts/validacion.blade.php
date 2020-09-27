@@ -135,7 +135,7 @@
       var el = document.getElementById('divZonas'); 
       el.style.display ='block'; 
       var elAlt = document.getElementById('divCodAlterno'); 
-      elAlt.style.display ='block';  
+      elAlt.style.display ='block';   
     }else{
       var el = document.getElementById('divZonas'); // se obtiene el elemento
       el.style.display ='none';//se oculta el div  

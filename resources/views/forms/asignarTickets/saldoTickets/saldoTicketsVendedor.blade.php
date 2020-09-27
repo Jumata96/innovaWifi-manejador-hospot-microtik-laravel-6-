@@ -2,27 +2,10 @@
 @section('titulo','Tikets Asignados')
 
 @section('main-content') 
-<br>
+ 
+								
 <div class="row" onload="funload();">
-	<div class="col s12 m12 l12">
-					  <div class="card">
-						 <div class="card-header">                    
-							<i class="fa fa-table fa-lg material-icons">receipt</i>
-							<h2>LISTA DE TICKETS ASIGNADOS</h2>
-						 </div>
-						
-						 {{-- <div class="row card-header sub-header">
-							<div class="col s12 m12 herramienta">                         
-							              
-							</div>   
-						</div> --}}
-						
-
-					@foreach ($usuarios as $usuario)  
-						<div class="row cuerpo"> 
-								<div class="card white">
-									{{-- <span>Capital</span> --}}
-									<br>
+	<div class="col s12 m12 l12"> 
 									<div class="col s12 m6 l4">
 											<div class="card light-blue lighten-2 gradient-shadow min-height-100 white-text">
 											<div class="padding-4">
@@ -75,93 +58,97 @@
 										</div>
 									</div> 
 								</div> 
-								<div class="card white"> 
-									<div class="card-content">
-										<span>Datos del Vendedor</span><br>
-										<div class="row">  
-											<input id="idUsuario" type="hidden" value="{{$usuario->id}}"  >
+	<div class="col s12 m12 l12"> 
+					@foreach ($usuarios as $usuario)   
+								<div class="col s12 m6 l4">
+									<div class="card white"> 
+										<div class="card-content">
+											<span>Datos del Vendedor</span><br>
+											<div class="row">  
+												<input id="idUsuario" type="hidden" value="{{$usuario->id}}"  >
 
-											<div class="input-field col s12 m4 l4">
-												<i class="material-icons prefix">account_box</i>
-											<input id="cantidad" name="cantidad" type="text" value="{{$usuario->nombre."  ".$usuario->apellidos}}" style="text-align: center" data-error=".error2"  readonly="readonly" >
-												<label for="cantidad"> Vendedor</label>
-												<div class="errorTxt1" id="error2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
-											</div> 
-											<div class="input-field col s12 m4 l4">
-												<i class="material-icons prefix">assignment</i>
-												<input id="cod_alterno" name="cod_alterno" type="Text" value=" {{$usuario->cod_alterno}}" style="text-align: center" data-error=".error2"  readonly="readonly" >
-												<label for="cod_alterno"> Código alterno</label>
-												<div class="errorTxt1" id="error15" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
-											</div> 
-											@foreach ($puntoVenta as $item) 
-												@if ( $item->id==$usuario->idzona)
-													<div class="input-field col s12 m4 l4">
-														<i class="material-icons prefix">my_location</i>
-														<input id="cod_alterno" name="cod_alterno" type="Text" value="{{$item->nombre}}" style="text-align: center" data-error=".error2"  readonly="readonly" >
-														<label for="cod_alterno">Punto de Venta</label>
-														<div class="errorTxt1" id="error15" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
-													</div> 
+												<div class="input-field col s12 m6 l12">
+													<i class="material-icons prefix">account_box</i>
+												<input id="cantidad" name="cantidad" type="text" value="{{$usuario->nombre."  ".$usuario->apellidos}}" style="text-align: center" data-error=".error2"  readonly="readonly" >
+													<label for="cantidad"> Vendedor</label>
+													<div class="errorTxt1" id="error2" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+												</div> 
+												<div class="input-field col s12 m6 l12">
+													<i class="material-icons prefix">assignment</i>
+													<input id="cod_alterno" name="cod_alterno" type="Text" value=" {{$usuario->cod_alterno}}" style="text-align: center" data-error=".error2"  readonly="readonly" >
+													<label for="cod_alterno"> Código alterno</label>
+													<div class="errorTxt1" id="error15" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+												</div> 
+												@foreach ($puntoVenta as $item) 
+													@if ( $item->id==$usuario->idzona)
+														<div class="input-field col s12 m6 l12">
+															<i class="material-icons prefix">my_location</i>
+															<input id="cod_alterno" name="cod_alterno" type="Text" value="{{$item->nombre}}" style="text-align: center" data-error=".error2"  readonly="readonly" >
+															<label for="cod_alterno">Punto de Venta</label>
+															<div class="errorTxt1" id="error15" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
+														</div> 
+														
+													@endif  
 													
-												@endif  
+												@endforeach
+
 												
-											@endforeach
 
-											
-
-										</div>                   
+											</div>                   
+										</div> 
 									</div> 
-								</div>   
-								<div class="card white">
-									<div class="card-content"> 
-										<div class="row cuerpo"> 
-										<div class="row">
-											<div class="col s12 m12 l12">
-												<span>Tickets Pendientes</span>
-											
-												<div class="card-content">
-													<p id="registros"></p>
-													<table id="data-table-simple" class="tablaVendedorSaldoVer responsive-table display centered" cellspacing="0">
-														<thead>
-															<tr>
-																<th>#</th> 
-																<th>Perfil</th>
-																<th>Name</th>
-																<th>Precio</th>
-																<th>Target</th> 
-															</tr>
-														</thead> 
-														<tfoot>
-															<tr>
-																<th class="center"  >#</th> 
-																<th class="center" >Perfil</th>
-																<th class="center" >Name</th>
-																<th class="center" >Precio</th>
-																<th class="center" >Target</th> 
-															</tr>
-															</tfoot>
-				
-														<tbody>
-															@foreach($data as $valor) 
+								</div>  
+								<div class="col s12 m6 l8">
+									<div class="card white">
+										<div class="card-content"> 
+											<div class="row cuerpo"> 
+											<div class="row">
+												<div class="col s12 m12 l12">
+													<span>Tickets Pendientes</span>
+												
+													<div class="card-content">
+														<p id="registros"></p>
+														<table id="data-table-simple" class="tablaVendedorSaldoVer responsive-table display centered" cellspacing="0">
+															<thead>
 																<tr>
-																	<td>{{ $valor['id'] }}</td>
-																	<td>{{ $valor ['plan'] }}</td>
-																	<td>{{ $valor ['nombre'] }}</td>
-																	<td>{{ $valor ['precio'] }}</td>
-																	<td>{{ $valor ['target'] }}</td>
-																</tr> 
-															@endforeach
-														</tbody>
-													</table>
-													</div>
-											
-											</div> 
-										</div>
-										</div>                  
+																	<th>#</th> 
+																	<th>Perfil</th>
+																	<th>Name</th>
+																	<th>Precio</th>
+																	<th>Target</th> 
+																</tr>
+															</thead> 
+															<tfoot>
+																<tr>
+																	<th class="center"  >#</th> 
+																	<th class="center" >Perfil</th>
+																	<th class="center" >Name</th>
+																	<th class="center" >Precio</th>
+																	<th class="center" >Target</th> 
+																</tr>
+																</tfoot>
+					
+															<tbody>
+																@foreach($data as $valor) 
+																	<tr>
+																		<td>{{ $valor['id'] }}</td>
+																		<td>{{ $valor ['plan'] }}</td>
+																		<td>{{ $valor ['nombre'] }}</td>
+																		<td>{{ $valor ['precio'] }}</td>
+																		<td>{{ $valor ['target'] }}</td>
+																	</tr> 
+																@endforeach
+															</tbody>
+														</table>
+														</div>
+												
+												</div> 
+											</div>
+											</div>                  
+										</div> 
 									</div> 
 								</div> 
-					 	</div>
-					  @endforeach
-					</div>
+					  @endforeach 
  </div>
 
 

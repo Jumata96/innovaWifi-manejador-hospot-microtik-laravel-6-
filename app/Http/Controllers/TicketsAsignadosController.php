@@ -30,11 +30,13 @@ class TicketsAsignadosController extends Controller
         ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det') 
          ->where('ticket_venta.estado','1') 
         ->get(); 
+        /* dd($tickets_Venta); */
          $tickets_Asig =DB::table ('tickets_asignados_det')
          ->select('tickets_asignados_det.idtrabajador','tickets_asignados_det.cantidad','tickets_asignados_perfil_det.idperfil_det','tickets_asignados_perfil_det.codigo')          
         ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')  
         ->get(); 
-        // dd( $tickets_Asig);
+        //  dd( $tickets_Asig);
+        // dd($tickets);
         return view('forms.asignarTickets.lstTicketsAsignados',[
             'tickets'           => $tickets,
             'zonas'             =>$zonas,
@@ -196,7 +198,15 @@ class TicketsAsignadosController extends Controller
         ->where('ticket_venta.idusuario',$idUsuario)
         ->where('ticket_venta.estado','1')
         ->get();  
-        
+        $codigos = DB::table('codigo_alterno')
+            ->where(
+                [
+                    ['idtrabajador','=',intval($idUsuario)],
+                    ['estado','=',array(1,3)] 
+                ]
+
+            )->get(); 
+        // dd($tickets_asignados_Det);
         
         return view('forms.asignarTickets.asignarTicketTrabajador.lstTicketsTrabajador',[
             'tickets_asignados'         =>$tickets_asignados,
@@ -204,6 +214,7 @@ class TicketsAsignadosController extends Controller
             'tickets_Venta'             =>$tickets_Venta,
             'perfiles'                  =>$perfiles,
             'vendedor'                  =>$vendedor,
+            'codigos'                   =>$codigos,
             'tickets_asignados_Det'     =>$tickets_asignados_Det,
             'zonas'                      =>$zonas
 
@@ -212,7 +223,6 @@ class TicketsAsignadosController extends Controller
     }
     public function asignarTrabajadorDetalle(Request $request){
         
-
         $tickets_per_det=DB::table ('tickets_asignados_perfil_det')->where('idperfil_det',$request->idTicketPerfil)->get(); 
         foreach ($tickets_per_det as  $value) {
             $idperfil=$value->idperfil;
@@ -222,15 +232,25 @@ class TicketsAsignadosController extends Controller
         foreach ($perfil as  $item) {
             $precio=$item->precio;
         }  
+        $codigos = DB::table('codigo_alterno') ->where('codigo', $request->codigoAlterno)->get();
+         foreach ($codigos as  $codigo) {
+            $cod_descripcion=$codigo->descripcion; 
+        }  
+
         DB::table('tickets_asignados_det')
         ->insert([
-            'codigo'        =>$request->idTicketPerfil,
+            'codigo_alterno'        =>$cod_descripcion,
             'idtrabajador'  =>$request->idVendedor,
             'idperfil_det'  =>$request->idTicketPerfil,
             'idperfil'      =>$idperfil,
             'cantidad'      =>$request->cantidad,
             'precio'        =>$precio, 
 
+        ]);
+         DB::table('codigo_alterno')
+        ->where('codigo', $request->codigoAlterno)
+        ->update([
+            'estado'         =>3, 
         ]);
 
         $datos['idvendedor'] = $request->idVendedor;

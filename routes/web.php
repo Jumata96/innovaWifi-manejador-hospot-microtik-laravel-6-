@@ -180,7 +180,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/usuario/habilitar', 'UsuarioController@habilitar');
     Route::post('/usuario/updContra','UsuarioController@updContra');
     Route::post('usuario/verificarID','UsuarioController@verificarID');
-    Route::post('usuario/verificarUsuario','UsuarioController@verificarUsuario');
+    Route::post('usuario/verificarUsuario','UsuarioController@verificarUsuario'); 
+    
+    Route::post('/usuario/Store/codigoAlterno', 'UsuarioController@storeCodigoAlterno');
+
+    
+
 
     //--------------------HOTSPOT------------------------
     //Redes Sociales
@@ -299,18 +304,7 @@ Route::group(['middleware' => 'auth'], function () {
      Route::post('/tickets/buscar/ventas/zona','TicketsController@reporteVentaPorZona');
 
 
-     
-     Route::get('/pruebaVue','ModeloController@prueba'); 
-	Route::get('/modelo', 'ModeloController@index');
-	Route::get('/modelo/lista', 'ModeloController@list');
-	Route::post('/modelo/store', 'ModeloController@store');
-	Route::put('/modelo/update/{id}', 'ModeloController@update');
-	Route::delete('/modelo/delete/{id}', 'ModeloController@delete');
-	Route::delete('/modelo/disable/{id}', 'ModeloController@disable');
-	Route::delete('/modelo/enable/{id}', 'ModeloController@enable');
-	Route::get('/modelo/buscar/{id}', 'ModeloController@buscar');
-
-     
+   
 
        
 

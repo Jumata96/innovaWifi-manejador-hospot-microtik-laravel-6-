@@ -184,27 +184,29 @@ class UsuarioController extends Controller
                 ->select('iddocumento', 'descripcion', 'dsc_corta')
                 ->where('estado', '1')
                 ->get(); 
+        $codigos = DB::table('codigo_alterno')
+            ->where(
+                [
+                    ['idtrabajador','=',intval($id)],
+                    ['estado','=',1]
+                ]
+
+            )->get(); 
         return view('forms.usuarios.updUsuario',[
             'usuario'           => $usuario,
             'empresa'           => $empresa,
             'tipo_documento'    => $tipo_documento,
+            'codigos'           =>$codigos,
             'zonas'             => $zonas
         ]);
     }
 
 
      public function update(Request $request)
-    {        $puntoVenta=null;
-
-        /* if($request->idtipo=='VEN'){
-            $puntoVenta= $request->zonas; 
-
-        } 
-        $puntoVenta=null; */
-        
-        if($request->idtipo=='VEN'){
-            
-
+    {     
+        // dd($request);   
+        $puntoVenta=null; 
+        if($request->idtipo=='VEN'){ 
             $rules = array(     
                 'idempresa'     => 'required',
                 'iddocumento'   => 'required', 
@@ -239,6 +241,14 @@ class UsuarioController extends Controller
             return response()->json($var);
         }
 
+        
+        $codigo_Alterno=DB::table('codigo_alterno')->where( 'codigo', intval($request->codigoAlterno) )->get(); 
+        $des_codigoAlt=null;
+        foreach($codigo_Alterno as $codAlter){ 
+            $des_codigoAlt=$codAlter->descripcion;
+        }
+        // dd($codigo_Alterno);
+
 
         DB::table('users')
         ->where('id',strval($request->id))
@@ -253,8 +263,8 @@ class UsuarioController extends Controller
                 'usuario'           => $request->usuario,
                 'iddocumento'       => $request->iddocumento,
                 'nro_documento'     => $request->nro_documento,
-                'cod_alterno'       => $request->codigoAlterno,
-
+                'cod_alterno'       => $des_codigoAlt,
+                'id_codigo_alterno' => $request->codigoAlterno,
                 'cargo'             => $request->cargo,
                 'avatar'            => null,
                 'telefono'          => $request->telefono,
@@ -395,6 +405,24 @@ class UsuarioController extends Controller
             'tipo_documento'    => $tipo_documento,
             'zonas'             => $zonas
         ]);
+    } 
+    public function storeCodigoAlterno (Request $request){
+         
+         DB::table('codigo_alterno')
+            ->insert([
+                'idtrabajador'         => intval($request->vendedorId), 
+                'estado'            => 1, 
+                'descripcion'       => $request->codigoalterno, 
+                // 'glosa'             => $request->glosa, 
+                'fecha_creacion'        => date('Y-m-d h:m:s')
+         ]); 
+
+         $user= DB::table('codigo_alterno')->get(); 
+       
+      $collection = Collection::make($user->last());
+                
+      return response()->json($collection);   
+        
     }
 
 

@@ -4,7 +4,7 @@
       <div class="navbar-fixed ">
         <nav class="navbar-color" style="background-color: #33AFE8">
           <div class="nav-wrapper">
-            <div class="header-search-wrapper hide-on-med-and-down sideNav-lock">
+            <div class="header-search-wrapper hide-on-med-and-down sideNav-lock" style="margin:10px auto 0 80px">
               <i class="material-icons">search</i>
               <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Buscar en InnovaMk" />
             </div>

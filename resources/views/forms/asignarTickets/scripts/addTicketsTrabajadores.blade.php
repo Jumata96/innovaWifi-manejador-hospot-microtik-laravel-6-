@@ -71,7 +71,7 @@
 								nombre=data.nombre;
 								ticketsActivos=data.ticketsActivos; 
 								console.log(tipos,ticketsActivos);
-								 if(tipos==ticketsActivos){
+								//  if(tipos==ticketsActivos){
 									$("#tableTicketsTrabajadores").append(  
 										'<tr>'+  
 												'<td>'+nombre+' </td>'+  
@@ -88,7 +88,7 @@
 												'</td>'+
 											'</tr>' 
 									);  
-								 }
+								//  }
 							}, 
 							error:function(){ 
 									alert("error!!!!");

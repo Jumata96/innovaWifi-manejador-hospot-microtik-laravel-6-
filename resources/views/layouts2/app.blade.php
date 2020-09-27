@@ -10,7 +10,7 @@
    
           @include('layouts2.partials.header')
           
-          <div id="main">      
+          <div id="main" class="main-full">      
             <!-- START WRAPPER -->
             <div class="wrapper"> 
                 @if(Auth::user()->idtipo === 'ADM')

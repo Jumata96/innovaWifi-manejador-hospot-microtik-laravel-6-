@@ -108,9 +108,8 @@ $('#Asignar').on('click',function () {
     cantidad = $('#cantidad').val();
     idTicketPerfil=$('#tipoTicket').val();
     idVendedor=$('#idVendedor').val();
-
-    
-    console.log(cantidad);
+    codigoAlterno=$('#codigoAlterno').val();
+    console.log(codigoAlterno);  
     if(cantidad==""){
         console.log('ingreso');
        // console.log(cantidad,idTicketPerfil);
@@ -121,42 +120,46 @@ $('#Asignar').on('click',function () {
         $('#errorModal1').text("El campo tipo perfil es obligatorio."); 
     }
     else{
+        if (codigoAlterno!=null ||codigoAlterno!="") {
+            $.ajax({
+                url: "{{ url('/tickets/Asignados/grabarTrabajador') }}",
+                type:"POST",
+                beforeSend: function (xhr) {
+                    var token = $('meta[name="csrf-token"]').attr('content');
 
+                    if (token) {
+                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
+                type:'POST',
+                url:"{{ url('/tickets/Asignados/grabarTrabajador') }}",
+                data:{
+                    cantidad:cantidad,
+                    idTicketPerfil:idTicketPerfil,
+                    codigoAlterno:codigoAlterno,
+                    idVendedor:idVendedor
+                },
+                /* data:data, */
 
-        $.ajax({
-		url: "{{ url('/tickets/Asignados/grabarTrabajador') }}",
-		type:"POST",
-		beforeSend: function (xhr) {
-			 var token = $('meta[name="csrf-token"]').attr('content');
+                success:function(data){ 
+                    $('#errorModal2').text(""); 
+                    $('#errorModal1').text(""); 
+                    $('#cantidad').text(""); 
+                    $('#tipoTicket').text(""); 
 
-			 if (token) {
-					 return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-			 }
-		},
-	  type:'POST',
-	  url:"{{ url('/tickets/Asignados/grabarTrabajador') }}",
-	  data:{
-        cantidad:cantidad,
-        idTicketPerfil:idTicketPerfil,
-        idVendedor:idVendedor
-      },
+                 redirec =  "{{url('tickets/Asignados/AsignarTrabajador/')}}/"+data.idvendedor+"/"+data.idTicket;  
+                    setTimeout("location.href='"+redirec+"'", 0000); 
+        
+                    
+                },
 
-        success:function(data){ 
-            $('#errorModal2').text(""); 
-            $('#errorModal1').text(""); 
-            $('#cantidad').text(""); 
-            $('#tipoTicket').text(""); 
-
-            redirec =  "{{url('tickets/Asignados/AsignarTrabajador/')}}/"+data.idvendedor+"/"+data.idTicket;  
-		    setTimeout("location.href='"+redirec+"'", 0000); 
- 
-            
-        },
-
-        error:function(){ 
-                alert("error!!!!");
-        }
-    }); 
+                error:function(){ 
+                        alert("error!!!!");
+                }
+            });
+        }else{
+            $('#errorModal6').text("El campo codigo alterno es obligatorio."); 
+        } 
 
           
     }
