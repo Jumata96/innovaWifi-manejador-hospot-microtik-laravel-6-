@@ -1,4 +1,4 @@
-<footer class="page-footer footer-fixed" style="background-color: #33AFE8; z-index: 3">
+{{-- <footer class="page-footer footer-fixed" style="background-color: #33AFE8; z-index: 3">
         <div class="footer-copyright">
           <div class="container">
             <span class="right">
@@ -10,4 +10,4 @@
             
           </div>
         </div>
-      </footer>
+      </footer> --}}

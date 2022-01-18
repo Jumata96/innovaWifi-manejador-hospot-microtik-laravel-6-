@@ -35,9 +35,9 @@ class PerfilesController extends Controller
 
         //--
 
-        $perfiles   = DB::table('perfiles')->get();
+        $perfiles   = DB::table('perfiles')->orderBy('fecha_creacion','ASC')->get();
         $queues     = DB::table('perfiles')->where('idtipo','QUE')->get();
-        $hotspot    = DB::table('perfiles')->where('idtipo','HST')->get();
+        $hotspot    = DB::table('perfiles')->where('idtipo','HST')->orderBy('fecha_creacion','DES')->get();
         $router     = DB::table('router')->get();
         $pppoe      = DB::table('perfiles')->where('idtipo','PPP')->get();
 
@@ -198,7 +198,8 @@ class PerfilesController extends Controller
             ->update([
                 'estado'    => 0
             ]);
-
+        // return redirect('/perfiles');
+        
         $perfiles = DB::table('perfiles')->where('idperfil',$request->idperfil)->get();
         $collection = Collection::make($perfiles);
                 
@@ -215,8 +216,10 @@ class PerfilesController extends Controller
 
         $perfiles = DB::table('perfiles')->where('idperfil',$request->idperfil)->get();
         $collection = Collection::make($perfiles);
+ 
+    //    return redirect('some/url');
                 
-        return response()->json($collection->toJson());   
+         return response()->json($collection->toJson());   
     }
 
     
@@ -253,7 +256,8 @@ class PerfilesController extends Controller
             'perfil'            => 'required',
             'vsubida'           => 'required',
             'vbajada'           => 'required',
-            'perfil'            => 'required'
+            'color'           => 'required',
+            // 'perfil'            => 'required'
         );
 
         $validator = Validator::make ( $request->all(), $rules );
@@ -265,57 +269,83 @@ class PerfilesController extends Controller
             return response()->json($var);
         }          
         else {
-            DB::table('perfiles')
-            ->insert([
-                'idempresa'         => '001',
-                'estado'            => 1,
-                'idrouter'          => $request->idrouter,
-                'name'              => $request->name,
-                'precio'            => $request->precio,
-                'hotspot_perfil'    => ($request->perfil == '0')? ((empty($request->dsc_perfil))? $request->name : $request->dsc_perfil):$request->perfil,
-                'dsc_perfil'        => (empty($request->dsc_perfil))? ( ($request->perfil == '0')?$request->name:$request->perfil ) : $request->dsc_perfil,
-                'vsubida'           => $request->vsubida,
-                'vbajada'           => $request->vbajada,
-                'rate_limit'        => $request->vsubida.'/'.$request->vbajada,
-                'glosa'             => $request->glosa,  
-                'shared_users'       => '3',
-                'idle_timeout'      => 'none',
-                'keepalive_timeout' => '2m',
-                'status_autorefresh' => '1m',
-                'idtipo'            => 'HST',        
-                'fecha_creacion'    => date('Y-m-d h:m:s')
-            ]);
-
+        // dd($request); 
             if ($request->perfil == '0') {
+                //crear perfil
                 
                 $API = new routeros_api();
                 $API->debug = false;
                 $ARRAY = null;
-
                 $router = DB::table('router')->where('idrouter',$request->idrouter)->get();
 
-                foreach ($router as $rou) {
-                if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
+                $dias    =null;
+                $semanas =null;
+                $sesion_time_out =null;
 
-                    $ARRAY = $API->comm("/ip/hotspot/user/profile/add", array(
-                                    "name" => (empty(trim($request->dsc_perfil)))? $request->name : $request->dsc_perfil,
-                                //  "session-timeout" => $session,                                    
-                                    "idle-timeout" => 'none',
-                                    "keepalive-timeout" => '2m',
-                                    "status-autorefresh" => '1m',
-                                    "shared-users" => '1',
-                                    "rate-limit" => $request->vsubida.'/'.$request->vbajada,
-                                //  "address-list" => $list,
-                                    "on-login" => $request->name
-                                ));   
-                    
-                    } 
-                    
+                $minutos = str_pad($request->minutos,0,0,STR_PAD_LEFT);
+                $horas   = str_pad($request->horas,0,0,STR_PAD_LEFT); 
+                
+                // perfil_sesion_
+               
+                $semanas=null;
+                if($request->dias > 7){ 
+                    $semanas=bcdiv($request->dias /7, '1', 0) ; //bcdiv elimina los decinames 
+                    $dias  = $request->dias % 7;      
+                    $sesion_time_out = $semanas."w".$dias."d".$horas."h".$minutos."m"; 
+                    // dd($sesion_time_out);
+                }else{
+                     $dias = $request->dias;
+                    $sesion_time_out = $dias."d".$horas."h".$minutos."m"; 
                 }
+                // dd($minutos,$horas,$dias);
+                // foreach ($router as $rou) {
+                // if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
 
-            }
-           
-            
+                //     $ARRAY = $API->comm("/ip/hotspot/user/profile/add", array(
+                //                     "name" => $request->name,
+                //                     "session-timeout" => $sesion_time_out,                                    
+                //                     "idle-timeout" => 'none',
+                //                     "keepalive-timeout" => '2m',
+                //                     "status-autorefresh" => '1m',
+                //                     "shared-users" => '1',
+                //                     "rate-limit" => strtoupper($request->vsubida).'/'.strtoupper($request->vbajada),
+                //                     "mac-cookie-timeout" => $sesion_time_out,
+                //                 //  "address-list" => $list,
+                //                     // "on-login" => $request->name
+                //                 ));    
+                //     }  
+                // }
+                // $codigo_perfil_nuevo= $ARRAY; 
+                // if(!is_array ($codigo_perfil_nuevo) ){ 
+                     DB::table('perfiles')
+                    ->insert([
+                        'idempresa'         => '001',
+                        'estado'            => 1,
+                        'idrouter'          => $request->idrouter,
+                        'name'              => $request->name,
+                        'precio'            => $request->precio,
+                        'hotspot_perfil'    => $request->name,
+                        'dsc_perfil'        => $request->name,
+                        'vsubida'           => $request->vsubida,
+                        'vbajada'           => $request->vbajada,
+                        'rate_limit'        => strtoupper($request->vsubida).'/'.strtoupper($request->vbajada),
+                        'glosa'             => $request->glosa,  
+                        'perfil_color'      => $request->color,  
+                        // 'id_perfil_host'    => $codigo_perfil_nuevo,
+                        'perfil_sesion_dias'=> $request->dias,  
+                        'perfil_sesion_horas'=> $request->horas,  
+                        'perfil_sesion_min' => $request->minutos,  
+                        'shared_users'      => '3',
+                        'idle_timeout'      => 'none',
+                        'keepalive_timeout' => '2m',
+                        'status_autorefresh'=> '1m',
+                        'idtipo'            => 'HST',        
+                        'fecha_creacion'    => date('Y-m-d h:m:s')
+
+
+                    ]); 
+                // } 
+            } 
             $perfiles = DB::table('perfiles')->where('name',$request->name)->get();
             $collection = Collection::make($perfiles);
             
@@ -326,12 +356,14 @@ class PerfilesController extends Controller
 
     public function updateHotspot(Request $request)
     {
+            // dd($request);
          $rules = array(      
             'idrouter'          => 'required',
             'name'              => 'required',
             'perfil'            => 'required',
             'precio'            => 'required',
             'vsubida'           => 'required',
+            'color'           => 'required',
             'vbajada'           => 'required'
         );
 
@@ -344,44 +376,142 @@ class PerfilesController extends Controller
             return response()->json($var);
         }          
         else {
+        //  dd($request);
+            $perfil_original = DB::table('perfiles')->where('idperfil',$request->idperfil)->get();
+            $eliminacion=1;
+            if($request->eliminacion=="NO"){
+                $eliminacion=0;
+            } 
+
+
             DB::table('perfiles')
             ->where('idperfil',$request->idperfil)
             ->update([
                 'idrouter'          => $request->idrouter,
                 'name'              => $request->name,
                 'precio'            => $request->precio,
-                'hotspot_perfil'    => ($request->perfil == '0')? ((empty($request->dsc_perfil))? $request->name : $request->dsc_perfil):$request->perfil,
-                'dsc_perfil'        => (empty($request->dsc_perfil))? ( ($request->perfil == '0')?$request->name:$request->perfil ) : $request->dsc_perfil,
+                'hotspot_perfil'    => $request->name,
+                'dsc_perfil'        => $request->name,
                 'vsubida'           => $request->vsubida,
-                'vbajada'           => $request->vbajada,
+                'vbajada'           => $request->vbajada, 
                 'rate_limit'        => $request->vsubida.'/'.$request->vbajada,
-                'glosa'             => (empty($request->glosa))? null : $request->glosa     
-            ]);
+                'glosa'             => (empty($request->glosa))? null : $request->glosa ,     
+                'perfil_color'      => $request->color,   
+                'perfil_sesion_dias'=> $request->dias,  
+                'perfil_sesion_horas'=> $request->horas,  
+                'perfil_autoeliminado'=>$eliminacion,
+                'perfil_sesion_min' => $request->minutos,   
 
-            if ($request->perfil == '0') {
-                
+            ]);  
+            // $onlogin=null;
+
+            
+            
+            /// procedemos a actualizar en mikrotic
                 $API = new routeros_api();
                 $API->debug = false;
-                $ARRAY = null;
+                $ARRAY = null; 
+                $ARRAY2 = null;
+                $dias    =null;
+                $semanas =null;
+                $sesion_time_out =null;
+                $id_perfil_host=null;
+                $router = DB::table('router')->where('idrouter',$request->idrouter)->get(); 
+                $perfil_guardado = DB::table('perfiles')->where('idperfil',$request->idperfil)->get();
+                
+                $minutos = str_pad($request->minutos,0,0,STR_PAD_LEFT);
+                $horas   = str_pad($request->horas,0,0,STR_PAD_LEFT);  
+                $semanas=null;
+                if($request->dias > 7){ 
+                    $semanas=bcdiv($request->dias /7, '1', 0) ; //bcdiv elimina los decinames 
+                    $dias  = $request->dias % 7;      
+                    $sesion_time_out = $semanas."w".$dias."d".$horas."h".$minutos."m"; 
+                    // dd($sesion_time_out);
+                }else{
+                     $dias = $request->dias;
+                    $sesion_time_out = $dias."d".$horas."h".$minutos."m"; 
+                }
+ 
 
-                $router = DB::table('router')->where('idrouter',$request->idrouter)->get();
+            if($perfil_guardado[0]->id_perfil_host==null){
+                //no tiene el codigo de perfil del mikrotik  
+                 $bandera =0;//verificamos si se ingresa a ctualizar , si no aumenta el contador es por qu eno exite en el mikrotic  
+              foreach ($router as $rou) {
+                if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) { 
+                        $ARRAY = $API->comm("/ip/hotspot/user/profile/print");   
+                           foreach ($ARRAY as $value) {     
+                                    if($perfil_original[0]->name==$value['name'] ){ 
+                                        $bandera +=1;//verificamos si se ingresa a ctualizar , si no aumenta el contador es por qu eno exite en el mikrotic 
+                                        $id_perfil_host=$value['.id'] ;
+                                        //actualizamos el ticket con los datos del form 
+                                        /*
+                                        $ARRAY2 = $API->comm("/ip/hotspot/user/profile/set", array(
+                                            ".id"     => $id_perfil_host,  
+                                            "name" => $request->name,
+                                            "session-timeout" => $sesion_time_out,         
+                                            "rate-limit" => strtoupper($request->vsubida).'/'.strtoupper($request->vbajada),
+                                            "mac-cookie-timeout" => $sesion_time_out, 
+                                            // "on-login" => $onlogin 
+                                         )); */
+                                         //actualizamos  el codigo del ticket en la bd 
+                                         DB::table('perfiles')
+                                        ->where('idperfil',$request->idperfil)
+                                        ->update([
+                                            'id_perfil_host' => $id_perfil_host   
+                                        ]); 
+                                    } 
+                            }  
+                    }         
+                }
 
+                            if($bandera==0){ 
+                                     $ARRAY2 = $API->comm("/ip/hotspot/user/profile/add", array(
+                                        "name" => $request->name,
+                                        "session-timeout" => $sesion_time_out,                                    
+                                        // "idle-timeout" => 'none',
+                                        // "keepalive-timeout" => '2m',
+                                        // "status-autorefresh" => '1m',
+                                        "shared-users" => '1',
+                                        "rate-limit" => strtoupper($request->vsubida).'/'.strtoupper($request->vbajada),
+                                        "mac-cookie-timeout" => $sesion_time_out, 
+                                    ));  
+                                    $codigo_perfil_nuevo= $ARRAY2;   
+
+      
+                                         //actualizamos  el codigo del ticket en la bd 
+                                         DB::table('perfiles')
+                                        ->where('idperfil',$request->idperfil)
+                                        ->update([
+                                            'id_perfil_host' => $codigo_perfil_nuevo   
+                                        ]); 
+
+
+                            } 
+
+
+            }else{
+                //tiene el codigo de perfil del mikrotik  
+                 
                 foreach ($router as $rou) {
-                if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
+                if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) { 
+                        $ARRAY = $API->comm("/ip/hotspot/user/profile/print");  
+                        // dd($ARRAY);
+                           foreach ($ARRAY as $value) {      
+                                   $ARRAY2 = $API->comm("/ip/hotspot/user/profile/set", array(
+                                         ".id"     => $perfil_guardado[0]->id_perfil_host,  
+                                        "name" => $request->name,
+                                        "session-timeout" => $sesion_time_out,         
+                                        "rate-limit" => strtoupper($request->vsubida).'/'.strtoupper($request->vbajada),
+                                        "mac-cookie-timeout" => $sesion_time_out,  
 
-                    $ARRAY = $API->comm("/ip/hotspot/user/profile/add", array(
-                                    "name" => (empty(trim($request->dsc_perfil)))? $request->name : $request->dsc_perfil,
-                                //  "session-timeout" => $session,                                    
-                                    "idle-timeout" => 'none',
-                                    "keepalive-timeout" => '2m',
-                                    "status-autorefresh" => '1m',
-                                    "shared-users" => '1',
-                                    "rate-limit" => $request->vsubida.'/'.$request->vbajada,
-                                //  "address-list" => $list,
-                                    "on-login" => $request->name
-                                ));                       
+                                   ));   
+                               } 
                     }       
                 }
+
+
+
+
             }
 
             $perfiles = DB::table('perfiles')->where('idperfil',$request->idperfil)->get();
@@ -550,7 +680,7 @@ class PerfilesController extends Controller
     //------------------------------------IMPORTAR PERFIL HOTSPOT HACIA EL MIKROTIK--------------------------------------------------------
     public function guardarImportPerfil(Request $request)
     {
-        //dd($request);
+        // dd($request);
         $cont = $request->cont;
         $principal = 0;
 
@@ -581,6 +711,7 @@ class PerfilesController extends Controller
                     'keepalive_timeout' => '2m',
                     'status_autorefresh' => '1m',
                     'idtipo'            => 'HST',        
+                    'perfil_color'      =>  'fafafa',
                     'fecha_creacion'    => date('Y-m-d h:m:s')
                 ]);
                 //dd($request['name'.$i]);
@@ -596,12 +727,13 @@ class PerfilesController extends Controller
     //------------------------------------IMPORTAR PERFILES DEL MIKROTIK--------------------------------------------------------
     public function importPerfil(Request $request)
     {
+        // dd($request);
         $API = new routeros_api();
         $API->debug = false;
         $ARRAY = null;
 
         $router = DB::table('router')->where('idrouter',$request->idrouter)->get();
-
+        // dd('llego');
         foreach ($router as $rou) {
             if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
 
@@ -644,7 +776,7 @@ class PerfilesController extends Controller
             }
         }
 
-        //dd($ARRAY,$ARRAY2);
+        // dd($ARRAY);
         return response()->json($ARRAY);   
     }    
 

@@ -26,11 +26,13 @@
                   win.focus();
 
             }
-             //--------------------------realiza el fultro----------- 
+             //--------------------------realiza el filtro----------- 
           $(document).on('click','#select', function(){  
                 cont = parseInt($('#cont').val())+1;
                 datos=[];
-                contadorFiltro=0;  
+                datos_Filtrado=[];
+                contadorFiltro=0; 
+                contadorFiltroPerfiles=0; 
                   trs=$(".tablaVendedoresSaldo tbody tr").length; //obtenermos el numero de tr en la tabla  
                     for (var i = 0; i < trs; i++) { //elimnamos los tr de la tabla  (limpiar)
                     $(".tablaVendedoresSaldo tbody tr:last").remove(); 	
@@ -46,12 +48,26 @@
                         for (x=0;x<jArray.length; x++) {
                           if(jArray[x].id ==dataId ){
                             console.log(jArray[x]);
+                            contadorFiltroPerfiles +=1;
+                            
+                            datos_Filtrado.push(new Array(contadorFiltroPerfiles,
+                            jArray[x].nombre,
+                            jArray[x].cod_alterno,
+                            jArray[x].PerfilAsignado,
+                            jArray[x].perfil_Nombre, 
+                            jArray[x].asignados, 
+                            jArray[x].saldo,
+                            jArray[x].diferencia ));
+                              /* var vendidos_filtro="";
+                              vendidos_filtro=jArray[x].asignados -jArray[x].diferencia; */
+
                             $(".tablaVendedoresSaldo").append(  
                                         '<tr >'+
-                                          ' <td>'+jArray[x].cont+'</td>'+
+                                          ' <td>'+contadorFiltroPerfiles+'</td>'+
                                             '<td style="width:12em;" >'+jArray[x].nombre+'</td>'+
                                             '<td>'+jArray[x].cod_alterno+'</td>'+
                                             '<td>'+jArray[x].PerfilAsignado+'</td>'+
+                                            '<td>'+jArray[x].perfil_Nombre+'</td>'+
                                             '<td>'+jArray[x].asignados+'</td>'+
                                             '<td>'+jArray[x].saldo+'</td>'+
                                             '<td>'+jArray[x].diferencia+'</td>'+

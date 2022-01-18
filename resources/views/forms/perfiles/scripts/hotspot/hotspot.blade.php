@@ -32,12 +32,12 @@
               $('#h_perfil').removeAttr('disabled');
               //$('#h_dsc_perfil').removeAttr('disabled');  
 
-              $('#h_perfil').append("<option value='n'>Elija un perfil</option>");
+              $('#h_perfil').append("<option value='n'>Elija un perfil </option>");
               $('#h_perfil').append("<option value='0'>Crear perfil</option>"); 
 
-              $.each(data, function(i, item) {
-                  $('#h_perfil').append("<option value='"+item.name+"'>"+item.name+"</option>");
-              });
+              // $.each(data, function(i, item) {
+              //     $('#h_perfil').append("<option value='"+item.name+"'>"+item.name+"</option>");
+              // });
 
            },
            error:function(){ 

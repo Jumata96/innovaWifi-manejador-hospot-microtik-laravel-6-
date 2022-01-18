@@ -38,23 +38,23 @@
                             <i class="material-icons" style="color: #03a9f4">info_outline</i></a>  
                         </div>
                         <div style="position: relative; height:65px; z-index: 0;">
-													<div class="fixed-action-btn horizontal direction-top direction-left" style="position: absolute; display: inline-block; right:5px;">
-														<a   class="btn-floating  light-blue darken-1" data-position="top"  >
-														<i class="material-icons prefix" >format_list_bulleted</i></a>
-														</a>
-														<ul>
-														<li>
+                          <div class="fixed-action-btn horizontal direction-top direction-left" style="position: absolute; display: inline-block; right:5px;">
+                            <a   class="btn-floating  light-blue darken-1" data-position="top"  >
+                            <i class="material-icons prefix" >format_list_bulleted</i></a>
+                            </a>
+                            <ul>
+                            <li>
                               <a id="exportReport" data-tooltip="Descargar Excel"  onclick="tableToExcel('data-table-simple', 'Reporte de venta')"  class="btn-floating gradient-45deg-green-teal  tooltipped center" >
                                 <img  width="40px" src="{{asset('TipoArchivo/excel2.ico')}}" >
                               </a> 
 
                               <a id="exportReportPdf"  class="btn-floating red tooltipped center"  data-tooltip="Descargar PDF"> 
                             <i class="material-icons">picture_as_pdf</i></a>  
-														</li>
-													
-														</ul>
-													</div>
-													</div>
+                            </li>
+                          
+                            </ul>
+                          </div>
+                          </div>
 
                         
                         
@@ -287,57 +287,7 @@
  <script src="https://unpkg.com/vue-simple-context-menu/dist/vue-simple-context-menu.min.js"></script>
  
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/vue-simple-context-menu/dist/vue-simple-context-menu.css">  --}}
- <script type="text/javascript">
-  
-
-    var menu;
-    var menus =[];
-    var menusele =[]; 
-    menus.push( 
-        {  check: {type: 'checkbox', name: 'Vendedor', value: '0', checked: false},  label: "Vendedor"  },
-        {  check: {type: 'checkbox', name: 'Cod_Alterno', value: '0', checked: false},  label: "Cod Alterno"  },
-        {  check: {type: 'checkbox', name: 'Punto_de_Venta', value: '0', checked: false},  label: "Punto de Venta"  },
-        {  check: {type: 'checkbox', name: 'Ticket', value: '0', checked: false},  label: "Paquete"  },
-        {  check: {type: 'checkbox', name: 'Plan', value: '0', checked: false},  label: "Plan"  },
-        {  check: {type: 'checkbox', name: 'Precio', value: '0', checked: false},  label: "Precio"  },
-        {  check: {type: 'checkbox', name: 'Total_AsignadosMonto', value: '0', checked: false},  label: "Total Asignados Monto"  },
-        {  check: {type: 'checkbox', name: 'Saldo_TotalMonto', value: '0', checked: false},  label: "Saldo Total Monto"  },
-        {  check: {type: 'checkbox', name: 'Total_VendidosMonto', value: '0', checked: false},  label: "Total Vendidos Monto"  },
-        {  check: {type: 'checkbox', name: 'Total_Asignados', value: '0', checked: false},  label: "Total Asignados"  },
-        {  check: {type: 'checkbox', name: 'Saldo_Total', value: '0', checked: false},  label: "Saldo Total"  },
-        {  check: {type: 'checkbox', name: 'Total_Vendidos', value: '0', checked: false},  label: "Total Vendidos"  },
-        {  check: {type: 'checkbox', name: 'Cantidad_Venta', value: '0', checked: false},  label: "Cantidad Venta"  },
-        {  check: {type: 'checkbox', name: 'Subtotal', value: '0', checked: false},  label: "Subtotal"  },
-        {  check: {type: 'checkbox', name: 'Fecha_de_venta', value: '0', checked: false},  label: "Fecha_de_venta"  }  
-    );
-
-    $(document.body).ready(function () {
-        menu = new ax5.ui.menu({
-            position: "fixed",  
-              onClick: function () {  
-                console.log(this);
-                menusele.push(this);
-            },  
-            items: [
-                {
-                    label: "CONFIGURAR",
-                    items: [
-                          {   label: "COLUMNAS TABLA",
-                              items:menus
-                          },{ label: "COLUMNAS PDF",
-                              items: menus
-                          }  
-                      ]
-                } 
-            ]
-        }); 
-        $("#context-menu-target").bind("contextmenu", function (e) {
-            menu.popup(e); 
-            
-            
-        });
-    }); 
-</script>
+ 
 
   
 @endsection 

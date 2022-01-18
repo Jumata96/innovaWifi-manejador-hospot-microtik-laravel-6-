@@ -194,7 +194,7 @@ class UrlGenerator implements UrlGeneratorContract
         // for passing the array of parameters to this URL as a list of segments.
         $root = $this->formatRoot($this->formatScheme($secure));
 
-        list($path, $query) = $this->extractQueryString($path);
+        [$path, $query] = $this->extractQueryString($path);
 
         return $this->format(
             $root, '/'.trim($path.'/'.$tail, '/')
@@ -311,6 +311,8 @@ class UrlGenerator implements UrlGeneratorContract
             $parameters = $parameters + ['expires' => $this->availableAt($expiration)];
         }
 
+        ksort($parameters);
+
         $key = call_user_func($this->keyResolver);
 
         return $this->route($name, $parameters + [
@@ -347,7 +349,7 @@ class UrlGenerator implements UrlGeneratorContract
 
         $signature = hash_hmac('sha256', $original, call_user_func($this->keyResolver));
 
-        return  hash_equals($signature, $request->query('signature', '')) &&
+        return  hash_equals($signature, (string) $request->query('signature', '')) &&
                ! ($expires && Carbon::now()->getTimestamp() > $expires);
     }
 

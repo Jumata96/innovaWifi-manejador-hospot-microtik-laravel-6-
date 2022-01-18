@@ -27,26 +27,29 @@
               if ( data[0] == "error") {
                 ( typeof data.descripcion != "undefined" )? $('#u_error2').text(data.descripcion) : null;
               } else {  
+                window.location.href ="perfiles";
+
                 var obj = $.parseJSON(data); 
 
-                $('#htr'+obj[0]['idperfil']).replaceWith(
-                "<td>"+ obj[0]['idperfil'] +"</td>"+
-                "<td>"+ obj[0]['idrouter'] +"</td>"+
-                "<td>"+ obj[0]['name'] +"</td>"+
-                "<td>"+ obj[0]['precio'] +"</td>"+
-                "<td>"+ obj[0]['target'] +"</td>"+
-                "<td class='center'>"+
-                    "<div id='hu_estado' class='chip center-align' style='width: 70%'>"+
-                      "<b>NO DISPONIBLE</b>"+
-                      "<i class='material-icons'></i>"+
-                    "</div>"+
-                "</td>"+
-                "<td class='center'>"+
-                  "<a href='#updQueues' id='upd"+obj[0]['idperfil']+"' class='btn-floating waves-effect waves-light grey lighten-5 tooltipped' data-position='top' data-delay='500' data-tooltip='Ver'><i class='mdi-action-visibility' style='color: #7986cb'></i></a>"+                                     
-                  " <a href='#confirmacion"+ obj[0]['idperfil'] +"' class='btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger' data-position='top' data-delay='500' data-tooltip='Eliminar'><i class='mdi-content-remove' style='color: #dd2c00'></i></a>"+
-                  " <a href='#confirmacion3"+ obj[0]['idperfil'] +"' class='btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger' data-position='top' data-delay='500' data-tooltip='Eliminar'><i class='mdi-navigation-check' style='color: #2e7d32'></i></a>"+
-                "</td>"
-                );}
+                // $('#htr'+obj[0]['idperfil']).replaceWith(
+                // "<td>"+ obj[0]['idperfil'] +"</td>"+
+                // "<td>"+ obj[0]['idrouter'] +"</td>"+
+                // "<td>"+ obj[0]['name'] +"</td>"+
+                // "<td>"+ obj[0]['precio'] +"</td>"+
+                // "<td>"+ obj[0]['target'] +"</td>"+
+                // "<td class='center'>"+
+                //     "<div id='hu_estado' class='chip center-align' style='width: 70%'>"+
+                //       "<b>NO DISPONIBLE</b>"+
+                //       "<i class='material-icons'></i>"+
+                //     "</div>"+
+                // "</td>"+
+                // "<td class='center'>"+
+                //   "<a href='#updQueues' id='upd"+obj[0]['idperfil']+"' class='btn-floating waves-effect waves-light grey lighten-5 tooltipped' data-position='top' data-delay='500' data-tooltip='Ver'><i class='mdi-action-visibility' style='color: #7986cb'></i></a>"+                                     
+                //   " <a href='#confirmacion"+ obj[0]['idperfil'] +"' class='btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger' data-position='top' data-delay='500' data-tooltip='Eliminar'><i class='mdi-content-remove' style='color: #dd2c00'></i></a>"+
+                //   " <a href='#confirmacion3"+ obj[0]['idperfil'] +"' class='btn-floating waves-effect waves-light grey lighten-5 tooltipped modal-trigger' data-position='top' data-delay='500' data-tooltip='Eliminar'><i class='mdi-navigation-check' style='color: #2e7d32'></i></a>"+
+                // "</td>"
+                // );
+                }
                 
                 
                 setTimeout(function() {

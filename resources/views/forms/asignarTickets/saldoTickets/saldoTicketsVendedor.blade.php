@@ -1,4 +1,4 @@
-@extends('layouts2.app')
+﻿@extends('layouts2.app')
 @section('titulo','Tikets Asignados')
 
 @section('main-content') 
@@ -75,7 +75,7 @@
 												</div> 
 												<div class="input-field col s12 m6 l12">
 													<i class="material-icons prefix">assignment</i>
-													<input id="cod_alterno" name="cod_alterno" type="Text" value=" {{$usuario->cod_alterno}}" style="text-align: center" data-error=".error2"  readonly="readonly" >
+													<input id="cod_alterno" name="cod_alterno" type="Text" value=" {{$codigo_alterno}}" style="text-align: center" data-error=".error2"  readonly="readonly" >
 													<label for="cod_alterno"> Código alterno</label>
 													<div class="errorTxt1" id="error15" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>
 												</div> 

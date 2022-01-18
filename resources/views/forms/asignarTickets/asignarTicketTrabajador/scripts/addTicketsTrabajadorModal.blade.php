@@ -120,7 +120,8 @@ $('#Asignar').on('click',function () {
         $('#errorModal1').text("El campo tipo perfil es obligatorio."); 
     }
     else{
-        if (codigoAlterno!=null ||codigoAlterno!="") {
+        if (codigoAlterno !=null  && codigoAlterno !='SR') {
+            console.log(codigoAlterno);
             $.ajax({
                 url: "{{ url('/tickets/Asignados/grabarTrabajador') }}",
                 type:"POST",

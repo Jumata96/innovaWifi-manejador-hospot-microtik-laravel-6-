@@ -16,6 +16,11 @@ use DateTime;
 
 class TicketsController extends Controller
 {
+     public function fichas()
+    {  
+        // dd('LLEGO');
+        return view('forms.fichas.index');
+    }   
     public function registrar()
     {
         $tickets = DB::table('ticket')->where('estado',1)->get();
@@ -447,12 +452,11 @@ class TicketsController extends Controller
         $API->debug = false;
         $router = DB::table('router')->where('idrouter','R01')->get();  
          $perfiles = DB::table('perfiles')-> get(); 
+        $codigo_alterno=null;
         
         foreach ($router as $rou) {//--------trae la informaciòn
             if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
-                $ARRAY = $API->comm("/ip/hotspot/user/print");
-                //$collection = Collection::make($ARRAY); 
-
+                $ARRAY = $API->comm("/ip/hotspot/user/print"); 
                 $API->disconnect();
             }else{
                 echo "No se pudo conectar al mikrotik";
@@ -464,12 +468,18 @@ class TicketsController extends Controller
              ['item','=',$item]
 
          ]) ->get(); 
-        //   dd($ticketsAsignados);
-         foreach($ticketsAsignados as $asignados){  
-            foreach($ARRAY as $valor){ 
-                    if(isset($valor['name']) and substr($valor['name'],0,strlen($asignados->codigo_alterno)) == trim($asignados->codigo_alterno)and isset($valor['profile']) ){   
-                        foreach($perfiles as $perfilAs){
-                            //   dd($perfilAs);
+         $ticketsAsignadosActivos=DB::table ('tickets_asignados_det') 
+                ->where([ 
+                    ['estado','=',1]
+                ]) 
+                ->get();   
+         foreach($ticketsAsignados as $asignados){ 
+            $codigo_alterno=$asignados->codigo_alterno;
+            // dd($codigo_alterno); 
+            foreach($ARRAY as $valor){  
+                    if(isset($valor['name']) and substr($valor['name'],0,strlen($codigo_alterno)) == trim($codigo_alterno)
+                    and isset($valor['profile']) ){   
+                        foreach($perfiles as $perfilAs){ 
                             if($perfilAs->name==$valor['profile']){
                                 if($asignados->idperfil ==$perfilAs->idperfil ){
                                     $contador_elementos++;
@@ -486,6 +496,16 @@ class TicketsController extends Controller
                         }      
                     } 
             }  
+            foreach($ticketsAsignadosActivos as $ticketsAsig){  
+                foreach($data as $key => $valor){
+                    // dd(substr($valor['nombre'],0,strlen($ticketsAsig->codigo_alterno)));
+                    if(substr($valor['nombre'],0,strlen($ticketsAsig->codigo_alterno)) == trim($ticketsAsig->codigo_alterno)){
+                        if(substr($codigo_alterno,0,strlen($ticketsAsig->codigo_alterno)) != trim($ticketsAsig->codigo_alterno) ){ 
+                            unset($data[$key]); 
+                        }                                              
+                    }
+                } 
+            }  
             $asignadosPrecio=$asignados->cantidad*$asignados->precio;
             $saldoPrecio=count($data)*$asignados->precio;
 
@@ -498,6 +518,7 @@ class TicketsController extends Controller
             'puntoVenta'       =>$puntoVenta, 
             'asignadosPrecio'  =>$asignadosPrecio,
             'saldoPrecio'      =>$saldoPrecio,
+            'codigo_alterno'    =>$codigo_alterno,
             'data'            =>$data
 
         ]);
@@ -663,14 +684,27 @@ class TicketsController extends Controller
     }
 
     public function reporteVentaFiltro(Request $request){  
+        // dd($request);
         $total=0;   
-        $from = Carbon::createFromFormat('d/m/Y',$request->from); 
-        $to = Carbon::createFromFormat('d/m/Y',$request->to);
+        // dd($request->from.' 00:00:00');
+        $from = Carbon::createFromFormat('d/m/Y',$request->from)->startOfDay() ; //startOfDay() pone la hora en 00:00:00
+        $to = Carbon::createFromFormat('d/m/Y',$request->to)->endOfDay();//->startOfDay() pone la hora en 23:59:59
+
+        /* dd( $request->from,$from ,$to);
+        if($from==$to){
+            // dd("ingresa");
+            $from = $from->subDay(1);
+
+        } */
+       // dd($from,$to);
         
         $vendedores=[];
         $ArrayDatosFiltrados=[];
+         
+ 
        
         if($request->contadorVendedores>0){
+            // dd("ingresa");
             
             for ($i = 1; $i <= $request->contadorVendedores; $i++) {
                 $nombre="vendedor".$i;
@@ -679,7 +713,7 @@ class TicketsController extends Controller
                          'idvendedor'=>intval($request->$nombre)
                      ]); 
                 } 
-            } 
+            }  
 
             $ticketsVendidos = DB::table('ticket_venta as venta')
                 ->select('venta.idusuario','asigPerDet.idperfil_det','asig.idzona','venta.idperfil','venta.precio','venta.cantidad','venta.fecha_creacion','venta.estado','asig.descripcion',DB::raw('asigDet.cantidad  as cantidadAsignados'),DB::raw('asigDet.item  as itemAsignados'),DB::raw('asigDet.estado  as estadoTicketAsig') )
@@ -844,139 +878,7 @@ class TicketsController extends Controller
             'ArrayDatosFiltrados'=>$ArrayDatosFiltrados
         ]);
 
-    } 
-    public function consultarVentasMikrotik (Request $request){  
-        // dd("ok");
-        $registro="NO";
-        $ARRAY=[];  
-        $API = new routeros_api();
-        $API->debug = false;
-        $router = DB::table('router')->where('idrouter','R01')->get();  
-        $perfiles = DB::table('perfiles')-> get(); 
-        foreach ($router as $rou) {
-            if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
-                $ARRAY = $API->comm("/ip/hotspot/user/print"); 
-            }
-        } 
-        //  dd($ARRAY);
-        $cont=0;
-        $ticketsAsignados=DB::table ('tickets_asignados_det') 
-                ->where([ 
-                    ['estado','=',1]
-                ]) 
-                ->get();  
-        // dd($ticketsAsignados);
-        foreach($ticketsAsignados as $asignados){ 
-            // dd($asignados);
-            $data = [];
-            foreach($ARRAY as $valor){ 
-                    if(isset($valor['name']) and substr($valor['name'],0,strlen($asignados->codigo_alterno)) == trim($asignados->codigo_alterno)and isset($valor['profile']) ){  
-                        $cont++; 
-                        foreach($perfiles as $perfilAs){
-                            //   dd($perfilAs);
-                            if($perfilAs->name==$valor['profile']){
-                                if($asignados->idperfil ==$perfilAs->idperfil ){
-                                    array_push($data,[
-                                        'id'        => $cont,
-                                        'nombre'    => $valor['name'],
-                                        'plan'      => $valor['profile'],
-                                        'perfil'    =>$perfilAs->idperfil
-                                    ]); 
-
-                                }
-                                
-                                      
-                            } 
-                        }      
-                    } 
-            } 
-            // dd($data);
-
-            $ticketsVendidos = DB::table ('ticket_venta as venta') 
-                    ->select('venta.cantidad','asig.item','asig.precio')
-                    ->join( 'tickets_asignados_det as asig','asig.item','=','venta.id_tickets_asign') 
-                    ->where('asig.item',$asignados->item) 
-                    ->where('venta.estado','1') 
-                    ->get(); 
-            // dd($ticketsVendidos);
-            $cantidadVentasReg=0;
-            foreach($ticketsVendidos as $vendidosTic ){
-                $cantidadVentasReg += intval($vendidosTic->cantidad);
-
-            }
-            $tickets_vendidos_bd= intval($cantidadVentasReg);
-            $tickets_asignados=intval($asignados->cantidad);
-            $tickets_pendientes_venta=$tickets_asignados-$tickets_vendidos_bd; 
-            $tickets_mikrotick=count($data);
-
-            
-             if($tickets_vendidos_bd==$tickets_asignados ){
-                        DB::table('tickets_asignados_det')
-                        ->where('item',$asignados->item)
-                        ->update([ 
-                            'estado'            => '0',  
-                        ]); 
-                        $registro="SI" ;
-            }
-            if( $tickets_vendidos_bd<$tickets_asignados and $tickets_pendientes_venta >$tickets_mikrotick ){
-                $tickets_venta_registrar= $tickets_pendientes_venta-$tickets_mikrotick;
-                DB::table('ticket_venta')
-                ->insert([  
-                            'id_tickets_asign'        => $asignados->item, 
-                            'idusuario'               => $asignados->idtrabajador,  
-                            'cantidad'                => $tickets_venta_registrar,
-                            'precio'                  => $asignados->precio, 
-                            'idperfil'                => $asignados->idperfil,    
-                            'estado'                  =>'1', 
-                            'fecha_creacion'          =>date('Y-m-d h:m:s')  
-                ]);
-            } 
-            
-                
-                $codigo=0;
-                $cantidadTotalAsignados=0; 
-                $totalVentas=0;
-                $idperfil_det=0;
-                $cantidadPerfilAsignado=0;
-                $ventasDePerfil=0;
-
-                $ticketsCodigos=DB::table ('tickets_asignados_det')
-                ->select('tickets_asignados.*')         
-                ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
-                ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
-                ->where('tickets_asignados_det.item',$asignados->item) 
-                ->get();  
-                foreach($ticketsCodigos as $codigos){
-                    $cantidadTotalAsignados         =$codigos->tickets_cant;
-                    $codigo                         =$codigos->codigo;   
-                }  
-                $ventasRealizadas=DB::table ('ticket_venta')
-                ->select('ticket_venta.cantidad','tickets_asignados_perfil_det.codigo','tickets_asignados.tickets_cant')         
-                ->join( 'tickets_asignados_det','tickets_asignados_det.item','=','ticket_venta.id_tickets_asign')
-                ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
-                ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
-                ->where('tickets_asignados.codigo',$codigo)
-                ->where('ticket_venta.estado','1') 
-                ->get(); 
-                 foreach($ventasRealizadas as $codigos){
-                    $totalVentas  +=$codigos->cantidad; 
-                }
-                // dd($totalVentas,$cantidadTotalAsignados);
-        
-                if($totalVentas==$cantidadTotalAsignados){
-                // dd("ingreso a guardar");
-                    DB::table('tickets_asignados')
-                    ->where('codigo',$codigo)
-                    ->update([ 
-                        'estado'            => '3',  
-                    ]);
-                } 
-
-        }    
-           return response()->json([
-                'EstadoTicket' => $registro  
-            ]);
-    }
+    }  
     public function showSaldoTickets(){
         $arrayDatos=[];  
         $cont = 0;
@@ -1014,10 +916,11 @@ class TicketsController extends Controller
                 ->get();  
         
         foreach($ticketsAsignados as $asignados){ 
-            //  dd($asignados);
+            //   dd($asignados);
+            // dd($ARRAY);
             $data = [];
             foreach($ARRAY as $valor){ 
-                    if(isset($valor['name']) and substr($valor['name'],0,strlen($asignados->codigo_alterno)) == trim($asignados->codigo_alterno)and isset($valor['profile']) ){  
+                    if($valor['uptime']=="0s" and isset($valor['name']) and substr($valor['name'],0,strlen($asignados->codigo_alterno)) == trim($asignados->codigo_alterno)and isset($valor['profile']) ){  
                         $cont++; 
                         foreach($perfiles as $perfilAs){
                             //   dd($perfilAs);
@@ -1030,13 +933,21 @@ class TicketsController extends Controller
                                         'perfil'    =>$perfilAs->idperfil
                                     ]); 
 
-                                }
-                                
-                                      
-                            } 
+                                }       
+                            }  
                         }      
                     } 
             }  
+            //elimamos los tickets asignados a otros usuarios
+            foreach($ticketsAsignados as $ticketsAsig){ 
+                foreach($data as $key => $valor){
+                    if(substr($valor['nombre'],0,strlen($ticketsAsig->codigo_alterno)) == trim($ticketsAsig->codigo_alterno)){
+                        if(substr($asignados->codigo_alterno,0,strlen($ticketsAsig->codigo_alterno)) != trim($ticketsAsig->codigo_alterno) ){
+                            unset($data[$key]);
+                        }                                              
+                    }
+                } 
+             } 
             $ticketsVendidos = DB::table ('ticket_venta as venta') 
                     ->select('venta.cantidad','asig.item','asig.precio')
                     ->join( 'tickets_asignados_det as asig','asig.item','=','venta.id_tickets_asign') 
@@ -1046,14 +957,15 @@ class TicketsController extends Controller
             // dd($ticketsVendidos);
             $cantidadVentasReg=0;
             foreach($ticketsVendidos as $vendidosTic ){
-                $cantidadVentasReg += intval($vendidosTic->cantidad);
-
+                $cantidadVentasReg += intval($vendidosTic->cantidad); 
             }
             $tickets_vendidos_bd= intval($cantidadVentasReg);
             $tickets_asignados=intval($asignados->cantidad);
             $tickets_pendientes_venta=$tickets_asignados-$tickets_vendidos_bd; 
+
             $tickets_mikrotick=count($data); 
-            $diferencia= $tickets_asignados-$tickets_mikrotick;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            $diferencia= $tickets_asignados-$tickets_pendientes_venta;
             if ($diferencia <1){
                         $diferencia =0; 
                     } 
@@ -1080,10 +992,20 @@ class TicketsController extends Controller
             // dd($ticketsCodigos1);
             $contadorElementos+=1;
 
+            foreach($perfiles as $perfil ){
+                //   dd($perfilAs); 
+                    if($asignados->idperfil ==$perfil->idperfil ){
+                        $perfil_Nombre=$perfil->name;
+                        
+                    }    
+            } 
+            // dd($perfil_Nombre) ;
+
             array_push($arrayDatos,[
                         'cont'=>$contadorElementos, 
                         'nombre'    => $nombre,
                         'PerfilAsignado'=> $PerfilAsignadoNom,
+                        'perfil_Nombre'=>$perfil_Nombre,
                         'id'        => $id,
                         'asignados' =>$asignados->cantidad,
                         'cod_alterno'=>$asignados->codigo_alterno,
@@ -1093,6 +1015,7 @@ class TicketsController extends Controller
             ]); 
 
         } 
+        // dd($arrayDatos);
         $puntoVenta = DB::table('zonas')->where('estado',1)-> get(); 
  
         return view('forms.asignarTickets.saldoTickets.lstSaldoTicketsAsignados2',[ 
@@ -1101,6 +1024,66 @@ class TicketsController extends Controller
             'vendedores'   =>$vendedor
         ]);
     } 
+    
+    public function consultarVentasMikrotik (Request $request){  
+        // dd("ok");
+        $registro="NO";
+        $ARRAY=[];  
+        $API = new routeros_api();
+        $API->debug = false;
+        $router = DB::table('router')->where('idrouter','R01')->get();  
+        $perfiles = DB::table('perfiles')-> get(); 
+        foreach ($router as $rou) {
+            if ($API->connect($rou->ip , $rou->usuario , $rou->password, $rou->puerto )) {
+                $ARRAY = $API->comm("/ip/hotspot/user/print"); 
+            }
+        } 
+        //   dd('llego');
+        if($ARRAY != null){ 
+            // dd('ingreso');
+            $cont=0;
+            $ticketsAsignados=DB::table ('tickets_asignados_det') 
+                    ->where('estado',1) 
+                    ->get();  
+            //  dd($ticketsAsignados);
+            foreach($ticketsAsignados as $asignados){   
+                $ticket_venta=DB::table('ticket_venta')
+                ->where('id_tickets_asign',$asignados->item)
+                ->where('estado',0)->get(); 
+
+                foreach($ticket_venta as $venta){   
+                    $contadorTicketsRb=0;
+                    // dd($ARRAY);
+                    foreach($ARRAY as $valor){ 
+                        // if($valor['name']=='TRNTERN11897#84#900009'and $valor['name']==$venta->id_pin_hospot){
+                        //     dd($valor,$venta);
+                        // }
+                        if( $valor['uptime']=="0s" and $valor['name']==$venta->id_pin_hospot){ 
+                            $contadorTicketsRb=1;
+                        } 
+                    }
+                    if($contadorTicketsRb==0){ 
+                                DB::table('ticket_venta')
+                                ->where('codigo',$venta->codigo)
+                                ->update(['estado' => 1]);  
+                    } 
+                } 
+                $ticket_vendidos=DB::table('ticket_venta')
+                ->where('id_tickets_asign',$asignados->item)
+                ->where('estado',1)->get();  
+                if(count($ticket_vendidos)>=intval($asignados->cantidad)){
+                                DB::table('tickets_asignados_det')
+                                ->where('item',$asignados->item)
+                                ->update(['estado' => 0]);  
+                }
+ 
+
+            }
+        }     
+            return response()->json([
+                    'EstadoTicket' => $registro  
+                ]);
+    }
 
 
 

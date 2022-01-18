@@ -9,7 +9,7 @@
 			<div class="row cuerpo"> 
 				<div class="row">  
 						<div class="card-content herramienta"> 
-							<table  id="tablaFiltroVendedores" class="bordered" >
+							<table  class="bordered" >
 								<thead>
 									<tr>
 										<th>Color</th> 

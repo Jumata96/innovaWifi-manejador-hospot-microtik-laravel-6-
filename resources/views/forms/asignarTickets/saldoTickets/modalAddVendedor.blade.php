@@ -16,18 +16,20 @@
 				<i class="material-icons" style="color: #424242">keyboard_tab</i></a>  
 			</div>  
 			@include('forms.scripts.modalInformacion')              
-			
+			@php
+							$i = 0 ;
+			@endphp
 	  </div>
 	  <br>
 		<form action="#" id="myFormCkeck">
 			<div class="row cuerpo">
 				<?php  
 				$bandera = false;
-
+				
 				if (count($vendedores) > 0) {
 					# code...
 					$bandera = true;
-					$i = 0;
+					
 				} 
 				?> 
 				<br>
@@ -95,7 +97,10 @@
 									<?php }} ?>
 								</tbody>
 							</table>
-							<input type="hidden" name="cont" id="cont" value="{{$i}}">
+							@php
+											$b=$i;
+							@endphp
+							<input type="hidden" name="cont" id="cont" value="{{$b}}">
 						</div>  
 				</div>
 			

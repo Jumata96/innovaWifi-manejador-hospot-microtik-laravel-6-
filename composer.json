@@ -13,7 +13,7 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "maatwebsite/excel": "^3.0",
-        "nesbot/carbon": "^1.29"
+        "nesbot/carbon": "^1.26"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
@@ -58,7 +58,11 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "symfony/thanks": true,
+            "kylekatarnls/update-helper": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

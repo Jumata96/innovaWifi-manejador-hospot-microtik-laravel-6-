@@ -23,11 +23,11 @@
 			<div class="row cuerpo">
 				<?php  
 				$bandera = false;
-
+					$i = 0;
 				if (count($vendedores) > 0) {
 					# code...
 					$bandera = true;
-					$i = 0;
+
 				} 
 				?> 
 				<br>

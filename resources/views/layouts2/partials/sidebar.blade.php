@@ -17,7 +17,7 @@
             <h1 class="logo-wrapper white" style="padding-top: 8px; padding-left: 15px">
               <a href="http://innovawisp.com" class="brand-logo darken-1" target="_blank">
                 <img src="{{asset('images/Isotipo.png')}}" alt="InnovaWifi" style=" height: 43px ;background-image: url('{{asset('images/Isotipo.png')}}') !importar;" >  
-                <span id="LogoInnovaTec" style="color:black;" class="logo-text hide-on-med-and-down "><b >Innova</b>Wifi</span>             
+                <span id="LogoInnovaTec" style="color:black;" class="logo-text hide-on-med-and-down "><b >MAXCOM </b></span>             
               </a>
                 
               <a href="#" class="navbar-toggler"   id="radio" onclick="Materialize.fadeInImage('#sideusuario')" style="margin-left: 70px;padding-top: 5px;">
@@ -169,21 +169,15 @@
                       <span>Registrar</span></a>
                       </li>  
                       <li>
-                        <a href="{{ url('/tickets/Asignar') }}">
+                        <a href="{{ url('/lsttickets') }}">
                           <i class="material-icons">keyboard_arrow_right</i>
                           <span>Asignar tickets</span>
                         </a>
-                      </li>
+                      </li> 
                       <li>
-                        <a href="{{ url('/tickets/Asignados/historialVentas') }}">
+                        <a href="{{ url('/lsttickets_vendidas') }}">
                           <i class="material-icons">keyboard_arrow_right</i>
-                          <span>Historial tickets</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="{{ url('/tickets/Asignados/saldo') }}">
-                          <i class="material-icons">keyboard_arrow_right</i>
-                          <span>Saldo</span>
+                          <span>Tickets vendidos</span>
                         </a>
                       </li>
                       <li><a href="{{ url('/tickets/reporte-venta-trabajador') }}">

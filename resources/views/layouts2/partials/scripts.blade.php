@@ -105,13 +105,13 @@
           }
       });
     }
-    // consultarTickets();
+    //consultarTickets();
      
- /*     setInterval(function(){
-      consultarTickets();  
-    	}, 600000);   */
-  
-    $('#CerrarMensajeGeneral').on('click',function( ){ 
+    setInterval(function(){
+       consultarTickets();  
+     	}, 60000);
+
+    $('#CerrarMensajeGeneral').on('clik',function( ){ 
         var elementoMensajeGeneral = document.getElementById('mensajeGeneral'); //se define la variable "el" igual a nuestro div
              elementoMensajeGeneral.style.display ='none'; 
 
@@ -124,12 +124,3 @@
     @section('script')
 
     @show
-
-
-
-
-
-
-
-
-

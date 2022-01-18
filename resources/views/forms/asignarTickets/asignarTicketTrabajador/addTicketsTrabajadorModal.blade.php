@@ -54,14 +54,21 @@
                                             <label for="codigoAlterno">Codigo alterno</label>
                                                 <select class="browser-default" id="codigoAlterno" name="codigoAlterno" data-error=".errorTxt1" > 
                                                         {{-- <option value="" disabled selected="">Seleccione</option>  --}}
+                                                        @php
+                                                            $contador_codigos=0;
+                                                        @endphp
                                                     @foreach ($codigos as $valor)  
-                                                        @if ($valor->estado=1)
-                                                            <option value="{{ $valor->codigo }}">{{ $valor->descripcion }}</option>  
-                                                        @else
-                                                            <option value="{{ $valor->codigo }}"  disabled  >{{ $valor->descripcion }}</option>
-                                                        @endif
-                                                      
+                                                        @if ($valor->estado=="1")
+                                                            @php
+                                                                 $contador_codigos+=1;
+                                                            @endphp
+                                                            <option value="{{ $valor->codigo }}">{{ $valor->descripcion }}</option>
+                                                            
+                                                        @endif  
                                                     @endforeach 
+                                                    @if ($contador_codigos==0)
+                                                    <option value="SR"  >SIN CODIGOS DISPONIBLES</option>
+                                                    @endif
                                                      
                                                 </select>
                                                 <div class="errorTxt1" id="errorModal6" style="padding-left: 3rem; color: red; font-size: 12px; font-style: italic;"></div>  

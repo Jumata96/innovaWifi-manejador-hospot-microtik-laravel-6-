@@ -32,11 +32,12 @@ class TicketsAsignadosController extends Controller
         ->get(); 
         /* dd($tickets_Venta); */
          $tickets_Asig =DB::table ('tickets_asignados_det')
-         ->select('tickets_asignados_det.idtrabajador','tickets_asignados_det.cantidad','tickets_asignados_perfil_det.idperfil_det','tickets_asignados_perfil_det.codigo')          
+         ->select('tickets_asignados_det.idtrabajador','tickets_asignados_det.cantidad','tickets_asignados_perfil_det.idperfil_det','tickets_asignados_perfil_det.codigo','perfiles.name')          
         ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')  
+        ->join( 'perfiles','perfiles.idperfil','=','tickets_asignados_perfil_det.idperfil')  
         ->get(); 
         //  dd( $tickets_Asig);
-        // dd($tickets);
+         //dd($tickets);
         return view('forms.asignarTickets.lstTicketsAsignados',[
             'tickets'           => $tickets,
             'zonas'             =>$zonas,
@@ -198,15 +199,18 @@ class TicketsAsignadosController extends Controller
         ->where('ticket_venta.idusuario',$idUsuario)
         ->where('ticket_venta.estado','1')
         ->get();  
+
         $codigos = DB::table('codigo_alterno')
-            ->where(
+        ->where('idtrabajador', intval($idUsuario))
+        ->whereIn('estado',array(1,3))
+            /* ->where(
                 [
                     ['idtrabajador','=',intval($idUsuario)],
                     ['estado','=',array(1,3)] 
                 ]
 
-            )->get(); 
-        // dd($tickets_asignados_Det);
+            ) */->get(); 
+        //dd($codigos);
         
         return view('forms.asignarTickets.asignarTicketTrabajador.lstTicketsTrabajador',[
             'tickets_asignados'         =>$tickets_asignados,
@@ -369,6 +373,21 @@ class TicketsAsignadosController extends Controller
             'estado'            => '2',  
         ]);
 
+        $TicketsAsignados=DB::table ('tickets_asignados_det')
+        ->select('tickets_asignados_det.*')          
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
+        ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
+        ->where('tickets_asignados.codigo',$id) 
+        ->get(); 
+        foreach($TicketsAsignados as $asig){
+            DB::table('tickets_asignados_det')
+            ->where('item',$asig->item)
+            ->update([ 
+                'estado'            => '0',  
+            ]); 
+        }
+
+
         return redirect('/tickets/Asignar');
     }
     public function habilitar ($id){
@@ -378,6 +397,20 @@ class TicketsAsignadosController extends Controller
         ->update([ 
             'estado'            => '1',  
         ]);
+        $TicketsAsignados=DB::table ('tickets_asignados_det')
+        ->select('tickets_asignados_det.*')          
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
+        ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
+        ->where('tickets_asignados.codigo',$id) 
+        ->get(); 
+        foreach($TicketsAsignados as $asig){
+            DB::table('tickets_asignados_det')
+            ->where('item',$asig->item)
+            ->update([ 
+                'estado'            => '1',  
+            ]); 
+        }
+
         return redirect('/tickets/Asignar');
 
     }
@@ -388,6 +421,20 @@ class TicketsAsignadosController extends Controller
         ->update([ 
             'estado'            => '0',  
         ]);
+        $TicketsAsignados=DB::table ('tickets_asignados_det')
+        ->select('tickets_asignados_det.*')          
+        ->join( 'tickets_asignados_perfil_det','tickets_asignados_perfil_det.idperfil_det','=','tickets_asignados_det.idperfil_det')
+        ->join('tickets_asignados','tickets_asignados.codigo','=','tickets_asignados_perfil_det.codigo') 
+        ->where('tickets_asignados.codigo',$id) 
+        ->get(); 
+        foreach($TicketsAsignados as $asig){
+            DB::table('tickets_asignados_det')
+            ->where('item',$asig->item)
+            ->update([ 
+                'estado'            => '0',  
+            ]); 
+        }
+
         return redirect('/tickets/Asignar');
 
     }

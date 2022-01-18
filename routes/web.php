@@ -15,7 +15,7 @@ Route::view('/', 'auth.login');
 Route::view('/login', 'auth.login');
 Route::get('/cerrar', 'HomeController@cerrar');
 Route::view('/registrar', 'auth.register');
-Route::view('/plantilla', 'forms.plantilla.layoutBasico');
+Route::view('/plantilla', 'dd("llego")');
 Route::view('/api', 'API.prueba');
 Route::view('/ucv', 'forms.prueba');
 //Redireccion de Login
@@ -103,6 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     
     //tickets 
+        Route::get('ayuda','FichasController@ayuda');
 	
 
     //-----Clientes-----------
@@ -304,7 +305,7 @@ Route::group(['middleware' => 'auth'], function () {
      Route::post('/tickets/buscar/ventas/zona','TicketsController@reporteVentaPorZona');
 
 
-   
+    //  Route::post('/tickets/buscar/ventas/zona','TicketsController@reporteVentaPorZona');  
 
        
 
@@ -327,19 +328,29 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+    Route::get('/fichas', 'TicketsController@fichas');
 
-
- 
-    
-
-    
+    //julinho 
 
 
     
+     Route::get('lsttickets','FichasController@index02');	
+     Route::get('/fichasPuntoVenta/{id}','FichasController@FichasPorZona');
+     Route::post('/fichasTrabajador/grabar','FichasController@asignarTrabajadorDetalle02');
+     Route::post('/fichasAsignados/trabajador','FichasController@contadorPerfilesAsignadosTrabajador');
+     Route::get('/fichasZonaTrabajador/{id}','FichasController@FichasPorTrabajador');
+     Route::get('/imprimir/fichaTrabajador/{id}','FichasController@ImprimirFichasTrabajador');
 
 
+           Route::get('lsttickets_vendidas','FichasVendidasController@index02'); 
+     Route::get('/fichasPuntoVenta_vendidas/{id}','FichasVendidasController@FichasPorZona');
+     Route::post('/fichasTrabajador_vendidas/grabar','FichasVendidasController@asignarTrabajadorDetalle02');
+     Route::post('/fichasAsignados_vendidas/trabajador','FichasVendidasController@contadorPerfilesAsignadosTrabajador');
+     Route::get('/fichasZonaTrabajador_vendidas/{id}','FichasVendidasController@FichasPorTrabajador'); 
 
      
+
+      
 
 
     
@@ -356,3 +367,6 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::view('/prueba', 'forms.plantilla.mntBasico');
+// apis  	
+Route::get('/api/tickets/{id}','ApisController@ImprimirFichasTrabajador');
+

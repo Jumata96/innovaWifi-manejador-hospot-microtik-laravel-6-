@@ -13,7 +13,6 @@ namespace Carbon;
 
 use Carbon\Exceptions\InvalidDateException;
 use Closure;
-use DateInterval;
 use DatePeriod;
 use DateTime;
 use DateTimeInterface;
@@ -52,14 +51,6 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @property-read bool $utc checks if the timezone is UTC, true if UTC, false otherwise
  * @property-read string $timezoneName
  * @property-read string $tzName
- * @property-read string $englishDayOfWeek the day of week in English
- * @property-read string $shortEnglishDayOfWeek the abbreviated day of week in English
- * @property-read string $englishMonth the day of week in English
- * @property-read string $shortEnglishMonth the abbreviated day of week in English
- * @property-read string $localeDayOfWeek the day of week in current locale LC_TIME
- * @property-read string $shortLocaleDayOfWeek the abbreviated day of week in current locale LC_TIME
- * @property-read string $localeMonth the month in current locale LC_TIME
- * @property-read string $shortLocaleMonth the abbreviated month in current locale LC_TIME
  */
 class Carbon extends DateTime implements JsonSerializable
 {
@@ -102,7 +93,6 @@ class Carbon extends DateTime implements JsonSerializable
     const MONTHS_PER_YEAR = 12;
     const MONTHS_PER_QUARTER = 3;
     const WEEKS_PER_YEAR = 52;
-    const WEEKS_PER_MONTH = 4;
     const DAYS_PER_WEEK = 7;
     const HOURS_PER_DAY = 24;
     const MINUTES_PER_HOUR = 60;
@@ -196,7 +186,7 @@ class Carbon extends DateTime implements JsonSerializable
         't' => '(2[89]|3[01])',
         'L' => '(0|1)',
         'o' => '([1-9][0-9]{0,4})',
-        'Y' => '([1-9]?[0-9]{4})',
+        'Y' => '([1-9][0-9]{0,4})',
         'y' => '([0-9]{2})',
         'a' => '(am|pm)',
         'A' => '(AM|PM)',
@@ -218,8 +208,8 @@ class Carbon extends DateTime implements JsonSerializable
         'U' => '([0-9]*)',
 
         // The formats below are combinations of the above formats.
-        'c' => '(([1-9]?[0-9]{4})\-(1[012]|0[1-9])\-(3[01]|[12][0-9]|0[1-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])[\+\-](1[012]|0[0-9]):([0134][05]))', // Y-m-dTH:i:sP
-        'r' => '(([a-zA-Z]{3}), ([123][0-9]|[1-9]) ([a-zA-Z]{3}) ([1-9]?[0-9]{4}) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]) [\+\-](1[012]|0[0-9])([0134][05]))', // D, j M Y H:i:s O
+        'c' => '(([1-9][0-9]{0,4})\-(1[012]|0[1-9])\-(3[01]|[12][0-9]|0[1-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])[\+\-](1[012]|0[0-9]):([0134][05]))', // Y-m-dTH:i:sP
+        'r' => '(([a-zA-Z]{3}), ([123][0-9]|[1-9]) ([a-zA-Z]{3}) ([1-9][0-9]{0,4}) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]) [\+\-](1[012]|0[0-9])([0134][05]))', // D, j M Y H:i:s O
     );
 
     /**
@@ -284,14 +274,6 @@ class Carbon extends DateTime implements JsonSerializable
      * @var bool
      */
     protected static $yearsOverflow = true;
-
-    /**
-     * Indicates if years are compared with month by default so isSameMonth and isSameQuarter have $ofSameYear set
-     * to true by default.
-     *
-     * @var bool
-     */
-    protected static $compareYearWithMonth = false;
 
     /**
      * Options for diffForHumans().
@@ -419,26 +401,6 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Get the month comparison default behavior.
-     *
-     * @return bool
-     */
-    public static function compareYearWithMonth($compareYearWithMonth = true)
-    {
-        static::$compareYearWithMonth = $compareYearWithMonth;
-    }
-
-    /**
-     * Get the month comparison default behavior.
-     *
-     * @return bool
-     */
-    public static function shouldCompareYearWithMonth()
-    {
-        return static::$compareYearWithMonth;
-    }
-
-    /**
      * Creates a DateTimeZone from a string, DateTimeZone or integer offset.
      *
      * @param \DateTimeZone|string|int|null $object
@@ -468,25 +430,13 @@ class Carbon extends DateTime implements JsonSerializable
             $object = $tzName;
         }
 
-        $tz = @timezone_open($object = (string) $object);
+        $tz = @timezone_open((string) $object);
 
-        if ($tz !== false) {
-            return $tz;
+        if ($tz === false) {
+            throw new InvalidArgumentException('Unknown or bad timezone ('.$object.')');
         }
 
-        // Work-around for a bug fixed in PHP 5.5.10 https://bugs.php.net/bug.php?id=45528
-        // See: https://stackoverflow.com/q/14068594/2646927
-        // @codeCoverageIgnoreStart
-        if (strpos($object, ':') !== false) {
-            try {
-                return static::createFromFormat('O', $object)->getTimezone();
-            } catch (InvalidArgumentException $e) {
-                //
-            }
-        }
-        // @codeCoverageIgnoreEnd
-
-        throw new InvalidArgumentException('Unknown or bad timezone ('.$object.')');
+        return $tz;
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -727,7 +677,7 @@ class Carbon extends DateTime implements JsonSerializable
             $year = 9999;
         }
 
-        $instance = static::createFromFormat('!Y-n-j G:i:s', sprintf('%s-%s-%s %s:%02s:%02s', $year, $month, $day, $hour, $minute, $second), $tz);
+        $instance = static::createFromFormat('Y-n-j G:i:s', sprintf('%s-%s-%s %s:%02s:%02s', $year, $month, $day, $hour, $minute, $second), $tz);
 
         if ($fixYear !== null) {
             $instance->addYears($fixYear);
@@ -855,13 +805,6 @@ class Carbon extends DateTime implements JsonSerializable
         return static::today($tz)->setTimeFromTimeString($time);
     }
 
-    private static function createFromFormatAndTimezone($format, $time, $tz)
-    {
-        return $tz !== null
-            ? parent::createFromFormat($format, $time, static::safeCreateDateTimeZone($tz))
-            : parent::createFromFormat($format, $time);
-    }
-
     /**
      * Create a Carbon instance from a specific format.
      *
@@ -875,30 +818,13 @@ class Carbon extends DateTime implements JsonSerializable
      */
     public static function createFromFormat($format, $time, $tz = null)
     {
-        // First attempt to create an instance, so that error messages are based on the unmodified format.
-        $date = self::createFromFormatAndTimezone($format, $time, $tz);
-        $lastErrors = parent::getLastErrors();
-
-        if (($mock = static::getTestNow()) && ($date instanceof DateTime || $date instanceof DateTimeInterface)) {
-            // Set timezone from mock if custom timezone was neither given directly nor as a part of format.
-            // First let's skip the part that will be ignored by the parser.
-            $nonEscaped = '(?<!\\\\)(\\\\{2})*';
-
-            $nonIgnored = preg_replace("/^.*{$nonEscaped}!/s", '', $format);
-
-            if ($tz === null && !preg_match("/{$nonEscaped}[eOPT]/", $nonIgnored)) {
-                $tz = $mock->getTimezone();
-            }
-
-            // Prepend mock datetime only if the format does not contain non escaped unix epoch reset flag.
-            if (!preg_match("/{$nonEscaped}[!|]/", $format)) {
-                $format = static::MOCK_DATETIME_FORMAT.' '.$format;
-                $time = $mock->format(static::MOCK_DATETIME_FORMAT).' '.$time;
-            }
-
-            // Regenerate date from the modified format to base result on the mocked instance instead of now.
-            $date = self::createFromFormatAndTimezone($format, $time, $tz);
+        if ($tz !== null) {
+            $date = parent::createFromFormat($format, $time, static::safeCreateDateTimeZone($tz));
+        } else {
+            $date = parent::createFromFormat($format, $time);
         }
+
+        $lastErrors = parent::getLastErrors();
 
         if ($date instanceof DateTime || $date instanceof DateTimeInterface) {
             $instance = static::instance($date);
@@ -970,32 +896,6 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Make a Carbon instance from given variable if possible.
-     *
-     * Always return a new instance. Parse only strings and only these likely to be dates (skip intervals
-     * and recurrences). Throw an exception for invalid format, but otherwise return null.
-     *
-     * @param mixed $var
-     *
-     * @return static|null
-     */
-    public static function make($var)
-    {
-        if ($var instanceof DateTime || $var instanceof DateTimeInterface) {
-            return static::instance($var);
-        }
-
-        if (is_string($var)) {
-            $var = trim($var);
-            $first = substr($var, 0, 1);
-
-            if (is_string($var) && $first !== 'P' && $first !== 'R' && preg_match('/[a-z0-9]/i', $var)) {
-                return static::parse($var);
-            }
-        }
-    }
-
-    /**
      * Get a copy of the instance.
      *
      * @return static
@@ -1016,24 +916,17 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Throws an exception if the given object is not a DateTime and does not implement DateTimeInterface
-     * and not in $other.
+     * Throws an exception if the given object is not a DateTime and does not implement DateTimeInterface.
      *
-     * @param mixed        $date
-     * @param string|array $other
+     * @param mixed $date
      *
      * @throws \InvalidArgumentException
      */
-    protected static function expectDateTime($date, $other = array())
+    protected static function expectDateTime($date)
     {
-        $message = 'Expected ';
-        foreach ((array) $other as $expect) {
-            $message .= "{$expect}, ";
-        }
-
         if (!$date instanceof DateTime && !$date instanceof DateTimeInterface) {
             throw new InvalidArgumentException(
-                $message.'DateTime or DateTimeInterface, '.
+                'Expected null, string, DateTime or DateTimeInterface, '.
                 (is_object($date) ? get_class($date) : gettype($date)).' given'
             );
         }
@@ -1057,7 +950,7 @@ class Carbon extends DateTime implements JsonSerializable
             return static::parse($date, $this->getTimezone());
         }
 
-        static::expectDateTime($date, array('null', 'string'));
+        static::expectDateTime($date);
 
         return $date instanceof self ? $date : static::instance($date);
     }
@@ -1092,23 +985,11 @@ class Carbon extends DateTime implements JsonSerializable
             'weekOfYear' => 'W',
             'daysInMonth' => 't',
             'timestamp' => 'U',
-            'englishDayOfWeek' => 'l',
-            'shortEnglishDayOfWeek' => 'D',
-            'englishMonth' => 'F',
-            'shortEnglishMonth' => 'M',
-            'localeDayOfWeek' => '%A',
-            'shortLocaleDayOfWeek' => '%a',
-            'localeMonth' => '%B',
-            'shortLocaleMonth' => '%b',
         );
 
         switch (true) {
             case isset($formats[$name]):
-                $format = $formats[$name];
-                $method = substr($format, 0, 1) === '%' ? 'formatLocalized' : 'format';
-                $value = $this->$method($format);
-
-                return is_numeric($value) ? (int) $value : $value;
+                return (int) $this->format($formats[$name]);
 
             case $name === 'weekOfMonth':
                 return (int) ceil($this->day / static::DAYS_PER_WEEK);
@@ -1455,16 +1336,10 @@ class Carbon extends DateTime implements JsonSerializable
      *
      * @param int $day week start day
      *
-     * @throws InvalidArgumentException
-     *
      * @return void
      */
     public static function setWeekStartsAt($day)
     {
-        if ($day > static::SATURDAY || $day < static::SUNDAY) {
-            throw new InvalidArgumentException('Day of a week should be greater than or equal to 0 and less than or equal to 6.');
-        }
-
         static::$weekStartsAt = $day;
     }
 
@@ -1483,16 +1358,10 @@ class Carbon extends DateTime implements JsonSerializable
      *
      * @param int $day
      *
-     * @throws InvalidArgumentException
-     *
      * @return void
      */
     public static function setWeekEndsAt($day)
     {
-        if ($day > static::SATURDAY || $day < static::SUNDAY) {
-            throw new InvalidArgumentException('Day of a week should be greater than or equal to 0 and less than or equal to 6.');
-        }
-
         static::$weekEndsAt = $day;
     }
 
@@ -1672,142 +1541,6 @@ class Carbon extends DateTime implements JsonSerializable
         return static::translator()->setLocale($locale) !== false;
     }
 
-    /**
-     * Set the current locale to the given, execute the passed function, reset the locale to previous one,
-     * then return the result of the closure (or null if the closure was void).
-     *
-     * @param string $locale locale ex. en
-     *
-     * @return mixed
-     */
-    public static function executeWithLocale($locale, $func)
-    {
-        $currentLocale = static::getLocale();
-        $result = call_user_func($func, static::setLocale($locale) ? static::getLocale() : false, static::translator());
-        static::setLocale($currentLocale);
-
-        return $result;
-    }
-
-    /**
-     * Returns true if the given locale is internally supported and has short-units support.
-     * Support is considered enabled if either year, day or hour has a short variant translated.
-     *
-     * @param string $locale locale ex. en
-     *
-     * @return bool
-     */
-    public static function localeHasShortUnits($locale)
-    {
-        return static::executeWithLocale($locale, function ($newLocale, TranslatorInterface $translator) {
-            return $newLocale &&
-                (
-                    ($y = $translator->trans('y')) !== 'y' &&
-                    $y !== $translator->trans('year')
-                ) || (
-                    ($y = $translator->trans('d')) !== 'd' &&
-                    $y !== $translator->trans('day')
-                ) || (
-                    ($y = $translator->trans('h')) !== 'h' &&
-                    $y !== $translator->trans('hour')
-                );
-        });
-    }
-
-    /**
-     * Returns true if the given locale is internally supported and has diff syntax support (ago, from now, before, after).
-     * Support is considered enabled if the 4 sentences are translated in the given locale.
-     *
-     * @param string $locale locale ex. en
-     *
-     * @return bool
-     */
-    public static function localeHasDiffSyntax($locale)
-    {
-        return static::executeWithLocale($locale, function ($newLocale, TranslatorInterface $translator) {
-            return $newLocale &&
-                $translator->trans('ago') !== 'ago' &&
-                $translator->trans('from_now') !== 'from_now' &&
-                $translator->trans('before') !== 'before' &&
-                $translator->trans('after') !== 'after';
-        });
-    }
-
-    /**
-     * Returns true if the given locale is internally supported and has words for 1-day diff (just now, yesterday, tomorrow).
-     * Support is considered enabled if the 3 words are translated in the given locale.
-     *
-     * @param string $locale locale ex. en
-     *
-     * @return bool
-     */
-    public static function localeHasDiffOneDayWords($locale)
-    {
-        return static::executeWithLocale($locale, function ($newLocale, TranslatorInterface $translator) {
-            return $newLocale &&
-                $translator->trans('diff_now') !== 'diff_now' &&
-                $translator->trans('diff_yesterday') !== 'diff_yesterday' &&
-                $translator->trans('diff_tomorrow') !== 'diff_tomorrow';
-        });
-    }
-
-    /**
-     * Returns true if the given locale is internally supported and has words for 2-days diff (before yesterday, after tomorrow).
-     * Support is considered enabled if the 2 words are translated in the given locale.
-     *
-     * @param string $locale locale ex. en
-     *
-     * @return bool
-     */
-    public static function localeHasDiffTwoDayWords($locale)
-    {
-        return static::executeWithLocale($locale, function ($newLocale, TranslatorInterface $translator) {
-            return $newLocale &&
-                $translator->trans('diff_before_yesterday') !== 'diff_before_yesterday' &&
-                $translator->trans('diff_after_tomorrow') !== 'diff_after_tomorrow';
-        });
-    }
-
-    /**
-     * Returns true if the given locale is internally supported and has period syntax support (X times, every X, from X, to X).
-     * Support is considered enabled if the 4 sentences are translated in the given locale.
-     *
-     * @param string $locale locale ex. en
-     *
-     * @return bool
-     */
-    public static function localeHasPeriodSyntax($locale)
-    {
-        return static::executeWithLocale($locale, function ($newLocale, TranslatorInterface $translator) {
-            return $newLocale &&
-                $translator->trans('period_recurrences') !== 'period_recurrences' &&
-                $translator->trans('period_interval') !== 'period_interval' &&
-                $translator->trans('period_start_date') !== 'period_start_date' &&
-                $translator->trans('period_end_date') !== 'period_end_date';
-        });
-    }
-
-    /**
-     * Returns the list of internally available locales and already loaded custom locales.
-     * (It will ignore custom translator dynamic loading.)
-     *
-     * @return array
-     */
-    public static function getAvailableLocales()
-    {
-        $translator = static::translator();
-        $locales = array();
-        if ($translator instanceof Translator) {
-            foreach (glob(__DIR__.'/Lang/*.php') as $file) {
-                $locales[] = substr($file, strrpos($file, '/') + 1, -4);
-            }
-
-            $locales = array_unique(array_merge($locales, array_keys($translator->getMessages())));
-        }
-
-        return $locales;
-    }
-
     ///////////////////////////////////////////////////////////////////
     /////////////////////// STRING FORMATTING /////////////////////////
     ///////////////////////////////////////////////////////////////////
@@ -1855,7 +1588,7 @@ class Carbon extends DateTime implements JsonSerializable
     /**
      * Set the default format used when type juggling a Carbon instance to a string
      *
-     * @param string|Closure $format
+     * @param string $format
      *
      * @return void
      */
@@ -1871,9 +1604,7 @@ class Carbon extends DateTime implements JsonSerializable
      */
     public function __toString()
     {
-        $format = static::$toStringFormat;
-
-        return $this->format($format instanceof Closure ? $format($this) : $format);
+        return $this->format(static::$toStringFormat);
     }
 
     /**
@@ -2246,7 +1977,7 @@ class Carbon extends DateTime implements JsonSerializable
      *
      * @param \Carbon\Carbon|\DateTimeInterface|mixed $date1
      * @param \Carbon\Carbon|\DateTimeInterface|mixed $date2
-     * @param bool                                    $equal Indicates if an equal to comparison should be done
+     * @param bool                                    $equal Indicates if a > and < comparison should be used or <= or >=
      *
      * @return bool
      */
@@ -2265,13 +1996,6 @@ class Carbon extends DateTime implements JsonSerializable
         return $this->gt($date1) && $this->lt($date2);
     }
 
-    protected function floatDiffInSeconds($date)
-    {
-        $date = $this->resolveCarbon($date);
-
-        return abs($this->diffInRealSeconds($date, false) + ($date->micro - $this->micro) / 1000000);
-    }
-
     /**
      * Get the closest date from the instance.
      *
@@ -2282,7 +2006,7 @@ class Carbon extends DateTime implements JsonSerializable
      */
     public function closest($date1, $date2)
     {
-        return $this->floatDiffInSeconds($date1) < $this->floatDiffInSeconds($date2) ? $date1 : $date2;
+        return $this->diffInSeconds($date1) < $this->diffInSeconds($date2) ? $date1 : $date2;
     }
 
     /**
@@ -2295,13 +2019,13 @@ class Carbon extends DateTime implements JsonSerializable
      */
     public function farthest($date1, $date2)
     {
-        return $this->floatDiffInSeconds($date1) > $this->floatDiffInSeconds($date2) ? $date1 : $date2;
+        return $this->diffInSeconds($date1) > $this->diffInSeconds($date2) ? $date1 : $date2;
     }
 
     /**
      * Get the minimum instance between a given instance (default now) and the current instance.
      *
-     * @param \Carbon\Carbon|\DateTimeInterface|string|null $date
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
      *
      * @return static
      */
@@ -2329,7 +2053,7 @@ class Carbon extends DateTime implements JsonSerializable
     /**
      * Get the maximum instance between a given instance (default now) and the current instance.
      *
-     * @param \Carbon\Carbon|\DateTimeInterface|string|null $date
+     * @param \Carbon\Carbon|\DateTimeInterface|mixed $date
      *
      * @return static
      */
@@ -2355,7 +2079,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is a weekday.
+     * Determines if the instance is a weekday
      *
      * @return bool
      */
@@ -2365,7 +2089,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is a weekend day.
+     * Determines if the instance is a weekend day
      *
      * @return bool
      */
@@ -2375,7 +2099,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is yesterday.
+     * Determines if the instance is yesterday
      *
      * @return bool
      */
@@ -2385,7 +2109,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is today.
+     * Determines if the instance is today
      *
      * @return bool
      */
@@ -2395,7 +2119,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is tomorrow.
+     * Determines if the instance is tomorrow
      *
      * @return bool
      */
@@ -2405,7 +2129,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is within the next week.
+     * Determines if the instance is within the next week
      *
      * @return bool
      */
@@ -2415,7 +2139,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is within the last week.
+     * Determines if the instance is within the last week
      *
      * @return bool
      */
@@ -2425,7 +2149,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is within the next quarter.
+     * Determines if the instance is within the next quarter
      *
      * @return bool
      */
@@ -2435,7 +2159,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is within the last quarter.
+     * Determines if the instance is within the last quarter
      *
      * @return bool
      */
@@ -2445,7 +2169,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is within the next month.
+     * Determines if the instance is within the next month
      *
      * @return bool
      */
@@ -2455,7 +2179,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is within the last month.
+     * Determines if the instance is within the last month
      *
      * @return bool
      */
@@ -2465,7 +2189,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is within next year.
+     * Determines if the instance is within next year
      *
      * @return bool
      */
@@ -2475,7 +2199,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is within the previous year.
+     * Determines if the instance is within the previous year
      *
      * @return bool
      */
@@ -2485,7 +2209,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is in the future, ie. greater (after) than now.
+     * Determines if the instance is in the future, ie. greater (after) than now
      *
      * @return bool
      */
@@ -2495,7 +2219,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is in the past, ie. less (before) than now.
+     * Determines if the instance is in the past, ie. less (before) than now
      *
      * @return bool
      */
@@ -2505,7 +2229,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is a leap year.
+     * Determines if the instance is a leap year
      *
      * @return bool
      */
@@ -2540,13 +2264,13 @@ class Carbon extends DateTime implements JsonSerializable
     {
         $date = $date ?: static::now($this->tz);
 
-        static::expectDateTime($date, 'null');
+        static::expectDateTime($date);
 
         return $this->format($format) === $date->format($format);
     }
 
     /**
-     * Determines if the instance is in the current year.
+     * Determines if the instance is in the current year
      *
      * @return bool
      */
@@ -2568,7 +2292,7 @@ class Carbon extends DateTime implements JsonSerializable
     }
 
     /**
-     * Determines if the instance is in the current month.
+     * Determines if the instance is in the current month
      *
      * @return bool
      */
@@ -2585,133 +2309,48 @@ class Carbon extends DateTime implements JsonSerializable
      *
      * @return bool
      */
-    public function isSameQuarter($date = null, $ofSameYear = null)
+    public function isSameQuarter($date = null, $ofSameYear = false)
     {
         $date = $date ? static::instance($date) : static::now($this->tz);
 
-        static::expectDateTime($date, 'null');
-
-        $ofSameYear = is_null($ofSameYear) ? static::shouldCompareYearWithMonth() : $ofSameYear;
+        static::expectDateTime($date);
 
         return $this->quarter === $date->quarter && (!$ofSameYear || $this->isSameYear($date));
     }
 
     /**
-     * Determines if the instance is in the current month.
-     *
-     * @param bool $ofSameYear Check if it is the same month in the same year.
+     * Determines if the instance is in the current month
      *
      * @return bool
      */
-    public function isCurrentMonth($ofSameYear = null)
+    public function isCurrentMonth()
     {
-        return $this->isSameMonth($ofSameYear);
+        return $this->isSameMonth();
     }
 
     /**
-     * Checks if the passed in date is in the same month as the instance´s month.
+     * Checks if the passed in date is in the same month as the instance month (and year if needed).
      *
-     * Note that this defaults to only comparing the month while ignoring the year.
-     * To test if it is the same exact month of the same year, pass in true as the second parameter.
-     *
-     * @param \Carbon\Carbon|\DateTimeInterface|null $date       The instance to compare with or null to use the current date.
+     * @param \Carbon\Carbon|\DateTimeInterface|null $date       The instance to compare with or null to use current day.
      * @param bool                                   $ofSameYear Check if it is the same month in the same year.
      *
      * @return bool
      */
-    public function isSameMonth($date = null, $ofSameYear = null)
+    public function isSameMonth($date = null, $ofSameYear = false)
     {
-        $ofSameYear = is_null($ofSameYear) ? static::shouldCompareYearWithMonth() : $ofSameYear;
-
         return $this->isSameAs($ofSameYear ? 'Y-m' : 'm', $date);
     }
 
     /**
-     * Determines if the instance is in the current day.
+     * Checks if the passed in date is the same day as the instance current day.
+     *
+     * @param \Carbon\Carbon|\DateTimeInterface $date
      *
      * @return bool
      */
-    public function isCurrentDay()
-    {
-        return $this->isSameDay();
-    }
-
-    /**
-     * Checks if the passed in date is the same exact day as the instance´s day.
-     *
-     * @param \Carbon\Carbon|\DateTimeInterface|null $date The instance to compare with or null to use the current date.
-     *
-     * @return bool
-     */
-    public function isSameDay($date = null)
+    public function isSameDay($date)
     {
         return $this->isSameAs('Y-m-d', $date);
-    }
-
-    /**
-     * Determines if the instance is in the current hour.
-     *
-     * @return bool
-     */
-    public function isCurrentHour()
-    {
-        return $this->isSameHour();
-    }
-
-    /**
-     * Checks if the passed in date is the same exact hour as the instance´s hour.
-     *
-     * @param \Carbon\Carbon|\DateTimeInterface|null $date The instance to compare with or null to use the current date.
-     *
-     * @return bool
-     */
-    public function isSameHour($date = null)
-    {
-        return $this->isSameAs('Y-m-d H', $date);
-    }
-
-    /**
-     * Determines if the instance is in the current minute.
-     *
-     * @return bool
-     */
-    public function isCurrentMinute()
-    {
-        return $this->isSameMinute();
-    }
-
-    /**
-     * Checks if the passed in date is the same exact minute as the instance´s minute.
-     *
-     * @param \Carbon\Carbon|\DateTimeInterface|null $date The instance to compare with or null to use the current date.
-     *
-     * @return bool
-     */
-    public function isSameMinute($date = null)
-    {
-        return $this->isSameAs('Y-m-d H:i', $date);
-    }
-
-    /**
-     * Determines if the instance is in the current second.
-     *
-     * @return bool
-     */
-    public function isCurrentSecond()
-    {
-        return $this->isSameSecond();
-    }
-
-    /**
-     * Checks if the passed in date is the same exact second as the instance´s second.
-     *
-     * @param \Carbon\Carbon|\DateTimeInterface|null $date The instance to compare with or null to use the current date.
-     *
-     * @return bool
-     */
-    public function isSameSecond($date = null)
-    {
-        return $this->isSameAs('Y-m-d H:i:s', $date);
     }
 
     /**
@@ -2816,56 +2455,6 @@ class Carbon extends DateTime implements JsonSerializable
     public function isLastOfMonth()
     {
         return $this->day === $this->daysInMonth;
-    }
-
-    /**
-     * Check if the instance is start of day / midnight.
-     *
-     * @param bool $checkMicroseconds check time at microseconds precision
-     *                                /!\ Warning, this is not reliable with PHP < 7.1.4
-     *
-     * @return bool
-     */
-    public function isStartOfDay($checkMicroseconds = false)
-    {
-        return $checkMicroseconds
-            ? $this->format('H:i:s.u') === '00:00:00.000000'
-            : $this->format('H:i:s') === '00:00:00';
-    }
-
-    /**
-     * Check if the instance is end of day.
-     *
-     * @param bool $checkMicroseconds check time at microseconds precision
-     *                                /!\ Warning, this is not reliable with PHP < 7.1.4
-     *
-     * @return bool
-     */
-    public function isEndOfDay($checkMicroseconds = false)
-    {
-        return $checkMicroseconds
-            ? $this->format('H:i:s.u') === '23:59:59.999999'
-            : $this->format('H:i:s') === '23:59:59';
-    }
-
-    /**
-     * Check if the instance is start of day / midnight.
-     *
-     * @return bool
-     */
-    public function isMidnight()
-    {
-        return $this->isStartOfDay();
-    }
-
-    /**
-     * Check if the instance is midday.
-     *
-     * @return bool
-     */
-    public function isMidday()
-    {
-        return $this->format('G:i:s') === static::$midDayAt.':00:00';
     }
 
     /**
@@ -3762,91 +3351,16 @@ class Carbon extends DateTime implements JsonSerializable
     ///////////////////////////////////////////////////////////////////
 
     /**
-     * @param DateInterval $diff
-     * @param bool         $absolute
-     * @param bool         $trimMicroseconds
-     *
-     * @return CarbonInterval
-     */
-    protected static function fixDiffInterval(DateInterval $diff, $absolute, $trimMicroseconds)
-    {
-        $diff = CarbonInterval::instance($diff, $trimMicroseconds);
-
-        // @codeCoverageIgnoreStart
-        if (version_compare(PHP_VERSION, '7.1.0-dev', '<')) {
-            return $diff;
-        }
-
-        // Work-around for https://bugs.php.net/bug.php?id=77145
-        if ($diff->f > 0 && $diff->y === -1 && $diff->m === 11 && $diff->d >= 27 && $diff->h === 23 && $diff->i === 59 && $diff->s === 59) {
-            $diff->y = 0;
-            $diff->m = 0;
-            $diff->d = 0;
-            $diff->h = 0;
-            $diff->i = 0;
-            $diff->s = 0;
-            $diff->f = (1000000 - round($diff->f * 1000000)) / 1000000;
-            $diff->invert();
-        } elseif ($diff->f < 0) {
-            if ($diff->s !== 0 || $diff->i !== 0 || $diff->h !== 0 || $diff->d !== 0 || $diff->m !== 0 || $diff->y !== 0) {
-                $diff->f = (round($diff->f * 1000000) + 1000000) / 1000000;
-                $diff->s--;
-                if ($diff->s < 0) {
-                    $diff->s += 60;
-                    $diff->i--;
-                    if ($diff->i < 0) {
-                        $diff->i += 60;
-                        $diff->h--;
-                        if ($diff->h < 0) {
-                            $diff->h += 24;
-                            $diff->d--;
-                            if ($diff->d < 0) {
-                                $diff->d += 30;
-                                $diff->m--;
-                                if ($diff->m < 0) {
-                                    $diff->m += 12;
-                                    $diff->y--;
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                $diff->f *= -1;
-                $diff->invert();
-            }
-        }
-        // @codeCoverageIgnoreEnd
-        if ($absolute && $diff->invert) {
-            $diff->invert();
-        }
-
-        return $diff;
-    }
-
-    /**
-     * Get the difference as a CarbonInterval instance.
-     *
-     * Pass false as second argument to get a microseconds-precise interval. Else
-     * microseconds in the original interval will not be kept.
+     * Get the difference as a CarbonInterval instance
      *
      * @param \Carbon\Carbon|\DateTimeInterface|string|null $date
-     * @param bool                                          $absolute         Get the absolute of the difference
-     * @param bool                                          $trimMicroseconds (true by default)
+     * @param bool                                          $absolute Get the absolute of the difference
      *
      * @return CarbonInterval
      */
-    public function diffAsCarbonInterval($date = null, $absolute = true, $trimMicroseconds = true)
+    public function diffAsCarbonInterval($date = null, $absolute = true)
     {
-        $from = $this;
-        $to = $this->resolveCarbon($date);
-
-        if ($trimMicroseconds) {
-            $from = $from->copy()->startOfSecond();
-            $to = $to->copy()->startOfSecond();
-        }
-
-        return static::fixDiffInterval($from->diff($to, $absolute), $absolute, $trimMicroseconds);
+        return CarbonInterval::instance($this->diff($this->resolveCarbon($date), $absolute));
     }
 
     /**
@@ -4056,9 +3570,6 @@ class Carbon extends DateTime implements JsonSerializable
     public function diffInSeconds($date = null, $absolute = true)
     {
         $diff = $this->diff($this->resolveCarbon($date));
-        if (!$diff->days && version_compare(PHP_VERSION, '5.4.0-dev', '>=')) {
-            $diff = static::fixDiffInterval($diff, $absolute, false);
-        }
         $value = $diff->days * static::HOURS_PER_DAY * static::MINUTES_PER_HOUR * static::SECONDS_PER_MINUTE +
             $diff->h * static::MINUTES_PER_HOUR * static::SECONDS_PER_MINUTE +
             $diff->i * static::SECONDS_PER_MINUTE +
@@ -4228,8 +3739,9 @@ class Carbon extends DateTime implements JsonSerializable
                     }
                 }
             }
-            // Some languages have special pluralization for past and future tense.
+            // Some langs have special pluralization for past and future tense.
             $key = $unit.'_'.$transId;
+
             if ($key !== static::translator()->transChoice($key, $count)) {
                 $time = static::translator()->transChoice($key, $count, array(':count' => $count));
             }
@@ -4259,7 +3771,7 @@ class Carbon extends DateTime implements JsonSerializable
      */
     public function endOfDay()
     {
-        return $this->modify('23:59:59.999999');
+        return $this->modify('23.59.59.999999');
     }
 
     /**
@@ -4417,7 +3929,7 @@ class Carbon extends DateTime implements JsonSerializable
      */
     public function endOfHour()
     {
-        return $this->modify("$this->hour:59:59.999999");
+        return $this->setTime($this->hour, 59, 59);
     }
 
     /**
@@ -4437,27 +3949,7 @@ class Carbon extends DateTime implements JsonSerializable
      */
     public function endOfMinute()
     {
-        return $this->modify("$this->hour:$this->minute:59.999999");
-    }
-
-    /**
-     * Modify to start of current minute, seconds become 0
-     *
-     * @return static
-     */
-    public function startOfSecond()
-    {
-        return $this->modify("$this->hour:$this->minute:$this->second.0");
-    }
-
-    /**
-     * Modify to end of current minute, seconds become 59
-     *
-     * @return static
-     */
-    public function endOfSecond()
-    {
-        return $this->modify("$this->hour:$this->minute:$this->second.999999");
+        return $this->setTime($this->hour, $this->minute, 59);
     }
 
     /**
@@ -4731,28 +4223,13 @@ class Carbon extends DateTime implements JsonSerializable
     /**
      * Modify the current instance to the average of a given instance (default now) and the current instance.
      *
-     * @param \Carbon\Carbon|\DateTimeInterface|string|null $date
+     * @param \Carbon\Carbon|\DateTimeInterface|null $date
      *
      * @return static
      */
     public function average($date = null)
     {
-        $date = $this->resolveCarbon($date);
-        $increment = $this->diffInRealSeconds($date, false) / 2;
-        $intIncrement = floor($increment);
-        $microIncrement = (int) (($date->micro - $this->micro) / 2 + 1000000 * ($increment - $intIncrement));
-        $micro = (int) ($this->micro + $microIncrement);
-        while ($micro >= 1000000) {
-            $micro -= 1000000;
-            $intIncrement++;
-        }
-        $this->addSeconds($intIncrement);
-
-        if (version_compare(PHP_VERSION, '7.1.8-dev', '>=')) {
-            $this->setTime($this->hour, $this->minute, $this->second, $micro);
-        }
-
-        return $this;
+        return $this->addSeconds((int) ($this->diffInSeconds($this->resolveCarbon($date), false) / 2));
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -4852,6 +4329,8 @@ class Carbon extends DateTime implements JsonSerializable
      * Mix another object into the class.
      *
      * @param object $mixin
+     *
+     * @throws \ReflectionException
      *
      * @return void
      */

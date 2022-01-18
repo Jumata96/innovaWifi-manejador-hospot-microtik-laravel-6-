@@ -1,5 +1,6 @@
 <script>
       var seleccionZona=null;   
+      var tranajadores_filtrados=0;
         $(document).on('focus', '#autocompletarZonas', function () { //autompletado de zonas llena el array en el elemento 
             var jArray= <?php echo json_encode($arrayZonas ); ?>; 
             seleccionZona="";   
@@ -35,6 +36,7 @@
         $("#autocompletarZonas").focusout(function() {  
             $('#PuntoVentaFiltrado').val(seleccionZona);  
             $('#idLocalNames').prop('readonly', false);
+            tranajadores_filtrados=0;
              var usersArray= <?php echo json_encode($arrayFiltro ); ?>; 
              var contador=0;
              arrayFiltrado=[];   
@@ -70,16 +72,21 @@
                       '<td style="width: 60%;">'+arrayFiltrado[z].value+'</td>'+
                     '</tr>'                          
                ); 
-             }  
+               $('#contadorChecks').val(contador); 
+              
+             } 
+             var contadordeChechs= $('#contadorChecks').val(); 
+              console.log(contadordeChechs,"conta"); 
+              tranajadores_filtrados=contador
 
-             $('#contadorChecks').val(contador);
+            
         }); 
         //obtenemos los vendedores seleccionados del modal 
-         $('#select').on('click',function( ){ 
-           var contadordeChechs= $('#contadorChecks').val(); 
-           var totalVendedores=0 
-           if(contadordeChechs!=0){ 
-             for(var i = 1; i <= contadordeChechs; i++){  
+         $('#select').on('click',function(k){ 
+           var contadordeChechs2=tranajadores_filtrados;
+           var totalVendedores=0 ;
+           if(contadordeChechs2!=0){ 
+             for(var i = 1; i <= contadordeChechs2; i++){  
                     var ckec= $( "#check"+i ).prop("checked");  
                     if(ckec){
                       dataId= $('#checkValue'+i).val(); 
@@ -88,7 +95,7 @@
                         totalVendedores+=1; 
                     }
              }
-             $('#contadorVendedores').val(contadordeChechs); 
+             $('#contadorVendedores').val(contadordeChechs2); 
            }
 
          }); 

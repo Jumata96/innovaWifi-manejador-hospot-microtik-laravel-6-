@@ -27,7 +27,7 @@
               Materialize.toast({ html: '<span>Importación de perfiles exitoso</span>'});
                 }, 2000); 
 
-             window.location="{{ url('/perfiles') }}";
+            //  window.location="{{ url('/perfiles') }}";
 
            },
            error:function(){ 

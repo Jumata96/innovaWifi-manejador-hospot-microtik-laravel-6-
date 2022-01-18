@@ -126,6 +126,7 @@ class UsuarioController extends Controller
                 'glosa'             => $request->glosa,
                 'idusuario'         => Auth::user()->id,
                 'idZona'            =>$puntoVenta,
+                'menu_colapsible'   =>1,
                 'created_at'        => date('Y-m-d h:m:s')
             ]); 
 
@@ -187,8 +188,7 @@ class UsuarioController extends Controller
         $codigos = DB::table('codigo_alterno')
             ->where(
                 [
-                    ['idtrabajador','=',intval($id)],
-                    ['estado','=',1]
+                    ['idtrabajador','=',intval($id)] 
                 ]
 
             )->get(); 
@@ -240,13 +240,17 @@ class UsuarioController extends Controller
             array_push($var, 'error');            
             return response()->json($var);
         }
-
-        
-        $codigo_Alterno=DB::table('codigo_alterno')->where( 'codigo', intval($request->codigoAlterno) )->get(); 
         $des_codigoAlt=null;
-        foreach($codigo_Alterno as $codAlter){ 
-            $des_codigoAlt=$codAlter->descripcion;
+        $id_codigoAlt=null; 
+        if($request->idtipo=='VEN'){ 
+            $codigo_Alterno=DB::table('codigo_alterno')->where( 'codigo', intval($request->codigoAlterno) )->get(); 
+           
+            foreach($codigo_Alterno as $codAlter){ 
+                $des_codigoAlt=$codAlter->descripcion;
+            }
+            $id_codigoAlt= $request->codigoAlterno;
         }
+        
         // dd($codigo_Alterno);
 
 
@@ -264,13 +268,14 @@ class UsuarioController extends Controller
                 'iddocumento'       => $request->iddocumento,
                 'nro_documento'     => $request->nro_documento,
                 'cod_alterno'       => $des_codigoAlt,
-                'id_codigo_alterno' => $request->codigoAlterno,
+                'id_codigo_alterno' => $id_codigoAlt,
                 'cargo'             => $request->cargo,
                 'avatar'            => null,
                 'telefono'          => $request->telefono,
                 'glosa'             => $request->glosa,
                 'idusuario'         => Auth::user()->id,
                 'idZona'            =>$puntoVenta,
+                'menu_colapsible'   =>1,
                 'created_at'        => date('Y-m-d h:m:s') 
         ]);
 

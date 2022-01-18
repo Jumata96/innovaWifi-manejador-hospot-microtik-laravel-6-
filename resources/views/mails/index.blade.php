@@ -205,7 +205,6 @@
     <a id="cierra" href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Regresar</a>
   </div>
 </div>
-
 </div> 
 @endsection
 

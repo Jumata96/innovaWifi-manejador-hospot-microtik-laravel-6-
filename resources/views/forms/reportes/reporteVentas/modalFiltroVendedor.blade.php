@@ -46,6 +46,9 @@
 									</tr>
 								</thead> 
 								<tbody>
+									<tr>
+										<td colspan="3" class="center"><h5 style="color: red;">Seleccionar punto de venta</h5></td>
+									</tr>
 									
 								</tbody>
 							</table>
